@@ -1,0 +1,1098 @@
+/* ================= ANIMASI ================= / */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.login-error {
+    animation: shake 0.4s;
+}
+
+/* BACKDROP */
+.login-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+/* ACTIVE */
+.login-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* CONTENT */
+.popup-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    width: 300px;
+
+    transform: scale(0.7);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+/* ANIMASI MASUK */
+.login-popup.active .popup-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* ICON */
+.popup-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* BUTTON */
+.popup-content button {
+    margin-top: 15px;
+    border: none;
+    background: #dc3545;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 8px;
+}
+
+/* ================= GLOBAL ADMIN ================= */
+
+.admin-page {
+    background: #f5f7f6;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ================= LOGIN PAGE ================= */
+
+.admin-page {
+    background: linear-gradient(135deg, #0f5132, #145c43);
+    min-height: 100vh;
+}
+
+/* WRAPPER CENTER */
+.admin-page .login-wrapper {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CARD */
+.admin-page .login-card {
+    width: 350px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+
+    animation: fadeUp 0.8s ease;
+    transition: 0.3s;
+}
+
+/* HOVER CARD */
+.admin-page .login-card:hover {
+    transform: translateY(-5px);
+}
+
+/* ICON */
+.admin-page .login-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #0f5132, #145c43);
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+
+    border-radius: 12px;
+    font-size: 24px;
+    overflow: hidden;
+    padding: 8px;
+}
+
+.admin-page .login-icon img {
+    width: 150%;
+    height: 150%;
+    object-fit: contain;
+}
+
+/* INPUT */
+.admin-page .login-card input.form-control {
+    height: 45px;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* FOCUS EFFECT */
+.admin-page .login-card input:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 3px rgba(25,135,84,0.2);
+}
+
+/* BUTTON */
+.admin-page .login-card .btn-success {
+    background: linear-gradient(135deg, #0f5132, #198754);
+    border: none;
+
+    padding: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    border-radius: 10px;
+    transition: 0.3s;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* HOVER */
+.admin-page .login-card .btn-success:hover {
+    transform: scale(1.05);
+}
+
+/* SHIMMER EFFECT */
+.admin-page .login-card .btn-success::after {
+    content: '';
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+    top: 0;
+    left: -100%;
+    transform: skewX(-20deg);
+}
+
+.admin-page .login-card .btn-success:hover::after {
+    left: 120%;
+    transition: 0.6s;
+}
+
+.admin-page .form-check-input {
+    width: 16px;
+    height: 16px;
+    transform: none;
+}
+
+.admin-page .form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ================= LAYOUT ADMIN ================= */
+
+.admin-page .admin-layout {
+    display: flex;
+    width: 100%;
+}
+
+/* ================= SIDEBAR ================= */
+
+.admin-page .sidebar {
+    width: 80px; /* default kecil */
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0b3d2e, #145c43);
+    box-shadow: 5px 0 20px rgba(0,0,0,0.1);
+    color: #fff;
+
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    flex-shrink: 0;
+    transition: width 0.35s ease;
+    overflow: hidden;
+}
+
+/* EXPAND SAAT HOVER */
+.admin-page .sidebar:hover {
+    width: 230px;
+}
+
+/* ================= LOGO ================= */
+
+.admin-page .sidebar .logo {
+    font-weight: bold;
+    margin-bottom: 30px;
+    white-space: nowrap;
+
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: 0.3s;
+}
+
+/* ================= NAV ================= */
+
+.admin-page .sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 45px;
+
+
+    color: rgba(255,255,255,0.7);
+    padding: 0px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    width: 100%;
+    overflow: hidden;
+    justify-content: center;
+
+    transition: all 0.25s ease;
+}
+
+/* ACTIVE */
+.admin-page .sidebar .nav-link.active {
+    background: #c79a2b;
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+}
+
+/* HOVER */
+.admin-page .sidebar .nav-link:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    transform: translateX(6px);
+}
+
+/* ICON */
+.admin-page .sidebar .icon {
+    font-size: 18px;
+    min-width: 22px;
+    text-align: center;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* TEXT */
+.admin-page .sidebar .text {
+    white-space: nowrap;
+
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: 0.3s;
+}
+
+/* ================= BRAND ================= */
+
+.admin-page .sidebar-brand {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* LOGO */
+.admin-page .brand-logo {
+    width: 45px;
+    height: 45px;
+    margin: auto;
+
+    border-radius: 12px;
+    overflow: hidden;
+
+    transition: 0.3s ease;
+}
+
+.admin-page .brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* ================= HOVER EFFECT ================= */
+
+/* saat sidebar hover */
+.admin-page .sidebar:hover .brand-logo {
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+.admin-page .sidebar:hover .brand-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================= USER ================= */
+
+.admin-page .sidebar-user {
+    margin-top: auto;
+    font-size: 13px;
+
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: 0.3s;
+}
+
+/* ================= HOVER EFFECT ================= */
+
+/* tampilkan isi saat hover */
+.admin-page .sidebar:hover .text,
+.admin-page .sidebar:hover .logo,
+.admin-page .sidebar:hover .sidebar-user {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* posisi icon tengah saat kecil */
+.admin-page .sidebar .nav-link {
+    justify-content: center;
+}
+
+/* normal saat hover */
+.admin-page .sidebar:hover .nav-link {
+    justify-content: flex-start;
+}
+
+/* ================= EXTRA EFFECT ================= */
+
+/* garis aktif kiri */
+.admin-page .sidebar .nav-link.active {
+    position: relative;
+}
+
+.admin-page .sidebar .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 70%;
+    background: #c79a2b;
+    border-radius: 2px;
+}
+
+/* sedikit glow saat hover sidebar */
+.admin-page .sidebar:hover {
+    box-shadow: 8px 0 30px rgba(0,0,0,0.2);
+}
+
+/* ================= MAIN ================= */
+
+.admin-page .admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: 0.3s;
+
+    min-height: 100vh;
+}
+
+.admin-page .main-content {
+    flex: 1;
+    padding: 25px;
+    width: 100%;
+    background: #f5f7f6;
+}
+
+/* ================= TOPBAR ================= */
+.admin-page .admin-topbar {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 12px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* PROFILE */
+.admin-page .admin-profile {
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.admin-page .admin-profile:hover {
+    background: #f5f5f5;
+}
+
+/* AVATAR */
+.admin-page .avatar {
+    width: 35px;
+    height: 35px;
+    background: #198754;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-weight: bold;
+}
+/* ================= HERO ================= */
+
+.admin-page .admin-hero {
+    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        url('../images/islamic1.jpg') center/cover;
+    color: #fff;
+    padding: 60px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-page .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+}
+
+.admin-page .hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.admin-page .admin-hero::after {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+    animation: adminRotate 10s linear infinite;
+}
+
+.admin-page .admin-hero h1 {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.admin-page .admin-hero p {
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+/* ================= STATS ================= */
+
+.admin-page .admin-stats {
+    margin-top: -50px;
+    position: relative;
+    z-index: 2;
+}
+
+.admin-page .stat-card::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #c79a2b, #0f5132);
+}
+
+.admin-page .stat-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-page .stat-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.admin-page .stat-card h3 {
+    font-weight: bold;
+    font-size: 28px;
+    transition: 0.3s;
+}
+
+.admin-page .stat-card:hover h3 {
+    color: #198754;
+}
+
+.admin-page input[type="date"] {
+    border-radius: 8px;
+    padding: 6px;
+}
+
+.admin-page .stat-card small {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* ================= CARD ================= */
+
+.admin-page .admin-card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    transition: 0.3;
+}
+
+.admin-page .admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+/* ================= SECTION TITLE ================= */
+
+.admin-page .section-title {
+    border-left: 4px solid #c79a2b;
+    padding-left: 10px;
+    font-weight: 600;
+}
+
+/* ================= QUICK ACTION ================= */
+
+.admin-page .quick-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #f3f6f4;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    text-align: left;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-page .quick-btn::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.admin-page .quick-btn:hover {
+    background: #e0ece8;
+    transform: translateX(3px);
+    width: 100%;
+}
+
+/* QUICK ACTION */
+.admin-page .quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-page .quick-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px;
+    border-radius: 10px;
+    background: #f8f9fa;
+
+    text-decoration: none;
+    color: #333;
+
+    transition: 0.25s;
+}
+
+/* ICON */
+.admin-page .quick-item .icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    color: #fff;
+    font-size: 18px;
+}
+
+/* TEXT */
+.admin-page .quick-item .info strong {
+    display: block;
+    font-size: 14px;
+}
+
+.admin-page .quick-item .info small {
+    color: #777;
+    font-size: 12px;
+}
+
+/* HOVER EFFECT */
+.admin-page .quick-item:hover {
+    transform: translateX(6px);
+    background: #eef6f3;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+
+/* ================= TABLE ================= */
+
+.admin-page .table {
+    font-size: 14px;
+}
+
+.admin-page .table td {
+    vertical-align: middle;
+}
+
+/* LIVE DOT */
+.admin-page .live-dot {
+    width: 8px;
+    height: 8px;
+    background: #28a745;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.6); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ROW HOVER */
+.admin-page .table-row {
+    transition: 0.2s;
+}
+
+.admin-page .table-row:hover {
+    background: #f6fbf8;
+    transform: scale(1.01);
+}
+
+/* AVATAR */
+.admin-page .avatar-mini {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #0f5132, #198754);
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* STATUS BADGE CUSTOM */
+.admin-page .status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.admin-page .status-badge.success {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.admin-page .status-badge.warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.admin-page .status-badge.danger {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.admin-page .status-badge.info {
+    background: #cff4fc;
+    color: #055160;
+}
+
+.admin-page .date-filter {
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 13px;
+    height: 32px;
+}
+
+/* ================= FOOTER ================= */
+
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+    .admin-page .sidebar {
+        display: none;
+    }
+
+    .admin-page .admin-hero {
+        padding: 30px;
+    }
+
+    .admin-page .admin-hero h1 {
+        font-size: 24px;
+    }
+
+    .admin-page .admin-stats {
+        margin-top: 0;
+    }
+}
+
+.admin-page .upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-page .upload-box:hover {
+    border-color: #0f5132;
+    background: #f3f6f4;
+}
+
+.admin-page .preview-img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.admin-page .galeri-card:hover img {
+    transform: scale(1.1);
+}
+
+.admin-page .galeri-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s;
+    display: block;
+}
+
+.admin-page .galeri-card {
+    background: #fff;
+    padding: 0;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+    height: 240px;
+    cursor: pointer;
+}
+.admin-page .upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 40px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.admin-page .upload-box:hover {
+    border-color: #0f5132;
+    background: #f3f6f4;
+}
+
+.admin-page .preview-img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* input spacing */
+.admin-page .modern-input {
+    border-radius: 10px;
+    padding: 12px;
+}
+
+/* button */
+.admin-page .btn-success {
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.admin-page .btn-success:hover {
+    transform: scale(1.05);
+}
+
+.admin-page .galeri-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: #fff;
+
+    padding: 15px;
+
+    opacity: 0;
+    transition: 0.3s;
+
+    z-index: 2;
+}
+
+
+.admin-page .galeri-card:hover .galeri-overlay {
+    opacity: 1;
+}
+
+/* BUTTON FIX */
+.admin-page .galeri-overlay .btn {
+    pointer-events: auto;
+}
+.galeri-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.admin-page .upload-box i {
+    color: #0f5132;
+    transition: 0.3s;
+}
+
+.admin-page .upload-box:hover i {
+    transform: scale(1.2);
+}
+
+/* ANIMASI */
+.admin-page.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-page .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUpAdmin 0.6s ease forwards;
+}
+
+@keyframes fadeUpAdmin {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* QUICK BTN */
+.admin-page  .quick-btn {
+    background: #f3f6f4;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: 0.3s;
+}
+
+.admin-page .quick-btn:hover {
+    background: #e0ece8;
+    transform: translateX(4px);
+}
+
+/* TABLE */
+
+.admin-page .admin-table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.admin-page .admin-table thead {
+    background: #0f5132;
+    color: #fff;
+}
+
+.admin-page .admin-table tbody tr {
+    transition: 0.3s;
+}
+
+.admin-page .admin-table tbody tr:hover {
+    background: #f3f6f4;
+    transform: scale(1.01);
+}
+
+.admin-table tbody tr {
+    transition: 0.3s;
+}
+
+.admin-table tbody tr:hover {
+    background: #f5f7f6;
+    transform: scale(1.01);
+}
+
+.admin-table tbody tr {
+    transition: 0.2s;
+}
+
+.admin-table tbody tr:hover {
+    background: #f5f7f6;
+    transform: scale(1.01);
+}
+
+.admin-page .btn-sm {
+    border-radius: 6px;
+}
+
+/* PROFILE CARD */
+.profile-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* NOTE */
+.note-box {
+    background: #fff;
+    padding: 20px;
+    border-left: 4px solid #c79a2b;
+    border-radius: 10px;
+}
+
+/* INPUT */
+.admin-page .form-control,
+.admin-page .form-select {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* BUTTON */
+.admin-page .btn-success {
+    background: linear-gradient(135deg, #0f5132, #198754);
+    border: none;
+}
+
+/* FIX CHECKBOX BOOTSTRAP */
+.admin-page .form-check-input[type="checkbox"] {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 4px !important; /* ubah dari bulat jadi kotak */
+    transform: none !important;
+}
+
+/* ROW HOVER */
+.admin-page .admin-table tbody tr {
+    transition: 0.2s;
+}
+
+.admin-page .admin-table tbody tr:hover {
+    background: #f6fbf8;
+    transform: scale(1.01);
+}
+
+/* AVATAR */
+.admin-page .avatar-mini {
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, #0f5132, #198754);
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* STATUS */
+.status-badge.Check-in { background:#d1e7dd; color:#0f5132; }
+.status-badge.Tunggu { background:#fff3cd; color:#856404; }
+.status-badge.Dibatalkan { background:#f8d7da; color:#842029; }
+.status-badge.Selesai { background:#cff4fc; color:#055160; }
+
+/* BUTTON */
+.admin-page .btn-action {
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.admin-page .btn-action:hover {
+    transform: scale(1.05);
+}
+
+/* BUTTON TAMBAH */
+.admin-page .btn-add {
+    background: linear-gradient(135deg, #ffc107, #ffca2c);
+    border: none;
+    color: #000;
+
+    padding: 10px 16px;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-weight: 500;
+
+    transition: 0.25s;
+}
+
+/* HOVER */
+.admin-page .btn-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255,193,7,0.3);
+}
+
+/* ICON */
+.admin-page .btn-add i {
+    font-size: 16px;
+}

@@ -1,0 +1,1136 @@
+/* ================= GLOBAL BACKGROUND ================= */
+.user-page {
+    background: linear-gradient(to bottom, #f5f7f6, #eef2f1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* SECTION */
+.user-page section {
+    padding: 90px 0;
+    background: #fff;
+}
+
+/* section alternate (biar tidak flat) */
+.user-page #galeri {
+    background: #f3f6f4;
+}
+
+.user-page html {
+    scroll-behavior: smooth;
+}
+
+.fade-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.6s ease;
+}
+
+.fade-section.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ====TOAST==== */
+.toast-success {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #28a745;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+}
+
+/* ================= HERO ================= */
+.user-page .hero-section {
+    height: 100vh;
+    background: url('/assets/images/menara.JPG') center/cover no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.user-page .hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.35));
+}
+
+.user-page .hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.user-page .hero-section h1 {
+    font-size: 60px;
+    line-height: 1.1;
+    animation: fadeUp 1s ease;
+}
+
+.user-page .hero-section p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* ================= HERO TRANSITION ================= */
+.user-page .hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+
+background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.2) 30%,
+    rgba(0,0,0,0.4) 60%,
+    #f3f6f4 100%
+);
+
+    z-index: 2;
+}
+
+
+/* ================= NAVBAR MODERN ================= */
+/* NAVBAR BASE */
+.user-page .navbar-custom {
+    padding: 22px 0;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+/* SAAT SCROLL */
+.user-page .navbar.scrolled,
+.user-page .navbar-custom.scrolled {
+    background: rgba(20, 92, 67, 0.95) !important;
+    backdrop-filter: blur(10px);
+    padding: 12px 0;
+}
+
+/* BRAND (JUDUL) */
+.user-page .navbar-brand {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* NAV LINK */
+.user-page .navbar .nav-link {
+    color: rgba(255,255,255,0.9);
+    margin-left: 25px;
+    font-size: 16px; /* 🔥 lebih besar */
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.user-page .navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    left: 0;
+    bottom: -5px;
+    background: #c79a2b;
+    transition: 0.3s;
+}
+
+.user-page .navbar .nav-link:hover::after {
+    width: 100%;
+}
+
+.user-page .navbar .nav-link:hover {
+    color: #fff;
+}
+
+.user-page .navbar .nav-link.active {
+    color: #c79a2b;
+    font-weight: 600;
+    position: relative;
+}
+
+.user-page .navbar .nav-link.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background: #c79a2b;
+}
+
+.user-page .navbar .btn-warning {
+    padding: 6px 16px;
+    font-size: 14px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.user-page .navbar .btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.user-page .navbar-custom {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.navbar-custom .nav-link {
+    font-size: 19px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
+}
+
+/* ================= GALERI ================= */
+.galeri-title h2 {
+    font-size: 32px;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+/* garis bawah elegan */
+.galeri-title h2::after {
+    content: '';
+    width: 60%;
+    height: 3px;
+    background: rgba(20, 92, 67, 0.95);
+    position: absolute;
+    left: 20%;
+    bottom: -10px;
+    border-radius: 5px;
+}
+
+.galeri-title p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.user-page .galeri-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    cursor: pointer;
+    height: 250px; /* 🔥 semua sama */
+}
+
+/* gambar */
+.user-page .galeri-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+/* hover zoom */
+.user-page .galeri-item:hover img {
+    transform: scale(1.1);
+}
+
+/* ITEM BESAR */
+.user-page .galeri-item.besar {
+    height: 350px; /* 🔥 BESAR */
+    border-radius: 16px;
+}
+
+/* GAMBAR */
+.user-page .galeri-item.besar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+/* HOVER */
+.user-page .galeri-item.besar:hover img {
+    transform: scale(1.05);
+}
+
+/* overlay */
+.user-page .galeri-item .overlay {
+    position: absolute;
+    inset: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: #fff;
+
+    opacity: 0;
+    transition: 0.3s;
+}
+
+
+/* hover overlay */
+.user-page .galeri-item:hover .overlay {
+    opacity: 1;
+}
+
+/* teks */
+.user-page .galeri-item .overlay h5 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.user-page .galeri-item .overlay p {
+    font-size: 14px;
+    opacity: 0.;
+}
+
+/* shadow */
+.user-page .galeri-item:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.galeri-wrapper {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* ================= MODAL ================= */
+/* BACKDROP */
+.galeri-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5); /* 🔥 tidak terlalu gelap */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    backdrop-filter: blur(6px); /* 🔥 efek modern */
+    z-index: 9999;
+
+    animation: fadeIn 0.3s ease;
+}
+
+/* CARD */
+.modal-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    width: 90%;
+    max-width: 600px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+
+    transform: scale(0.9);
+    animation: zoomIn 0.3s ease forwards;
+
+    position: relative;
+}
+
+/* GAMBAR */
+.modal-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+/* BODY */
+.modal-body {
+    padding: 20px;
+    text-align: left;
+}
+
+.modal-body h4 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.modal-body p {
+    color: #555;
+    font-size: 14px;
+}
+
+/* CLOSE */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* ANIMASI */
+@keyframes zoomIn {
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ================= FILOSOFI ================= */
+.user-page .filosofi-section {
+    background: #fff;
+}
+
+/* image */
+.user-page .filosofi-img img {
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transition: 0.5s;
+}
+
+.user-page .filosofi-img:hover img {
+    transform: scale(1.03);
+}
+
+/* text item */
+.user-page .filosofi-item {
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 3px solid #c79a2b;
+    transition: 0.3s;
+}
+
+.user-page .filosofi-item:hover {
+    transform: translateX(5px);
+}
+
+.user-page .filosofi-card {
+    background: #fff;
+    padding: 18px 20px;
+    border-radius: 12px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    border-left: 4px solid #c79a2b;
+}
+
+.user-page .filosofi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* ================= REVIEW ================= */
+.review-section {
+    background: #f9f9f9;
+}
+
+/* CARD */
+.review-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s forwards;
+}
+
+/* HOVER */
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* STARS */
+.review-card .stars {
+    color: #f5b301;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* TEXT */
+.review-card p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* NAME */
+.review-card h6 {
+    font-weight: 600;
+    color: #333;
+}
+
+/* FORM CARD */
+.review-form-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    max-width: 800px;
+    margin: auto;
+}
+
+/* INPUT */
+.modern-input {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    transition: 0.3s;
+}
+
+.modern-input:focus {
+    border-color: #c79a2b;
+    box-shadow: 0 0 0 3px rgba(199,154,43,0.2);
+}
+
+/* STAR RATING */
+.star-rating {
+    font-size: 28px;
+    color: #ccc;
+    text-align: center;
+}
+
+.star {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* ACTIVE */
+.star.active {
+    color: #f5b301;
+}
+
+/* HOVER EFFECT */
+.star:hover {
+    transform: scale(1.2);
+}
+
+/* ================= ANIMATION ================= */
+
+/* slide kiri */
+.slide-left-enter-active {
+    transition: all 0.8s ease;
+}
+
+.slide-left-enter-from {
+    opacity: 0;
+    transform: translateX(-50px);
+}
+
+/* fade up */
+.fade-up-enter-active {
+    transition: all 0.8s ease;
+}
+
+.fade-up-enter-from {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+/* ================= FASILITAS ================= */
+
+/* IMAGE BESAR */
+.user-page .fasilitas-big {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.user-page .fasilitas-big img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+/* ZOOM HOVER */
+.user-page .fasilitas-big:hover img {
+    transform: scale(1.05);
+}
+
+/* OVERLAY */
+.user-page .fasilitas-big .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+
+    color: #fff;
+}
+
+/* CTA */
+.user-page .fasilitas-cta {
+    background: linear-gradient(135deg, #f4c542, #e0b93c);
+    padding: 30px;
+    border-radius: 14px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+/* CTA HOVER */
+.user-page .fasilitas-cta:hover {
+    transform: translateY(-5px);
+}
+
+/* BUTTON CTA */
+.user-page .fasilitas-cta .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+/* ================= CARD KECIL ================= */
+
+
+.user-page .fasilitas-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    transition: 0.3s;
+    min-height: 300px;
+}
+
+/* IMAGE DI CARD */
+.user-page .fasilitas-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.4s;
+}
+
+/* CONTENT */
+.user-page .fasilitas-card .content {
+    padding: 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* ICON */
+.user-page .fasilitas-card .icon {
+    font-size: 22px;
+    color: #c79a2b;
+    margin-bottom: 5px;
+}
+
+/* TEXT */
+.user-page .fasilitas-card h5 {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.user-page .fasilitas-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* HOVER EFFECT */
+.user-page .fasilitas-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+/* IMAGE ZOOM */
+.user-page .fasilitas-card:hover img {
+    transform: scale(1.05);
+}
+
+.user-page .fasilitas-section .row {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-page .fasilitas-section {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* ================= CARD GLOBAL ================= */
+.user-page .card,
+.user-page .fasilitas-card {
+    background: #fff;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+/* ================= BUTTON ================= */
+.user-page .btn-warning {
+    background: #c79a2b;
+    border: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.user-page .btn-warning:hover {
+    background: #a87f1f;
+    transform: translateY(-2px);
+}
+
+/* ================= BOOKING PREMIUM ================= */
+
+.user-page .booking-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f5132, #198754);
+    padding: 120px 0;
+    position: relative;
+}
+
+/* glow */
+.user-page .booking-section::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.05);
+    filter: blur(80px);
+}
+
+.user-page .booking-section::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+    width: 250px;
+    height: 250px;
+    background: rgba(255,255,255,0.04);
+    filter: blur(100px);
+}
+
+/* wrapper */
+.user-page .booking-wrapper {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+    animation: fadeUp 0.8s ease;
+}
+
+.user-page {
+    min-height: 100vh;
+    display: block;
+}
+
+/* LEFT */
+.user-page .booking-left {
+    min-height: 100%;
+    display: flex;
+    padding: 60px 40px;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(180deg, #0b3d2e, #145c43, #0f5132);
+    position: relative;
+    animation: slideLeft 0.8s ease;
+}
+
+/* garis aksen */
+.user-page .booking-left::after {
+    content: '';
+    position: absolute;
+    top: 70px;
+    left: 35px;
+    width: 60px;
+    height: 3px;
+    background: #c79a2b;
+}
+
+/* text */
+.user-page .booking-left h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.user-page .booking-left p {
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+/* feature */
+.user-page .booking-feature {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeItem 0.6s ease forwards;
+}
+
+.user-page .booking-feature:nth-child(1) { animation-delay: 0.2s; }
+.user-page .booking-feature:nth-child(2) { animation-delay: 0.4s; }
+.user-page .booking-feature:nth-child(3) { animation-delay: 0.6s; }
+
+/* icon */
+.user-page .booking-feature .icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.user-page .booking-feature:hover .icon {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+/* text */
+.user-page .booking-feature h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.user-page .booking-feature p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* FORM */
+.user-page .booking-wrapper form {
+    padding: 30px;
+    animation: slideRight 0.8s ease;
+}
+
+/* input */
+.user-page .booking-wrapper input,
+.user-page .booking-wrapper select {
+    border-radius: 10px;
+    height: 48px;
+    border: 1px solid #eee;
+    transition: 0.3s;
+}
+
+.user-page .booking-wrapper input:hover {
+    border-color: #ccc;
+}
+
+.user-page .booking-wrapper input:focus {
+    border-color: #c79a2b;
+    box-shadow: 0 0 0 3px rgba(199,154,43,0.2);
+}
+
+/* session */
+.user-page .session-card {
+    border: 2px solid #eee;
+    padding: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-page .session-card:hover {
+    border-color: #c79a2b;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.user-page .session-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.user-page .session-card:hover::after {
+    opacity: 1;
+}
+
+/* button */
+.user-page .booking-wrapper button {
+    background: linear-gradient(135deg, #c79a2b, #a87f1f);
+    border: none;
+    padding: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-page .booking-wrapper button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(199,154,43,0.4);
+}
+
+.user-page .booking-wrapper button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.user-page .booking-wrapper button:hover::before {
+    opacity: 1;
+}
+
+/* ================= BOOKING LEFT TEXT ================= */
+
+/* semua teks jadi putih */
+.user-page .booking-left {
+    color: #fff;
+}
+
+/* judul */
+.user-page .booking-left h2 {
+    color: #fff;
+}
+
+/* sub judul */
+.user-page .booking-left small {
+    color: #c79a2b; /* tetap emas */
+}
+
+/* deskripsi */
+.user-page .booking-left p {
+    color: rgba(255,255,255,0.85);
+}
+
+/* feature title */
+.user-page .booking-feature h6 {
+    color: #fff;
+}
+
+/* feature desc */
+.user-page .booking-feature p {
+    color: rgba(255,255,255,0.75);
+}
+
+/* ================= BACK BUTTON ================= */
+
+.user-page .booking-wrapper {
+    position: relative;
+}
+
+/* tombol */
+.user-page .btn-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+
+    backdrop-filter: blur(6px);
+    transition: 0.3s;
+    z-index: 10;
+}
+
+/* hover */
+.user-page .btn-back:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateX(-3px);
+}
+
+.user-page .fade-up {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================= KEYFRAMES ================= */
+
+.fade-up-enter-active {
+    transition: all 0.8s ease;
+}
+
+.fade-up-enter-from {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.fade-up-enter-to {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes slideLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeItem {
+    to { opacity: 1; transform: translateY(0); }
+}
+/* ================= DEPTH UPGRADE ================= */
+
+/* GLOBAL CARD FEEL (LEBIH HIDUP) */
+.user-page .card,
+.user-page .fasilitas-card,
+.user-page .booking-wrapper,
+.user-page .galeri-item {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+/* HOVER LEBIH HALUS & PREMIUM */
+.user-page .card:hover,
+.user-page .fasilitas-card:hover,
+.user-page .galeri-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+}
+
+/* ================= FILOSOFI IMAGE LEBIH HIDUP ================= */
+.user-page .filosofi-img img {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* ================= SECTION DEPTH ================= */
+
+/* biar section tidak flat */
+.user-page section {
+    position: relative;
+}
+
+/* subtle separator antar section */
+.user-page section:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+    background: rgba(0,0,0,0.04);
+}
+
+/* ================= GALERI IMPROVEMENT ================= */
+
+/* biar lebih "card feel" */
+.user-page .galeri-item {
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* ================= BUTTON DEPTH ================= */
+.user-page .btn-warning {
+    box-shadow: 0 6px 15px rgba(199,154,43,0.3);
+}
+
+.user-page .btn-warning:hover {
+    box-shadow: 0 10px 25px rgba(199,154,43,0.4);
+}
+
+/* ================= BOOKING DEPTH ================= */
+.user-page .booking-wrapper {
+    box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+}
+
+/* ================= MICRO INTERACTION ================= */
+
+/* smooth semua elemen */
+.user-page * {
+    transition: all 0.25s ease;
+}
+
+/* ================= MAPS ================= */
+.user-page .maps-section {
+    background: #f9f9f9;
+}
+
+/* CARD MAP */
+.user-page .map-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+/* IFRAME BIAR RAPI */
+.user-page .map-card iframe {
+    display: block;
+}
+
+/* BUTTON */
+.user-page .maps-section .btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+/* TEXT LOKASI */
+.user-page .maps-section p {
+    color: #555;
+}
+
+.user-page .maps-section .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+
+
+/* ================= FOOTER ================= */
+.user-page .footer-custom {
+    background: linear-gradient(135deg, #0b3d2e, #145c43);
+    padding: 60px 0 20px;
+    width: 100%;
+    display: block;
+    clear: both;
+}
+
+.user-page .footer-custom h5,
+.user-page .footer-custom h6 {
+    font-weight: bold;
+}
+
+.user-page .footer-custom a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+}
+
+.user-page .footer-custom a:hover {
+    color: #fff;
+}
+
+
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+    .user-page .hero-section h1 {
+        font-size: 32px;
+    }
+
+    .user-page .hero-section p {
+        font-size: 14px;
+    }
+
+    .user-page section {
+        padding: 60px 0;
+    }
+}
+
