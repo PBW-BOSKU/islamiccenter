@@ -1,29 +1,62 @@
 <?php
-require_once __DIR__ . '/../../config/koneksi.php';
+class ReviewModel {
 
-function getReview() {
-    global $conn;
+    private $conn;
 
-    $result = mysqli_query($conn, "SELECT * FROM review ORDER BY id DESC");
-
-    $data = [];
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $data[] = $row;
+    public function __construct() {
+        require __DIR__ . '/../../config/koneksi.php';
+        $this->conn = $conn;
     }
 
-    return $data;
-}
+    /* ================= GET ALL ================= */
+    public function getAll() {
 
-function tambahReview($data) {
-    global $conn;
+        $query = $this->conn->query("
+            SELECT * FROM review ORDER BY id DESC
+        ");
 
-    $nama = mysqli_real_escape_string($conn, $data['nama']);
-    $komentar = mysqli_real_escape_string($conn, $data['komentar']);
-    $rating = (int)$data['rating'];
+        if (!$query) {
+            error_log("DB ERROR (getAll): " . $this->conn->error);
+            return [];
+        }
 
-    mysqli_query($conn, "
-        INSERT INTO review (nama, komentar, rating)
-        VALUES ('$nama','$komentar','$rating')
-    ");
+        return $query->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    /* ================= TAMBAH ================= */
+    public function tambah($data) {
+
+        $nama = trim($data['nama'] ?? '');
+        $komentar = trim($data['komentar'] ?? '');
+        $rating = (int)($data['rating'] ?? 0);
+
+        // VALIDASI DASAR (fail-safe)
+        if (!$nama || !$komentar || $rating < 1 || $rating > 5) {
+            return false;
+        }
+
+        $stmt = $this->conn->prepare("
+            INSERT INTO review (nama, komentar, rating)
+            VALUES (?, ?, ?)
+        ");
+
+        if (!$stmt) {
+            error_log("Prepare failed: " . $this->conn->error);
+            return false;
+        }
+
+        $stmt->bind_param("ssi", $nama, $komentar, $rating);
+
+        if (!$stmt->execute()) {
+            error_log("Execute failed: " . $stmt->error);
+            return false;
+        }
+
+        $id = $this->conn->insert_id;
+
+        $stmt->close();
+
+        return $id;
+    }
 }

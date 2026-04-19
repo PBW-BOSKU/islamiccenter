@@ -36,7 +36,7 @@
     </ul> 
 
     <div class="sidebar-user mt-auto">
-        <strong>Admin Utama</strong><br>
+        <strong>Admin</strong><br>
         <small>Administrator</small>
     </div>
 

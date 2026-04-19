@@ -1,127 +1,219 @@
 <?php
 require_once __DIR__ . '/../../config/koneksi.php';
 
+/* ================= GET ALL ================= */
 function getAllPengunjung() {
     global $conn;
-    $result = mysqli_query($conn, "SELECT * FROM pengunjung ORDER BY id DESC");
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    $query = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
+
+    if (!$query) {
+        error_log("DB ERROR: " . $conn->error);
+        return [];
+    }
+
+    return $query->fetch_all(MYSQLI_ASSOC);
 }
 
+
+/* ================= GET BY TANGGAL ================= */
+function getAllPengunjungByTanggal($tanggal) {
+    global $conn;
+
+    $stmt = $conn->prepare("
+        SELECT * FROM pengunjung
+        WHERE DATE(tanggal_kunjungan) = ?
+        ORDER BY id DESC
+    ");
+
+    if (!$stmt) return [];
+
+    $stmt->bind_param("s", $tanggal);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+
+/* ================= TAMBAH ================= */
 function tambahPengunjung($data) {
     global $conn;
 
-    $nama = $data['nama'];
-    $email = $data['email'];
-    $no_wa = $data['no_wa'];
-    $jumlah = $data['jumlah'];
-    $sesi = $data['sesi'];
-    $tanggal = $data['tanggal_kunjungan'];
-    $status =$data['status'];
-
-    mysqli_query($conn, "
+    $stmt = $conn->prepare("
         INSERT INTO pengunjung 
         (nama, email, no_wa, jumlah, sesi, tanggal_kunjungan, status, created_at)
-        VALUES
-        ('$nama', '$email', '$no_wa', '$jumlah', '$sesi', '$tanggal', '$status', NOW())
+        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
     ");
+
+    if (!$stmt) {
+        error_log("Prepare error: " . $conn->error);
+        return false;
+    }
+
+    $stmt->bind_param(
+        "sssisss",
+        $data['nama'],
+        $data['email'],
+        $data['no_wa'],
+        $data['jumlah'],
+        $data['sesi'],
+        $data['tanggal_kunjungan'],
+        $data['status']
+    );
+
+    if (!$stmt->execute()) {
+        error_log("Execute error: " . $stmt->error);
+        return false;
+    }
+
+    return $conn->insert_id;
 }
 
+
+/* ================= UPDATE ================= */
 function updatePengunjung($data) {
     global $conn;
 
-    // VALIDASI ID
-    $id = isset($data['id']) ? (int)$data['id'] : 0;
-    if ($id <= 0) {
-        die("ID tidak valid");
-    }
-
-    // ESCAPE DATA
-    $nama = mysqli_real_escape_string($conn, $data['nama']);
-    $email = mysqli_real_escape_string($conn, $data['email']);
-    $no_wa = mysqli_real_escape_string($conn, $data['no_wa']);
-    $jumlah = (int)$data['jumlah'];
-    $sesi = $data['sesi'];
-    $tanggal = $data['tanggal_kunjungan'];
-    $status = $data['status'] ?? 'Tunggu';
-
-    $query = "
+    $stmt = $conn->prepare("
         UPDATE pengunjung SET
-        nama='$nama',
-        email='$email',
-        no_wa='$no_wa',
-        jumlah='$jumlah',
-        sesi='$sesi',
-        tanggal_kunjungan='$tanggal',
-        status='$status'
-        WHERE id=$id
-    ";
+        nama=?,
+        email=?,
+        no_wa=?,
+        jumlah=?,
+        sesi=?,
+        tanggal_kunjungan=?,
+        status=?
+        WHERE id=?
+    ");
 
-    mysqli_query($conn, $query) or die(mysqli_error($conn));
+    if (!$stmt) return false;
+
+    $stmt->bind_param(
+        "sssisssi",
+        $data['nama'],
+        $data['email'],
+        $data['no_wa'],
+        $data['jumlah'],
+        $data['sesi'],
+        $data['tanggal_kunjungan'],
+        $data['status'],
+        $data['id']
+    );
+
+    return $stmt->execute();
 }
 
+
+/* ================= GET BY ID ================= */
 function getPengunjungById($id) {
     global $conn;
 
-    $id = (int)$id;
-
-    $result = mysqli_query($conn, "
-        SELECT * FROM pengunjung WHERE id = $id
+    $stmt = $conn->prepare("
+        SELECT * FROM pengunjung WHERE id = ?
     ");
 
-    return mysqli_fetch_assoc($result);
+    if (!$stmt) return null;
+
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_assoc();
 }
 
+
+/* ================= HAPUS ================= */
 function hapusPengunjung($id) {
     global $conn;
-    mysqli_query($conn, "DELETE FROM pengunjung WHERE id=$id");
+
+    $stmt = $conn->prepare("
+        DELETE FROM pengunjung WHERE id = ?
+    ");
+
+    if (!$stmt) return false;
+
+    $stmt->bind_param("i", $id);
+
+    return $stmt->execute();
 }
 
+
+/* ================= LATEST ================= */
 function getLatestPengunjung($limit = 5) {
     global $conn;
 
-    $query = mysqli_query($conn, "
+    $limit = (int)$limit; // penting
+
+    $query = $conn->query("
         SELECT * FROM pengunjung 
         ORDER BY id DESC 
         LIMIT $limit
     ");
 
-    return mysqli_fetch_all($query, MYSQLI_ASSOC);
+    if (!$query) return [];
+
+    return $query->fetch_all(MYSQLI_ASSOC);
 }
+
+
+/* ================= KAPASITAS ================= */
 function getKapasitasByTanggal($tanggal) {
     global $conn;
 
-    $query = mysqli_query($conn, "
+    $stmt = $conn->prepare("
         SELECT SUM(jumlah) as total 
         FROM pengunjung 
-        WHERE tanggal_kunjungan = '$tanggal'
+        WHERE tanggal_kunjungan = ?
     ");
 
-    $data = mysqli_fetch_assoc($query);
+    if (!$stmt) return 0;
 
-    return $data['total'] ?? 0;
+    $stmt->bind_param("s", $tanggal);
+    $stmt->execute();
+
+    $result = $stmt->get_result()->fetch_assoc();
+
+    return $result['total'] ?? 0;
 }
 
+
+/* ================= STATISTIK ================= */
 function getStatistikByTanggal($tanggal) {
     global $conn;
 
-    $query = mysqli_query($conn, "
+    $stmt = $conn->prepare("
         SELECT status, COUNT(*) as total 
         FROM pengunjung 
-        WHERE tanggal_kunjungan = '$tanggal'
+        WHERE DATE(created_at) = ?
         GROUP BY status
     ");
 
-    $result = [
-        'Check-in' => 0,
-        'Tunggu' => 0,
-        'Dibatalkan' => 0,
-        'Selesai' => 0
-    ];
+    if (!$stmt) return [];
 
-    while ($row = mysqli_fetch_assoc($query)) {
-        $result[$row['status']] = $row['total'];
+    $stmt->bind_param("s", $tanggal);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    $data = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $data[$row['status']] = $row['total'];
     }
 
-    return $result;
+    return $data;
 }
 
+function cekBookingDuplikat($email, $tanggal, $sesi) {
+    global $conn;
+
+    $stmt = $conn->prepare("
+        SELECT id FROM pengunjung 
+        WHERE email = ? AND tanggal_kunjungan = ? AND sesi = ?
+        LIMIT 1
+    ");
+
+    $stmt->bind_param("sss", $email, $tanggal, $sesi);
+    $stmt->execute();
+
+    return $stmt->get_result()->num_rows > 0;
+}

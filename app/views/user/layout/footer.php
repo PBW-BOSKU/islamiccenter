@@ -14,17 +14,15 @@
             <div class="col-md-3">
                 <h6>Kontak</h6>
                 <p class="small">
-                    info@islamiccenter.id<br>
-                    +62 812 3456 7890
+                    bp.islamic.center.prov.kaltim@gmail.com<br>
+                    0541-7808473
                 </p>
             </div>
 
             <div class="col-md-3">
-                <h6>Menu</h6>
+                <h6>Admin</h6>
                 <ul class="list-unstyled small">
-                    <li><a href="#beranda">Beranda</a></li>
-                    <li><a href="#galeri">Galeri</a></li>
-                    <li><a href="#fasilitas">Fasilitas</a></li>
+                    <li><a href="index.php?page=login">Login Admin</a></li>
                 </ul>
             </div>
 
@@ -33,15 +31,17 @@
         <hr class="border-light opacity-25">
 
         <div class="text-center small">
-            <a href="index.php?page=login">
-                © 2026 Islamic Center Samarinda
-            </a>
+                <p>© 2026 Islamic Center Samarinda</p>
         </div>
 
     </div>
 </footer>
 
-<script src="https://unpkg.com/vue@3"></script>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/user.js"></script>
 
 </body>

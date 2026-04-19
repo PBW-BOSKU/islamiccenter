@@ -50,7 +50,7 @@
             <div class="stat-card fade-in">
                 <small>Kapasitas <?= date('d M Y', strtotime($tanggal)) ?></small>
 
-                <h3><?= $hari_ini ?? 0 ?> / <?= $max_kapasitas ?? 0 ?></h3>
+                <h3><?= $hari_ini ?? 0 ?> / <?= $max_kapasitas ?? 200 ?></h3>
 
                 <div class="progress mt-2" style="height:6px;">
                     <div class="progress-bar bg-success"
@@ -195,17 +195,20 @@
 
                         <!-- STATUS -->
                         <td>
-                            <?php if ($p['status'] == 'Check-in'): ?>
-                                <span class="badge status-badge success">Check-in</span>
+                            <?php if ($p['status'] == 'Menunggu Pembayaran'): ?>
+                                <span class="badge status-badge warning">Menunggu Pembayaran</span>
 
-                            <?php elseif ($p['status'] == 'Tunggu'): ?>
-                                <span class="badge status-badge warning">Menunggu</span>
+                            <?php elseif ($p['status'] == 'Dibayar'): ?>
+                                <span class="badge status-badge success">Dibayar</span>
+
+                            <?php elseif ($p['status'] == 'Selesai'): ?>
+                                <span class="badge status-badge info">Selesai</span>
 
                             <?php elseif ($p['status'] == 'Dibatalkan'): ?>
                                 <span class="badge status-badge danger">Dibatalkan</span>
 
                             <?php else: ?>
-                                <span class="badge status-badge info">Selesai</span>
+                                <span class="badge status-badge secondary">-</span>
                             <?php endif; ?>
                         </td>
 

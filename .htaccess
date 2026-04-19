@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# 🔥 JANGAN ganggu assets (lebih fleksibel)
+RewriteCond %{REQUEST_URI} !assets/
+
+# 🔥 kalau file tidak ada → baru ke index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^ index.php [L]

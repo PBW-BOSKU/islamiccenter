@@ -2,6 +2,13 @@
 
 $page = $_GET['page'] ?? 'beranda';
 
+// 🔥 BIAR FILE STATIC TIDAK MASUK ROUTER
+$request = $_SERVER['REQUEST_URI'];
+
+if (strpos($request, '/assets/') !== false) {
+    return false;
+}
+
 /* ================= USER ================= */
 
 if ($page == 'beranda') {
@@ -18,6 +25,14 @@ elseif ($page == 'booking') {
 
 }
 
+elseif ($page == 'proses_booking') {
+
+    require_once 'app/controllers/HomeController.php';
+    $home = new HomeController();
+    $home->proses_booking();
+
+}
+
 elseif ($page == 'tambahReview') {
 
     require_once 'app/controllers/HomeController.php';
@@ -25,6 +40,12 @@ elseif ($page == 'tambahReview') {
     $home->tambahReview();
 
 }
+
+elseif ($page == 'kapasitas') {
+    require_once 'app/controllers/HomeController.php';
+    (new HomeController())->kapasitas();
+}
+
 
 
 /* ================= ADMIN ================= */

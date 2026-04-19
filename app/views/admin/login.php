@@ -9,6 +9,9 @@
 
     <!-- CSS ADMIN -->
     <link rel="stylesheet" href="/assets/css/admin.css">
+
+    <!-- SWEETALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="admin-page">
@@ -26,13 +29,6 @@
         <!-- TITLE -->
         <h4 class="fw-bold">Menara Islamic Center Samarinda</h4>
         <small class="text-warning d-block mb-4">PORTAL ADMINISTRASI</small>
-
-        <!-- ERROR MESSAGE -->
-        <?php if (isset($_GET['error'])): ?>
-            <div class="alert alert-danger text-center mb-3">
-                Username atau password salah!
-            </div>
-        <?php endif; ?>
 
         <!-- FORM -->
         <form action="index.php?page=proses_login" method="POST" id="loginForm">
@@ -62,15 +58,6 @@
                 <span id="btnText">MASUK →</span>
             </button>
 
-            <div class="login-popup" :class="{ active: showErrorPopup }">
-                <div class="popup-content">
-                    <div class="popup-icon">❌</div>
-                    <h5>Login Gagal</h5>
-                    <p>Username atau password salah</p>
-                    <button onclick="closePopup()">Coba Lagi</button>
-                </div>
-            </div>
-
         </form>
 
     </div>
@@ -86,7 +73,7 @@
         pass.type = this.checked ? 'text' : 'password';
     });
 
-    // LOADING BUTTON + DISABLE
+    // LOADING BUTTON
     document.getElementById('loginForm').addEventListener('submit', function() {
         const btn = document.getElementById('loginBtn');
         const text = document.getElementById('btnText');
@@ -95,16 +82,38 @@
         text.innerHTML = "Memproses...";
     });
 
-</script>
+    // ================= GLOBAL POPUP =================
+    const urlParams = new URLSearchParams(window.location.search);
 
-<!-- ERROR SHAKE EFFECT -->
-<?php if (isset($_GET['error'])): ?>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
+    const success = urlParams.get('success');
+    const error = urlParams.get('error');
+
+    if (success === 'login') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Login Berhasil!',
+            text: 'Selamat datang di dashboard',
+            timer: 1500,
+            showConfirmButton: false
+        });
+
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    if (error === 'login') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Gagal',
+            text: 'Username atau password salah'
+        });
+
+        // efek shake tetap dipakai
         document.querySelector('.login-card').classList.add('login-error');
-    });
+
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
 </script>
-<?php endif; ?>
 
 </body>
 </html>

@@ -77,9 +77,9 @@
 
     <div class="mb-3">
         <label class="form-label fw-semibold">Status</label>
-        <select v-model="editData.status" name="status" class="form-select modern-input">
-            <option value="Tunggu">Tunggu</option>
-            <option value="Check-in">Check-in</option>
+        <select name="status" class="form-select modern-input">
+            <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
+            <option value="Dibayar">Dibayar</option>
             <option value="Selesai">Selesai</option>
             <option value="Dibatalkan">Dibatalkan</option>
         </select>

@@ -31,42 +31,44 @@
 
 <!-- ================= GALERI ================= -->
 <section id="galeri" class="fade-section">
-    <div class="text-center mb-5 galeri-title">
+
+    <div class="text-center mb-4 galeri-title">
         <h2 class="fw-bold">Galeri Menara Islamic Center Samarinda</h2>
         <p class="text-muted">
             Keindahan arsitektur dan suasana yang memukau
         </p>
     </div>
 
-    <div class="galeri-wrapper">
-        <div class="row g-4 justify-content-center">
+    <div class="galeri-container position-relative">
+
+        <!-- BUTTON LEFT -->
+        <button class="nav-btn left" @click="scrollGaleri(-1)">‹</button>
+
+        <!-- SLIDER -->
+        <div class="galeri-scroll"
+            ref="galeriScroll"
+            @mouseenter="stopAutoSlide"
+            @mouseleave="startAutoSlide"
+            @touchstart="stopAutoSlide"
+            @touchend="startAutoSlide">
 
             <?php if (!empty($galeri)): ?>
                 <?php foreach ($galeri as $g): ?>
 
-                <div class="col-md-6">
+                <div class="galeri-card"
+                    @click="openImage(
+                        'assets/images/<?= $g['gambar'] ?>',
+                        '<?= htmlspecialchars($g['judul']) ?>',
+                        '<?= htmlspecialchars($g['deskripsi']) ?>'
+                    )">
 
-                    <div class="galeri-item besar"
-                        @click="openImage(
-                            'assets/images/<?= $g['gambar'] ?>',
-                            '<?= htmlspecialchars($g['judul']) ?>',
-                            '<?= htmlspecialchars($g['deskripsi']) ?>'
-                        )">
+                    <img 
+                        src="assets/images/<?= $g['gambar'] ?>" 
+                        alt="<?= htmlspecialchars($g['judul']) ?>"
+                    >
 
-                        <img 
-                            src="assets/images/<?= $g['gambar'] ?>" 
-                            alt="<?= htmlspecialchars($g['judul']) ?>"
-                        >
-
-                        <div class="overlay">
-                            <h5><?= htmlspecialchars($g['judul']) ?></h5>
-                            <p>
-                                <?= strlen($g['deskripsi']) > 80 
-                                    ? substr($g['deskripsi'], 0, 80) . '...' 
-                                    : $g['deskripsi'] ?>
-                            </p>
-                        </div>
-
+                    <div class="overlay">
+                        <h6><?= htmlspecialchars($g['judul']) ?></h6>
                     </div>
 
                 </div>
@@ -75,22 +77,24 @@
             <?php endif; ?>
 
         </div>
+
+        <!-- BUTTON RIGHT -->
+        <button class="nav-btn right" @click="scrollGaleri(1)">›</button>
+
     </div>
+
 </section>
 
 
 <!-- ================= MODAL ================= -->
-<div v-if="selectedImage" class="galeri-modal" @click="closeImage">
+<div v-if="selectedImage !== null" class="galeri-modal" @click="closeImage">
 
     <div class="modal-card" @click.stop>
 
-        <!-- CLOSE -->
         <span class="close-btn" @click="closeImage">&times;</span>
 
-        <!-- IMAGE -->
         <img :src="selectedImage" class="modal-img">
 
-        <!-- INFO -->
         <div class="modal-body">
             <h4>{{ selectedTitle }}</h4>
             <p>{{ selectedDesc }}</p>
@@ -269,88 +273,94 @@
             <small class="text-muted">Dari <?= $total ?> pengunjung</small>
         </div>
 
+            <!-- FORM INPUT -->
+            <div class="review-form-card mb-5">
 
-        <!-- FORM INPUT -->
-        <div class="review-form-card mb-5">
+                <h5 class="mb-3">Tulis Review Anda</h5>
 
-            <h5 class="mb-3">Tulis Review Anda</h5>
+                <form @submit.prevent="submitReview">
 
-            <form action="index.php?page=tambahReview" method="POST">
-            <form @submit="if(rating === 0){ alert('Pilih rating dulu!'); return false }" ...>
+                    <div class="row g-3 align-items-center">
 
-                <div class="row g-3 align-items-center">
-
-                    <!-- NAMA -->
-                    <div class="col-md-6">
-                        <input type="text" name="nama" class="form-control modern-input" placeholder="Nama Anda" required>
-                    </div>
-
-                    <!-- BINTANG -->
-                    <div class="col-md-6">
-                        <div class="star-rating">
-
-                            <input type="hidden" name="rating" v-model="rating">
-
-                            <span v-for="i in 5"
-                                :key="i"
-                                class="star"
-                                :class="{ active: i <= (hoverRating || rating) }"
-                                @click="rating = i"
-                                @mouseover="hoverRating = i"
-                                @mouseleave="hoverRating = 0">
-                                ★
-                            </span>
-
+                        <!-- NAMA -->
+                        <div class="col-md-6">
+                            <input type="text"
+                                v-model="form.nama"
+                                class="form-control modern-input"
+                                placeholder="Nama Anda"
+                                required>
                         </div>
+
+                        <!-- BINTANG -->
+                        <div class="col-md-6">
+                            <div class="star-rating">
+
+                                <input type="hidden" v-model="rating">
+
+                                <span v-for="i in 5"
+                                    :key="i"
+                                    class="star"
+                                    :class="{ active: i <= (hoverRating || rating) }"
+                                    @click="rating = i"
+                                    @mouseover="hoverRating = i"
+                                    @mouseleave="hoverRating = 0">
+                                    ★
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <!-- KOMENTAR -->
+                        <div class="col-md-12">
+                            <textarea v-model="form.komentar"
+                                    class="form-control modern-input"
+                                    placeholder="Tulis pengalaman Anda..."
+                                    required></textarea>
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="col-md-12 text-end">
+                            <button type="submit" class="btn btn-success px-4">
+                                Kirim Review
+                            </button>
+                        </div>
+
                     </div>
 
-                    <!-- KOMENTAR -->
-                    <div class="col-md-12">
-                        <textarea name="komentar" class="form-control modern-input"
-                            placeholder="Tulis pengalaman Anda..." required></textarea>
-                    </div>
+                </form>
 
-                    <!-- BUTTON -->
-                    <div class="col-md-12 text-end">
-                        <button class="btn btn-success px-4">Kirim Review</button>
-                    </div>
-
-                    <div class="toast-success" v-if="showToast">
-                        Review berhasil dikirim!
-                    </div>
-
+                <!-- TOAST OUTSIDE FORM (lebih aman) -->
+                <div class="toast-success" v-if="showToast">
+                    Review berhasil dikirim!
                 </div>
 
-            </form>
-
-        </div>
+            </div>
 
         <!-- CARD REVIEW -->
         <div class="row g-4 justify-content-center">
 
-            <?php if (!empty($review)): ?>
-                <?php foreach ($review as $r): ?>
+            <template v-if="reviews.length > 0">
 
-                <div class="col-md-4">
+                <div class="col-md-4" v-for="r in reviews" :key="r.id">
                     <div class="review-card">
 
                         <div class="stars">
-                            <?= str_repeat('⭐', $r['rating']) ?>
+                            {{ '⭐'.repeat(r.rating) }}
                         </div>
 
-                        <p>"<?= htmlspecialchars($r['komentar']) ?>"</p>
-
-                        <h6>- <?= htmlspecialchars($r['nama']) ?></h6>
+                        <p>"{{ r.komentar }}"</p>
+                        <h6>- {{ r.nama }}</h6>
 
                     </div>
                 </div>
 
-                <?php endforeach; ?>
-            <?php else: ?>
+            </template>
 
-                <p class="text-center text-muted">Belum ada review</p>
+            <p v-else class="text-center text-muted">
+                Belum ada review
+            </p>
 
-            <?php endif; ?>
+        </div>
 
         </div>
 
@@ -393,4 +403,9 @@
     </div>
 </section>
 </div>
+
+<script id="initialReview" type="application/json">
+<?= json_encode($review) ?>
+</script>
+
 <?php include 'layout/footer.php'; ?>

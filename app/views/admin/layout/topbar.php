@@ -2,7 +2,7 @@
 
     <!-- LEFT -->
     <div>
-        <h5 class="mb-0 fw-bold">Dashboard</h5>
+        <h5 class="mb-0 fw-bold">Admin</h5>
         <small class="text-muted">Ringkasan aktivitas hari ini</small>
     </div>
 

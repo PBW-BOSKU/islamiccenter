@@ -16,9 +16,10 @@ createApp({
             showSidebar: true,
 
             // DATA PENGUNJUNG
-            pengunjung: window.pengunjungData || [],
+            dataPengunjung: window.pengunjungData || [],
             search: '',
             filterSesi: '',
+            filterStatus: '',
 
             // GALERI
             preview: null,
@@ -38,6 +39,9 @@ createApp({
                 jumlah: 1,
                 sesi: 'Pagi',
                 status: 'Tunggu',
+
+                filterTanggal: window.selectedTanggal || '',
+                showAll: false,
             }
         }
     },
@@ -51,25 +55,89 @@ createApp({
 
         const urlParams = new URLSearchParams(window.location.search);
 
-        if (urlParams.get('error')) {
-            this.showErrorPopup = true;
+        const success = urlParams.get('success');
+        const error = urlParams.get('error');
+
+        if (success) {
+
+            let message = '';
+
+            // ================= LOGIN =================
+            if (success === 'login') {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Berhasil!',
+                    text: 'Selamat datang di dashboard',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+            // ================= LOGOUT =================
+            } else if (success === 'logout') {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logout Berhasil',
+                    text: 'Anda telah keluar dari sistem',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+            } else {
+
+                // ================= GALERI =================
+                if (success === 'tambah') {
+                    message = 'Galeri berhasil ditambahkan';
+                } else if (success === 'update') {
+                    message = 'Galeri berhasil diperbarui';
+                } else if (success === 'hapus') {
+                    message = 'Galeri berhasil dihapus';
+                }
+
+                // ================= PENGUNJUNG =================
+                else if (success === 'tambah_pengunjung') {
+                    message = 'Pengunjung berhasil ditambahkan';
+                } else if (success === 'update_pengunjung') {
+                    message = 'Data pengunjung berhasil diperbarui';
+                } else if (success === 'hapus_pengunjung') {
+                    message = 'Pengunjung berhasil dihapus';
+                }
+
+                if (message) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            }
+
+            // bersihin URL biar gak ke-trigger lagi
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        if (document.querySelector('.counter')) {
-            this.animateCounter();
-        }
+        // ================= ERROR =================
+        if (error) {
 
-        if (urlParams.get('updated')) {
+            let message = 'Terjadi kesalahan';
+
+            if (error === 'login') {
+                message = 'Username atau password salah';
+            }
+
             Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: 'Galeri berhasil diperbarui',
-                timer: 2000,
-                showConfirmButton: false
+                icon: 'error',
+                title: 'Gagal!',
+                text: message,
             });
+
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
     },
-
+    
     computed: {
 
         avatar() {
@@ -79,22 +147,26 @@ createApp({
             return "https://ui-avatars.com/api/?name=" + this.nama;
         },
 
-        filteredData() {
-            return this.pengunjung.filter(p => {
 
-                let matchSearch =
+        filteredData() {
+            if (!this.dataPengunjung) return [];
+
+            return this.dataPengunjung.filter(p => {
+
+                const matchSearch =
                     p.nama.toLowerCase().includes(this.search.toLowerCase()) ||
                     p.id.toString().includes(this.search);
 
-                let matchSesi =
-                    this.filterSesi === '' || p.sesi === this.filterSesi;
+                const matchSesi =
+                    !this.filterSesi || p.sesi === this.filterSesi;
 
-                return matchSearch && matchSesi;
+                const matchStatus =
+                    !this.filterStatus || p.status === this.filterStatus;
+
+                return matchSearch && matchSesi && matchStatus;
             });
         }
-
     },
-
     methods: {
 
         // PREVIEW UPLOAD
@@ -154,10 +226,11 @@ createApp({
 
         // STATUS BADGE (INI YANG ERROR TADI)
         statusClass(status) {
-            if (status === 'Check-in') return 'bg-success';
-            if (status === 'Tunggu') return 'bg-warning text-dark';
+            if (status === 'Menunggu Pembayaran') return 'bg-warning text-dark';
+            if (status === 'Dibayar') return 'bg-success';
+            if (status === 'Selesai') return 'bg-primary';
             if (status === 'Dibatalkan') return 'bg-danger';
-            return 'bg-info';
+            return 'bg-secondary';
         },
 
         // COUNTER

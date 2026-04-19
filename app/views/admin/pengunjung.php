@@ -23,10 +23,10 @@
 
                 <!-- FILTER -->
                 <div class="card admin-card p-3 mb-4 fade-up">
-                    <div class="row g-3 align-items-center">
+                    <div class="row g-3 align-items-end">
 
                         <!-- SEARCH -->
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <input 
                                 type="text" 
                                 class="form-control search-input"
@@ -36,7 +36,7 @@
                         </div>
 
                         <!-- FILTER SESI -->
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select class="form-select filter-select" v-model="filterSesi">
                                 <option value="">Semua Sesi</option>
                                 <option>Pagi</option>
@@ -45,12 +45,32 @@
                             </select>
                         </div>
 
-                        <!-- BUTTON -->
-                        <div class="col-md-4 text-end">
+                        <!-- FILTER STATUS -->
+                        <div class="col-md-2">
+                            <select class="form-select filter-select" v-model="filterStatus">
+                                <option value="">Semua Status</option>
+                                <option>Menunggu Pembayaran</option>
+                                <option>Dibayar</option>
+                                <option>Selesai</option>
+                                <option>Dibatalkan</option>
+                            </select>
+                        </div>
+
+                        <!-- TOGGLE SEMUA DATA -->
+                        <div class="col-md-2">
+                        <button 
+                            class="btn btn-outline-primary w-100"
+                            onclick="window.location.href='index.php?page=pengunjung'">
+                            Tampilkan Semua Data
+                        </button>
+                        </div>
+
+                        <!-- TAMBAH -->
+                        <div class="col-md-3 text-end">
                             <a href="index.php?page=tambah_pengunjung_form" 
                             class="btn btn-add">
                                 <i class="bi bi-person-plus"></i>
-                                Tambah Pengunjung
+                                Tambah
                             </a>
                         </div>
 
@@ -62,7 +82,13 @@
                     <!-- TABLE -->
                     <div class="col-md-8">
                         <div class="card admin-card p-3 fade-up">
-
+                        <div class="mb-2 text-muted small">
+                            <?php if (isset($_GET['tanggal'])): ?>
+                                Menampilkan data tanggal <?= date('d M Y', strtotime($tanggal)) ?>
+                            <?php else: ?>
+                                Menampilkan semua data
+                            <?php endif; ?>
+                        </div>
                             <table class="table admin-table">
                                 <thead>
                                     <tr>
@@ -111,20 +137,38 @@
                                             <span :class="'badge ' + statusClass(p.status)">
                                                 {{ p.status }}
                                             </span>
-                                        </td>
+                                    </td>
 
-                                        <td class="d-flex gap-2">
-                                            <a :href="'index.php?page=edit_pengunjung&id=' + p.id" 
-                                            class="btn btn-sm btn-warning">
-                                                Edit
-                                            </a>
+                                    <td class="d-flex gap-2 flex-wrap">
 
-                                            <button 
-                                                class="btn btn-sm btn-danger"
-                                                @click="confirmDelete('index.php?page=hapus_pengunjung&id=' + p.id)">
-                                                Hapus
-                                            </button>
-                                        </td>
+                                        <a :href="'index.php?page=edit_pengunjung&id=' + p.id" 
+                                        class="btn btn-sm btn-warning">
+                                            Edit
+                                        </a>
+
+                                        <button 
+                                            class="btn btn-sm btn-danger"
+                                            @click="confirmDelete('index.php?page=hapus_pengunjung&id=' + p.id)">
+                                            Hapus
+                                        </button>
+
+                                        <a v-if="p.status === 'Dibayar'"
+                                        :href="'https://wa.me/' + p.no_wa + '?text=' + encodeURIComponent(
+                                                '🎫 TIKET KUNJUNGAN\n\n' +
+                                                'Kode Booking: ' + p.kode_booking + '\n' +
+                                                'Nama: ' + p.nama + '\n' +
+                                                'Tanggal: ' + p.tanggal_kunjungan + '\n' +
+                                                'Sesi: ' + p.sesi + '\n' +
+                                                'Jumlah: ' + p.jumlah + ' orang\n\n' +
+                                                'Status: DIBAYAR\n\n' +
+                                                'Tunjukkan tiket ini saat masuk.\nTerima kasih 🙏'
+                                            )"
+                                        target="_blank"
+                                        class="btn btn-sm btn-success">
+                                            Kirim Tiket
+                                        </a>
+
+                                    </td>
 
                                     </tr>
 
@@ -177,25 +221,31 @@
                         <div class="card admin-card p-3">
                             <h6>Statistik Hari Ini</h6>
 
-                            <div class="d-flex justify-content-between mt-3">
-                                <div>
-                                    <small>Check-in</small>
-                                    <h5 class="text-success"><?= $checkin ?? 0 ?></h5>
-                                </div>
+                            <div class="card admin-card p-3">
+                                <h6>Statistik Hari Ini</h6>
 
-                                <div>
-                                    <small>Selesai</small>
-                                    <h5 class="text-success"><?= $selesai ?? 0 ?></h5>
-                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    
+                                    <div>
+                                        <small>Menunggu Pembayaran</small>
+                                        <h5 class="text-warning"><?= $menunggu_pembayaran ?? 0 ?></h5>
+                                    </div>
 
-                                <div>
-                                    <small>Menunggu</small>
-                                    <h5 class="text-warning"><?= $tunggu ?? 0 ?></h5>
-                                </div>
+                                    <div>
+                                        <small>Dibayar</small>
+                                        <h5 class="text-success"><?= $dibayar ?? 0 ?></h5>
+                                    </div>
 
-                                <div>
-                                    <small>Batal</small>
-                                    <h5 class="text-danger"><?= $batal ?? 0 ?></h5>
+                                    <div>
+                                        <small>Selesai</small>
+                                        <h5 class="text-primary"><?= $selesai ?? 0 ?></h5>
+                                    </div>
+
+                                    <div>
+                                        <small>Dibatalkan</small>
+                                        <h5 class="text-danger"><?= $dibatalkan ?? 0 ?></h5>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -206,6 +256,10 @@
             </div> <!-- END #app -->
 
         </div> <!-- main-content -->
+        <script>
+        window.pengunjungData = <?= json_encode($pengunjung) ?>;
+        window.selectedTanggal = "<?= $tanggal ?>";
+        </script>
 
         <?php include 'layout/footer.php'; ?>
 

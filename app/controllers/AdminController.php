@@ -2,157 +2,223 @@
 require_once __DIR__ . '/../models/PengunjungModel.php';
 require_once __DIR__ . '/../../config/koneksi.php';
 
-class AdminController {
+/* ================= BASE CONTROLLER (JIKA BELUM ADA) ================= */
+if (!class_exists('Controller')) {
+    class Controller {
+        protected function view($path, $data = []) {
+            extract($data);
+            require "app/views/$path.php";
+        }
 
-    public function login() {
+        protected function redirect($url) {
+            header("Location: $url");
+            exit;
+        }
+    }
+}
 
-    require_once __DIR__ . '/../../config/koneksi.php';
-    global $conn;
+class AdminController extends Controller {
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    private function checkAuth() {
 
-    $query = mysqli_query($conn, "
-        SELECT * FROM admin 
-        WHERE username='$username' AND password='$password'
-    ");
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    $user = mysqli_fetch_assoc($query);
+        if (!isset($_SESSION['admin'])) {
+            header("Location: index.php?page=login");
+            exit;
+        }
+    }
 
-    if ($user) {
+    /* ================= LOGIN ================= */
+        public function login() {
+
+            global $conn;
+
+            $username = trim($_POST['username'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+
+            if (!$username || !$password) {
+                return $this->redirect("index.php?page=login&error=login");
+            }
+
+            $stmt = $conn->prepare("
+                SELECT * FROM admin WHERE username = ?
+            ");
+
+            if (!$stmt) {
+                return $this->redirect("index.php?page=login&error=login");
+            }
+
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+
+            $user = $stmt->get_result()->fetch_assoc();
+
+            // 🔐 PASSWORD HASH VERIFY
+            if ($user && password_verify($password, $user['password'])) {
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                session_regenerate_id(true);
+
+                $_SESSION['admin'] = $user['username'];
+
+                return $this->redirect("index.php?page=dashboard");
+            }
+
+            return $this->redirect("index.php?page=login&error=login");
+        }
+
+    /* ================= LOGOUT ================= */
+    public function logout() {
 
         session_start();
-        $_SESSION['admin'] = $user['username'];
+        session_unset();
+        session_destroy();
 
-        header("Location: index.php?page=dashboard");
-
-    } else {
-        header("Location: index.php?page=login&error=1");
-        exit;
+        return $this->redirect("index.php?page=beranda&success=logout");
     }
-}
 
-public function logout() {
+    /* ================= DASHBOARD ================= */
+    public function dashboard() {
+    $this->checkAuth();
 
-    session_start();
-    session_unset();
-    session_destroy();
+        date_default_timezone_set('Asia/Jakarta');
 
-    header("Location: index.php?page=beranda");
-    exit;
-}
+        $tanggal = $_GET['tanggal'] ?? date('Y-m-d');
 
-public function dashboard() {
+        $all = getAllPengunjung();
+        $total = count($all);
 
-    require_once __DIR__ . '/../models/PengunjungModel.php';
+        $hari_ini = count(array_filter($all, function($p) use ($tanggal) {
+            return $p['tanggal_kunjungan'] == $tanggal;
+        }));
 
-    date_default_timezone_set('Asia/Jakarta');
+        $max_kapasitas = 200;
 
-    //  ambil tanggal dari filter
-    $tanggal = $_GET['tanggal'] ?? date('Y-m-d');
+        $persen = $max_kapasitas > 0 
+            ? ($hari_ini / $max_kapasitas) * 100 
+            : 0;
 
-    //  ambil semua data
-    $all = getAllPengunjung();
+        $aktivitas = array_filter($all, function($p) use ($tanggal) {
+            return $p['tanggal_kunjungan'] == $tanggal;
+        });
 
-    //  total semua
-    $total = count($all);
+        $aktivitas = array_slice($aktivitas, 0, 5);
 
-    //  filter sesuai tanggal_kunjungan (INI YANG BENAR)
-    $hari_ini = count(array_filter($all, function($p) use ($tanggal) {
-        return $p['tanggal_kunjungan'] == $tanggal;
-    }));
+        usort($aktivitas, function($a, $b) {
+            return strtotime($b['created_at']) - strtotime($a['created_at']);
+        });
 
-    //  kapasitas
-    $max_kapasitas = 200;
+        $this->view('admin/dashboard', compact(
+            'total', 'hari_ini', 'persen', 'aktivitas', 'tanggal'
+        ));
+    }
 
-    //  persen aman
-    $persen = $max_kapasitas > 0 ? ($hari_ini / $max_kapasitas) * 100 : 0;
+    /* ================= PENGUNJUNG ================= */
+    public function pengunjung() {
+        $this->checkAuth();
 
-    //  aktivitas sesuai tanggal
-    $aktivitas = array_filter($all, function($p) use ($tanggal) {
-        return $p['tanggal_kunjungan'] == $tanggal;
-    });
+        $tanggal = $_GET['tanggal'] ?? null;
 
-    $aktivitas = array_slice($aktivitas, 0, 5);
-
-    // urutkan terbaru
-    usort($aktivitas, function($a, $b) {
-        return strtotime($b['created_at']) - strtotime($a['created_at']);
-    });
-
-    include __DIR__ . '/../views/admin/dashboard.php';
-}
-
-public function pengunjung() {
-
-    require_once __DIR__ . '/../models/PengunjungModel.php';
-
-    $pengunjung = getAllPengunjung(); 
-    $tanggal = $_GET['tanggal'] ?? date('Y-m-d');
-
-    $max_kapasitas = 200;
-
-
-    $total_hari_ini = getKapasitasByTanggal($tanggal);
-    $stat = getStatistikByTanggal($tanggal);
-
-    $checkin = $stat['Check-in'];
-    $tunggu = $stat['Tunggu'];
-    $batal = $stat['Dibatalkan'];
-    $selesai =$stat['Selesai'];
-
-    $persen = $max_kapasitas > 0 
-        ? ($total_hari_ini / $max_kapasitas) * 100 
-        : 0;
-    include __DIR__ . '/../views/admin/pengunjung.php';
-}
-
-    public function tambah() {
-        if ($_POST) {
-        tambahPengunjung($_POST);
-
-        $redirect = $_POST['redirect'] ?? 'pengunjung';
-
-        if ($redirect == 'dashboard') {
-            header("Location: index.php?page=dashboard");
+        if ($tanggal) {
+            $pengunjung = getAllPengunjungByTanggal($tanggal);
         } else {
-            header("Location: index.php?page=pengunjung");
+            $pengunjung = getAllPengunjung();
+            $tanggal = date('Y-m-d');
         }
 
-        exit;
-    }
-}
+        $max_kapasitas = 200;
+        $total_hari_ini = getKapasitasByTanggal($tanggal);
+        $stat = getStatistikByTanggal($tanggal);
 
+        $menunggu_pembayaran = $stat['Menunggu Pembayaran'] ?? 0;
+        $dibayar = $stat['Dibayar'] ?? 0;
+        $selesai = $stat['Selesai'] ?? 0;
+        $dibatalkan = $stat['Dibatalkan'] ?? 0;
+
+        $persen = $max_kapasitas > 0 
+            ? ($total_hari_ini / $max_kapasitas) * 100 
+            : 0;
+
+        $this->view('admin/pengunjung', compact(
+            'pengunjung',
+            'tanggal',
+            'total_hari_ini',
+            'persen',
+            'menunggu_pembayaran',
+            'dibayar',
+            'selesai',
+            'dibatalkan',
+            'max_kapasitas'
+        ));
+    }
+
+    /* ================= TAMBAH ================= */
+    public function tambah() {
+        $this->checkAuth();
+
+        if ($_POST) {
+
+            $result = tambahPengunjung($_POST);
+
+            $redirect = $_POST['redirect'] ?? 'pengunjung';
+
+            if ($redirect == 'dashboard') {
+                return $this->redirect("index.php?page=dashboard&success=tambah_pengunjung");
+            }
+
+            return $this->redirect("index.php?page=pengunjung&success=tambah_pengunjung");
+        }
+    }
+
+    /* ================= HAPUS ================= */
     public function hapus() {
-        if (isset($_GET['id'])) {
-            hapusPengunjung($_GET['id']);
-            header("Location: index.php?page=pengunjung");
+        $this->checkAuth();
+
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+        if ($id > 0) {
+            hapusPengunjung($id);
         }
+
+        return $this->redirect("index.php?page=pengunjung");
     }
 
+    /* ================= EDIT FORM ================= */
     public function editForm() {
-    require_once __DIR__ . '/../models/PengunjungModel.php';
+        $this->checkAuth();
 
-        $id = $_GET['id'];
+        $id = (int)($_GET['id'] ?? 0);
         $pengunjung = getPengunjungById($id);
 
-        include __DIR__ . '/../views/admin/edit_pengunjung.php';
+        $this->view('admin/edit_pengunjung', compact('pengunjung'));
     }
 
+    /* ================= UPDATE ================= */
     public function update() {
+        $this->checkAuth();
 
-    require_once __DIR__ . '/../models/PengunjungModel.php';
+        $result = updatePengunjung($_POST);
 
-        updatePengunjung($_POST);
+        if ($result) {
+            return $this->redirect("index.php?page=pengunjung&success=update_pengunjung");
+        }
 
-        header("Location: index.php?page=pengunjung");
-        exit;
+        return $this->redirect("index.php?page=pengunjung&error=1");
     }
 
+    /* ================= UPDATE GALERI ================= */
     public function updateGaleri() {
+        $this->checkAuth();
+
         global $conn;
 
-        $id = $_POST['id'];
+        $id = (int)$_POST['id'];
         $judul = $_POST['judul'];
         $deskripsi = $_POST['deskripsi'];
 
@@ -161,24 +227,23 @@ public function pengunjung() {
             $gambar = $_FILES['gambar']['name'];
             move_uploaded_file($_FILES['gambar']['tmp_name'], "assets/images/" . $gambar);
 
-            mysqli_query($conn, "
-                UPDATE galeri SET 
-                judul='$judul',
-                deskripsi='$deskripsi',
-                gambar='$gambar'
-                WHERE id=$id
+            $stmt = $conn->prepare("
+                UPDATE galeri SET judul=?, deskripsi=?, gambar=? WHERE id=?
             ");
+
+            $stmt->bind_param("sssi", $judul, $deskripsi, $gambar, $id);
+            $stmt->execute();
 
         } else {
 
-            mysqli_query($conn, "
-                UPDATE galeri SET 
-                judul='$judul',
-                deskripsi='$deskripsi'
-                WHERE id=$id
+            $stmt = $conn->prepare("
+                UPDATE galeri SET judul=?, deskripsi=? WHERE id=?
             ");
+
+            $stmt->bind_param("ssi", $judul, $deskripsi, $id);
+            $stmt->execute();
         }
 
-        header("Location: index.php?page=galeri");
+        return $this->redirect("index.php?page=galeri");
     }
 }

@@ -12,3 +12,4 @@
 </head>
 
 <body class="user-page">
+    <div id="app">
