@@ -1212,3 +1212,152 @@ background: linear-gradient(
     }
 }
 
+/* ================= GLOBAL RESPONSIVE FIX ================= */
+
+/* gambar jangan pernah keluar */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* container biar tidak terlalu lebar di layar besar */
+.container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* text biar fleksibel */
+h1 {
+    font-size: clamp(28px, 5vw, 60px);
+}
+
+h2 {
+    font-size: clamp(22px, 4vw, 32px);
+}
+
+p {
+    font-size: clamp(13px, 2vw, 16px);
+}
+
+
+/* ================= HERO FIX ================= */
+.user-page .hero-section {
+    min-height: 100vh; /* ganti height */
+    height: auto;
+    padding: 100px 20px;
+}
+
+/* ================= GALERI FIX ================= */
+.user-page .galeri-item {
+    height: auto;
+    aspect-ratio: 4/3; /* 🔥 biar konsisten */
+}
+
+.user-page .galeri-item.besar {
+    aspect-ratio: 16/9;
+}
+
+/* ================= GRID AUTO RESPONSIVE ================= */
+.galeri-wrapper .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+/* ================= MODAL ================= */
+.modal-img {
+    height: auto;
+    max-height: 300px;
+}
+
+/* ================= FASILITAS ================= */
+.user-page .fasilitas-big img {
+    height: auto;
+    aspect-ratio: 16/9;
+}
+
+.user-page .fasilitas-card {
+    min-height: auto;
+}
+
+/* ================= BOOKING ================= */
+.user-page .booking-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user-page .booking-left,
+.user-page .booking-wrapper form {
+    width: 100%;
+}
+
+/* ================= NAVBAR ================= */
+@media (max-width: 992px) {
+    .user-page .navbar .nav-link {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+}
+
+/* ================= TABLET ================= */
+@media (max-width: 992px) {
+
+    .user-page .hero-section h1 {
+        font-size: 40px;
+    }
+
+    .user-page .booking-left {
+        padding: 40px 20px;
+    }
+}
+
+/* ================= HP ================= */
+@media (max-width: 768px) {
+
+    .user-page section {
+        padding: 50px 15px;
+    }
+
+    .user-page .hero-section {
+        text-align: center;
+        padding: 120px 15px;
+    }
+
+    .user-page .hero-section h1 {
+        font-size: 28px;
+    }
+
+    .user-page .hero-section p {
+        font-size: 14px;
+    }
+
+    .galeri-title h2::after {
+        width: 40%;
+        left: 30%;
+    }
+
+    .modal-card {
+        width: 95%;
+    }
+}
+
+/* ================= HP KECIL ================= */
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    .user-page .btn-warning {
+        width: 100%;
+    }
+}

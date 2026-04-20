@@ -1097,3 +1097,113 @@
     font-size: 16px;
 }
 
+/* ================= FIX BUG TEXT VERTICAL ================= */
+button,
+.btn,
+.admin-page button {
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* cegah text turun ke bawah */
+* {
+    word-break: normal !important;
+}
+
+/* ================= FIX GRID & OVERFLOW ================= */
+.admin-page .row {
+    flex-wrap: wrap;
+}
+
+.admin-page .main-content {
+    overflow-x: hidden;
+}
+
+/* ================= FIX IMAGE ================= */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================= JANGAN RUSAK DESKTOP ================= */
+/* kita tidak ubah apa pun di desktop */
+
+/* ================= RESPONSIVE TAMBAHAN ================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+
+    .admin-page .sidebar {
+        width: 70px;
+    }
+
+    .admin-page .admin-hero {
+        padding: 40px 20px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+    /* override BUG kamu yang ini:
+       .sidebar { display:none } */
+    .admin-page .sidebar {
+        display: block !important;
+        position: fixed;
+        left: -260px;
+        top: 0;
+        width: 240px;
+        height: 100%;
+        z-index: 999;
+        transition: 0.3s;
+    }
+
+    .admin-page .sidebar.active {
+        left: 0;
+    }
+
+    /* overlay */
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 998;
+    }
+
+    /* content */
+    .admin-page .main-content {
+        padding: 15px;
+    }
+
+    /* hero */
+    .admin-page .admin-hero {
+        padding: 20px;
+    }
+
+    .admin-page .admin-stats {
+        margin-top: 0;
+    }
+
+    /* tombol full */
+    .btn {
+        width: 100%;
+    }
+}
+
+/* HP KECIL */
+@media (max-width: 480px) {
+
+    .admin-page .login-card {
+        width: 100%;
+    }
+
+    .admin-page .btn-add {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

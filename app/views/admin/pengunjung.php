@@ -4,12 +4,17 @@
 
     <?php include 'layout/sidebar.php'; ?>
 
+        <div v-if="showSidebar"
+            class="sidebar-overlay"
+            @click="showSidebar = false">
+    </div>
+
     <div class="admin-main">
 
         <div class="main-content">
 
             <!--  ROOT VUE HARUS BERSIH -->
-            <div id="appTable">
+            <div id="app">
 
                 <?php include 'layout/topbar.php'; ?>
 
@@ -256,10 +261,6 @@
             </div> <!-- END #app -->
 
         </div> <!-- main-content -->
-        <script>
-        window.pengunjungData = <?= json_encode($pengunjung) ?>;
-        window.selectedTanggal = "<?= $tanggal ?>";
-        </script>
 
         <?php include 'layout/footer.php'; ?>
 

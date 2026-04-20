@@ -1,4 +1,8 @@
-<aside class="sidebar" :class="{ collapsed: !showSidebar }">
+<aside class="sidebar"
+        :class="{
+            active: showSidebar,
+            collapsed: !showSidebar && isDesktop
+        }">
 
     <!-- BRAND -->
     <div class="sidebar-brand">

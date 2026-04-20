@@ -4,6 +4,11 @@
 
 <?php include 'layout/sidebar.php'; ?>
 
+    <div v-if="showSidebar"
+            class="sidebar-overlay"
+            @click="showSidebar = false">
+    </div>
+
 <div class="admin-main">
 <div class="main-content" id="appTable">
 

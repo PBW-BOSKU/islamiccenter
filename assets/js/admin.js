@@ -15,6 +15,9 @@ createApp({
             showErrorPopup: false,
             showSidebar: true,
 
+            howSidebar: false,
+            isDesktop: window.innerWidth > 768,
+
             // DATA PENGUNJUNG
             dataPengunjung: window.pengunjungData || [],
             search: '',
@@ -42,6 +45,8 @@ createApp({
 
                 filterTanggal: window.selectedTanggal || '',
                 showAll: false,
+
+
             }
         }
     },
@@ -136,6 +141,10 @@ createApp({
 
             window.history.replaceState({}, document.title, window.location.pathname);
         }
+
+            window.addEventListener('resize', () => {
+                this.isDesktop = window.innerWidth > 768;
+            });
     },
     
     computed: {
@@ -276,4 +285,4 @@ createApp({
 
     }
 
-}).mount('#appTable');
+}).mount('#app');

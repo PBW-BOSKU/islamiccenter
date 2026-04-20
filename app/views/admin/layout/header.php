@@ -13,6 +13,7 @@ if (!isset($_SESSION['admin'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
 
     <!-- Bootstrap -->
@@ -24,5 +25,5 @@ if (!isset($_SESSION['admin'])) {
 </head>
 
 <body class="admin-page">
-<div id="app"></div>
+<div id="app">
 <div class="admin-layout">
