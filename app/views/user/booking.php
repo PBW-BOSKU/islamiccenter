@@ -1,6 +1,7 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'layout/navbar.php'; ?>
 
+
 <section class="booking-section d-flex align-items-center justify-content-center">
     <div class="container d-flex justify-content-center">
 
@@ -12,7 +13,7 @@
             <div class="row g-0">
 
                 <!-- LEFT PANEL -->
-                <div class="col-md-5 booking-left d-flex flex-column justify-content-center">
+                <div class="col-12 col-lg-5 booking-left d-flex flex-column justify-content-center">
                     <div>
                         <small class="text-uppercase text-warning mb-2 d-block">
                             Peraturan Kunjungan
@@ -57,7 +58,7 @@
                 </div>
 
                 <!-- RIGHT FORM -->
-                <div class="col-md-7 bg-white p-4">
+                <div class="col-12 col-lg-7 bg-white p-4 booking-right">
 
                     <h4 class="fw-bold mb-3">Formulir Pendaftaran</h4>
 
@@ -80,7 +81,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form @submit.prevent="submitBooking">
+                    <form @submit.prevent="submitBooking($event)">
 
                         <div class="mb-3">
                             <label>Nama Lengkap</label>
@@ -151,7 +152,7 @@
 
                                 <div class="progress mt-2" style="height:6px;">
                                     <div class="progress-bar bg-success"
-                                         :style="{ width: kapasitas.persen + '%' }">
+                                        :style="{ width: kapasitas.persen + '%' }">
                                     </div>
                                 </div>
 

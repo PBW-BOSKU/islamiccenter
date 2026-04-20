@@ -223,14 +223,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
             },
 
-            submitBooking() {
+            submitBooking(event) {
 
-            const form = new FormData(document.querySelector('form'));
+                const form = new FormData(event.target);
 
-            fetch('index.php?page=proses_booking', {
-                method: 'POST',
-                body: form
-            })
+                fetch('index.php?page=proses_booking', {
+                    method: 'POST',
+                    body: form
+                })
 
         .then(res => res.json())
         .then(res => {
