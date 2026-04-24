@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="admin-page">
+<body class="admin-page login-page">
 <div id="app">
     
 <div class="login-wrapper d-flex justify-content-center align-items-center">
@@ -23,7 +23,7 @@
 
         <!-- ICON -->
         <div class="login-icon">
-            <img src="/assets/images/logoislamic.jpg" alt="Logo">
+            <img src="/assets/images/menaraislamic.png" alt="Logo">
         </div>
 
         <!-- TITLE -->

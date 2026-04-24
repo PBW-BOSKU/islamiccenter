@@ -20,8 +20,9 @@ if (!isset($_SESSION['admin'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="/assets/css/admin.css?v=1">
+<!-- BENAR — Bootstrap dulu, baru admin.css -->
+<link rel="stylesheet" href="path/to/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/admin.css">
 </head>
 
 <body class="admin-page">

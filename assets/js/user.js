@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
         mounted() {
             console.log("USER APP JALAN ✅");
 
-            // 🔥 AMBIL DATA DARI PHP
             const el = document.getElementById('initialReview');
             if (el) {
                 this.reviews = JSON.parse(el.textContent);
@@ -88,27 +87,47 @@ document.addEventListener("DOMContentLoaded", () => {
                 navbar.classList.toggle('scrolled', window.scrollY > 50);
             },
 
-            handleActiveNav() {
-                const sections = document.querySelectorAll("section");
-                const navLinks = document.querySelectorAll(".nav-link");
+            handleActiveNav(){
 
-                let current = "";
+            const sections=document.querySelectorAll("section[id]");
+            const navLinks=document.querySelectorAll(".nav-link");
 
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - 100;
+            let current="";
 
-                    if (window.scrollY >= sectionTop) {
-                        current = section.getAttribute("id");
-                    }
-                });
+            const scrollPos=window.scrollY + 180;
 
-                navLinks.forEach(link => {
-                    link.classList.remove("active");
+            sections.forEach(section=>{
 
-                    if (link.getAttribute("href") === "#" + current) {
-                        link.classList.add("active");
-                    }
-                });
+            const top=section.offsetTop;
+            const bottom=top + section.offsetHeight;
+
+            if(
+            scrollPos >= top &&
+            scrollPos < bottom
+            ){
+            current=section.id;
+            }
+
+            });
+
+            if(
+            window.innerHeight + window.scrollY
+            >= document.body.offsetHeight - 50
+            ){
+            current="lokasi";
+            }
+
+
+            navLinks.forEach(link=>{
+
+            link.classList.remove("active");
+
+            if(link.getAttribute("href")==="#" + current){
+            link.classList.add("active");
+            }
+
+            });
+
             },
 
             handleGaleri() {

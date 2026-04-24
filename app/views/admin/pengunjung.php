@@ -94,6 +94,7 @@
                                 Menampilkan semua data
                             <?php endif; ?>
                         </div>
+                        <div class="table-responsive mobile-scroll">
                             <table class="table admin-table">
                                 <thead>
                                     <tr>
@@ -123,7 +124,7 @@
                                                 </div>
                                                 <div>
                                                     <strong>{{ p.nama }}</strong><br>
-                                                    <small class="text-muted">{{ p.email || '-' }}</small>
+                                                    <small class="text-muted">{{ p.no_wa || '-' }}</small>
                                                 </div>
                                             </div>
                                         </td>
@@ -132,7 +133,7 @@
 
                                         <td>
                                             <span class="badge bg-light text-dark">
-                                                {{ p.sesi }}
+                                                {{ p.sesi.charAt(0).toUpperCase() + p.sesi.slice(1) }}
                                             </span>
                                         </td>
 
@@ -179,6 +180,7 @@
 
                                 </tbody>
                             </table>
+                            </div>
 
                         </div>
                     </div>

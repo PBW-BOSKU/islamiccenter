@@ -2,7 +2,6 @@
 
 $page = $_GET['page'] ?? 'beranda';
 
-// 🔥 BIAR FILE STATIC TIDAK MASUK ROUTER
 $request = $_SERVER['REQUEST_URI'];
 
 if (strpos($request, '/assets/') !== false) {
@@ -128,6 +127,18 @@ elseif ($page == 'hapus_galeri') {
     require_once 'app/controllers/GaleriController.php';
     $galeri = new GaleriController();
     $galeri->hapus();
+}
+
+elseif ($page == 'review') {
+    require_once 'app/controllers/AdminController.php';
+    $admin = new AdminController();
+    $admin->reviewList();
+}
+
+elseif ($page == 'hapus_review') {
+    require_once 'app/controllers/AdminController.php';
+    $admin = new AdminController();
+    $admin->hapusReview();
 }
 
 elseif ($page == 'update_galeri') {

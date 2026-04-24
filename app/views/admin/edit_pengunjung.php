@@ -41,16 +41,11 @@
     <input v-model="editData.nama" name="nama" class="form-control modern-input">
 </div>
 
-<!-- WA + EMAIL -->
+<!-- WA -->
 <div class="row mb-3">
     <div class="col-md-6">
         <label class="form-label fw-semibold">No WhatsApp</label>
         <input v-model="editData.no_wa" name="no_wa" class="form-control modern-input">
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label fw-semibold">Email</label>
-        <input v-model="editData.email" name="email" class="form-control modern-input">
     </div>
 </div>
 

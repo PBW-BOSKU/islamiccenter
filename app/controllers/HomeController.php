@@ -47,14 +47,13 @@ public function proses_booking() {
     header('Content-Type: application/json');
 
     $nama    = trim($_POST['nama'] ?? '');
-    $email   = trim($_POST['email'] ?? '');
-    $no_hp   = trim($_POST['no_hp'] ?? '');
+    $no_wa   = trim($_POST['no_wa'] ?? '');
     $jumlah  = abs((int)($_POST['jumlah'] ?? 0));
     $tanggal = $_POST['tanggal'] ?? '';
     $sesi    = $_POST['sesi'] ?? 'pagi';
 
     // ================= VALIDASI DASAR =================
-    if (!$nama || !$email || !$no_hp || $jumlah <= 0 || !$tanggal) {
+    if (!$nama || !$no_wa || $jumlah <= 0 || !$tanggal) {
         echo json_encode([
             'status' => 'error',
             'message' => 'Semua field wajib diisi'
@@ -67,15 +66,6 @@ public function proses_booking() {
         echo json_encode([
             'status' => 'error',
             'message' => 'Nama tidak boleh mengandung angka atau simbol aneh'
-        ]);
-        exit;
-    }
-
-    // ================= VALIDASI EMAIL =================
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Email tidak valid'
         ]);
         exit;
     }
@@ -100,18 +90,18 @@ public function proses_booking() {
     }
 
     // ================= NORMALISASI NOMOR =================
-    $no_hp = preg_replace('/[^0-9+]/', '', $no_hp);
+    $no_wa = preg_replace('/[^0-9+]/', '', $no_wa);
 
-    if (substr($no_hp, 0, 3) == '+62') {
-        $no_hp = substr($no_hp, 1);
+    if (substr($no_wa, 0, 3) == '+62') {
+        $no_wa = substr($no_wa, 1);
     }
 
-    if (substr($no_hp, 0, 1) == '0') {
-        $no_hp = '62' . substr($no_hp, 1);
+    if (substr($no_wa, 0, 1) == '0') {
+        $no_wa = '62' . substr($no_wa, 1);
     }
 
     // ================= VALIDASI NOMOR =================
-    if (!preg_match('/^62[0-9]+$/', $no_hp)) {
+    if (!preg_match('/^62[0-9]+$/', $no_wa)) {
         echo json_encode([
             'status' => 'error',
             'message' => 'Nomor WhatsApp tidak valid'
@@ -119,7 +109,7 @@ public function proses_booking() {
         exit;
     }
 
-    $panjang = strlen($no_hp);
+    $panjang = strlen($no_wa);
     if ($panjang < 11 || $panjang > 15) {
         echo json_encode([
             'status' => 'error',
@@ -129,7 +119,7 @@ public function proses_booking() {
     }
 
     // ================= CEK DUPLIKAT =================
-    if (cekBookingDuplikat($email, $tanggal, $sesi)) {
+    if (cekBookingDuplikat($no_wa, $tanggal, $sesi)) {
         echo json_encode([
             'status' => 'error',
             'message' => 'Anda sudah booking di sesi ini'
@@ -155,8 +145,7 @@ public function proses_booking() {
 
     $data = [
         'nama' => $nama,
-        'email' => $email,
-        'no_wa' => $no_hp,
+        'no_wa' => $no_wa,
         'jumlah' => $jumlah,
         'sesi' => $sesi,
         'tanggal_kunjungan' => $tanggal,
@@ -178,7 +167,7 @@ public function proses_booking() {
     $pesan .= "Saya ingin konfirmasi booking:\n\n";
     $pesan .= "Kode Booking: $kode\n";
     $pesan .= "Nama: $nama\n";
-    $pesan .= "No WA: $no_hp\n";
+    $pesan .= "No WA: $no_wa\n";
     $pesan .= "Jumlah: $jumlah orang\n";
     $pesan .= "Tanggal: $tanggal\n";
     $pesan .= "Sesi: $sesi\n\n";

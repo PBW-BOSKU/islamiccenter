@@ -3,8 +3,8 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-custom">
     <div class="container-fluid px-4">
 
-        <a class="navbar-brand fw-bold text-white">
-            Menara Islamic Center Samarinda
+        <a class="navbar-brand" href="#">
+            <img src="assets/images/menaraislamic.png" alt="Logo Menara Islamic Center" width="50" height="auto">
         </a>
 
         <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -36,12 +36,6 @@
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold fs-5" href="#lokasi">Lokasi</a>
-                </li>
-
-                <li class="nav-item ms-3">
-                    <a href="index.php?page=booking" class="btn btn-warning btn-lg fw-bold">
-                        Pesan Tiket
-                    </a>
                 </li>
 
             </ul>

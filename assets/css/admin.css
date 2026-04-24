@@ -1,5 +1,17 @@
-/* ================= ANIMASI ================= / */
+/* =============================================================
+   ADMIN.CSS — Islamic Center Samarinda
+   Refactored: duplikat dihapus, konflik diselesaikan
+   Struktur: Animasi → Login → Layout → Sidebar → Topbar →
+             Hero → Stats → Cards → Table → Gallery → Form →
+             Responsive
+   ============================================================= */
 
+
+/* ============================================================
+   1. ANIMASI
+   ============================================================ */
+
+/* fadeUp — hanya satu definisi (duplikat di bawah dihapus) */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -11,69 +23,78 @@
     }
 }
 
+@keyframes fadeUpAdmin {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes bounce {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
 }
 
 @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-5px); }
+    75%       { transform: translateX(5px); }
+}
+
+@keyframes pulse {
+    0%   { transform: scale(1);   opacity: 1; }
+    50%  { transform: scale(1.6); opacity: 0.5; }
+    100% { transform: scale(1);   opacity: 1; }
 }
 
 .login-error {
     animation: shake 0.4s;
 }
 
-/* BACKDROP */
+
+/* ============================================================
+   2. LOGIN POPUP
+   ============================================================ */
+
 .login-popup {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
-
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
-
     opacity: 0;
     visibility: hidden;
     transition: 0.3s;
     z-index: 9999;
 }
 
-/* ACTIVE */
 .login-popup.active {
     opacity: 1;
     visibility: visible;
 }
 
-/* CONTENT */
 .popup-content {
     background: #fff;
     padding: 30px;
     border-radius: 16px;
     text-align: center;
     width: 300px;
-
     transform: scale(0.7);
     opacity: 0;
     transition: 0.3s;
 }
 
-/* ANIMASI MASUK */
 .login-popup.active .popup-content {
     transform: scale(1);
     opacity: 1;
 }
 
-/* ICON */
 .popup-icon {
     font-size: 40px;
     margin-bottom: 10px;
 }
 
-/* BUTTON */
 .popup-content button {
     margin-top: 15px;
     border: none;
@@ -83,7 +104,10 @@
     border-radius: 8px;
 }
 
-/* ================= GLOBAL ADMIN ================= */
+
+/* ============================================================
+   3. GLOBAL ADMIN
+   ============================================================ */
 
 .admin-page {
     background: #f5f7f6;
@@ -91,14 +115,16 @@
     overflow-x: hidden;
 }
 
-/* ================= LOGIN PAGE ================= */
 
-.admin-page {
+/* ============================================================
+   4. LOGIN PAGE
+   ============================================================ */
+
+.admin-page.login-page {
     background: linear-gradient(135deg, #0f5132, #145c43);
     min-height: 100vh;
 }
 
-/* WRAPPER CENTER */
 .admin-page .login-wrapper {
     height: 100vh;
     display: flex;
@@ -106,49 +132,42 @@
     justify-content: center;
 }
 
-/* CARD */
 .admin-page .login-card {
     width: 350px;
     background: #fff;
     padding: 40px;
     border-radius: 16px;
-
-    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
     animation: fadeUp 0.8s ease;
     transition: 0.3s;
 }
 
-/* HOVER CARD */
 .admin-page .login-card:hover {
     transform: translateY(-5px);
 }
 
-/* ICON */
 .admin-page .login-icon {
     width: 60px;
     height: 60px;
     background: linear-gradient(135deg, #0f5132, #145c43);
     color: #fff;
-
     display: flex;
     align-items: center;
     justify-content: center;
     margin: auto;
-
     border-radius: 12px;
     font-size: 24px;
     overflow: hidden;
-    padding: 8px;
+    padding:0;
 }
 
 .admin-page .login-icon img {
-    width: 150%;
-    height: 150%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    display:block;
 }
 
-/* INPUT */
 .admin-page .login-card input.form-control {
     height: 45px;
     border-radius: 10px;
@@ -156,40 +175,35 @@
     transition: 0.3s;
 }
 
-/* FOCUS EFFECT */
 .admin-page .login-card input:focus {
     border-color: #198754;
-    box-shadow: 0 0 0 3px rgba(25,135,84,0.2);
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.2);
 }
 
-/* BUTTON */
+/* btn-success login — satu definisi komprehensif */
 .admin-page .login-card .btn-success {
     background: linear-gradient(135deg, #0f5132, #198754);
     border: none;
-
     padding: 12px;
     font-weight: bold;
     letter-spacing: 1px;
-
     border-radius: 10px;
     transition: 0.3s;
-
     position: relative;
     overflow: hidden;
 }
 
-/* HOVER */
 .admin-page .login-card .btn-success:hover {
     transform: scale(1.05);
 }
 
-/* SHIMMER EFFECT */
+/* shimmer efek login button */
 .admin-page .login-card .btn-success::after {
     content: '';
     position: absolute;
     width: 30%;
     height: 100%;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.3);
     top: 0;
     left: -100%;
     transform: skewX(-20deg);
@@ -212,201 +226,23 @@
     gap: 8px;
 }
 
-/* ================= LAYOUT ADMIN ================= */
+/* Fix checkbox Bootstrap */
+.admin-page .form-check-input[type="checkbox"] {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 4px !important;
+    transform: none !important;
+}
+
+
+/* ============================================================
+   5. LAYOUT ADMIN
+   ============================================================ */
 
 .admin-page .admin-layout {
     display: flex;
     width: 100%;
 }
-
-/* ================= SIDEBAR ================= */
-
-.admin-page .sidebar {
-    width: 80px; /* default kecil */
-    min-height: 100vh;
-    background: linear-gradient(180deg, #0b3d2e, #145c43);
-    box-shadow: 5px 0 20px rgba(0,0,0,0.1);
-    color: #fff;
-
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    flex-shrink: 0;
-    transition: width 0.35s ease;
-    overflow: hidden;
-}
-
-/* EXPAND SAAT HOVER */
-.admin-page .sidebar:hover {
-    width: 230px;
-}
-
-/* ================= LOGO ================= */
-
-.admin-page .sidebar .logo {
-    font-weight: bold;
-    margin-bottom: 30px;
-    white-space: nowrap;
-
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: 0.3s;
-}
-
-/* ================= NAV ================= */
-
-.admin-page .sidebar .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    height: 45px;
-
-
-    color: rgba(255,255,255,0.7);
-    padding: 0px;
-    border-radius: 8px;
-    margin-bottom: 6px;
-    width: 100%;
-    overflow: hidden;
-    justify-content: center;
-
-    transition: all 0.25s ease;
-}
-
-/* ACTIVE */
-.admin-page .sidebar .nav-link.active {
-    background: #c79a2b;
-    color: #000;
-    font-weight: bold;
-    width: 100%;
-}
-
-/* HOVER */
-.admin-page .sidebar .nav-link:hover {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    transform: translateX(6px);
-}
-
-/* ICON */
-.admin-page .sidebar .icon {
-    font-size: 18px;
-    min-width: 22px;
-    text-align: center;
-    color: #fff;
-    width: 24px;
-    height: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* TEXT */
-.admin-page .sidebar .text {
-    white-space: nowrap;
-
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: 0.3s;
-}
-
-/* ================= BRAND ================= */
-
-.admin-page .sidebar-brand {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-/* LOGO */
-.admin-page .brand-logo {
-    width: 45px;
-    height: 45px;
-    margin: auto;
-
-    border-radius: 12px;
-    overflow: hidden;
-
-    transition: 0.3s ease;
-}
-
-.admin-page .brand-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-
-/* ================= HOVER EFFECT ================= */
-
-/* saat sidebar hover */
-.admin-page .sidebar:hover .brand-logo {
-    width: 60px;
-    height: 60px;
-    box-shadow: 0 0 15px rgba(255,255,255,0.2);
-}
-
-.admin-page .sidebar:hover .brand-text {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ================= USER ================= */
-
-.admin-page .sidebar-user {
-    margin-top: auto;
-    font-size: 13px;
-
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: 0.3s;
-}
-
-/* ================= HOVER EFFECT ================= */
-
-/* tampilkan isi saat hover */
-.admin-page .sidebar:hover .text,
-.admin-page .sidebar:hover .logo,
-.admin-page .sidebar:hover .sidebar-user {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* posisi icon tengah saat kecil */
-.admin-page .sidebar .nav-link {
-    justify-content: center;
-}
-
-/* normal saat hover */
-.admin-page .sidebar:hover .nav-link {
-    justify-content: flex-start;
-}
-
-/* ================= EXTRA EFFECT ================= */
-
-/* garis aktif kiri */
-.admin-page .sidebar .nav-link.active {
-    position: relative;
-}
-
-.admin-page .sidebar .nav-link.active::before {
-    content: '';
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 70%;
-    background: #c79a2b;
-    border-radius: 2px;
-}
-
-/* sedikit glow saat hover sidebar */
-.admin-page .sidebar:hover {
-    box-shadow: 8px 0 30px rgba(0,0,0,0.2);
-}
-
-/* ================= MAIN ================= */
 
 .admin-page .admin-main {
     flex: 1;
@@ -414,7 +250,6 @@
     flex-direction: column;
     width: 100%;
     transition: 0.3s;
-
     min-height: 100vh;
 }
 
@@ -423,18 +258,298 @@
     padding: 25px;
     width: 100%;
     background: #f5f7f6;
+    overflow-x: hidden;
 }
 
-/* ================= TOPBAR ================= */
+
+//* ============================================================
+   6. SIDEBAR FINAL CLEAN (FIXED + MERGED DUPLICATE)
+   ============================================================ */
+
+./* FIXED mobile sidebar background */
+@media(max-width:768px){
+
+.admin-page .sidebar{
+position:fixed;
+left:-260px;
+top:0;
+
+width:240px;
+height:100vh;
+
+background:linear-gradient(180deg,#0b3d2e,#145c43) !important;
+
+box-shadow:5px 0 20px rgba(0,0,0,.15);
+background: rgba(20, 92, 67, 0.95)
+
+
+color:#fff;
+
+z-index:999;
+
+padding:20px 0;
+
+overflow:hidden;
+
+transition:.3s;
+}
+
+.admin-page .sidebar.active{
+left:0;
+}
+
+}
+
+.admin-page .sidebar:hover{
+width:230px;
+box-shadow:8px 0 30px rgba(0,0,0,.2);
+}
+
+
+/* BRAND */
+.admin-page .sidebar-brand{
+display:flex;
+justify-content:center;
+align-items:center;
+width:100%;
+margin-bottom:25px;
+padding:0;
+}
+
+.admin-page .brand-logo{
+width:42px;
+height:42px;
+margin:0 auto;
+border-radius:12px;
+overflow:hidden;
+transition:.3s;
+}
+
+.admin-page .brand-logo img{
+width:100%;
+height:100%;
+object-fit:contain;
+display:block;
+}
+
+.admin-page .sidebar:hover .brand-logo{
+width:60px;
+height:60px;
+}
+
+
+/* NAV WRAPPER */
+.admin-page .sidebar .nav.flex-column{
+padding-left:0 !important;
+margin:0 !important;
+list-style:none;
+width:100%;
+flex-direction:column !important;
+}
+
+
+/* NAV ITEM */
+.admin-page .sidebar .nav.flex-column>.nav-item{
+display:flex;
+justify-content:center;
+align-items:center;
+width:100%;
+padding:0 10px;
+list-style:none;
+}
+
+
+/* NAV LINK — MERGED DUPLICATE */
+.admin-page .sidebar .nav.flex-column>.nav-item>.nav-link{
+display:flex !important;
+align-items:center !important;
+justify-content:center !important;
+
+padding:0 !important;
+
+width:100% !important;
+height:44px !important;
+min-height:44px !important;
+
+box-sizing:border-box !important;
+
+color:rgba(255,255,255,.7) !important;
+text-decoration:none !important;
+
+margin-bottom:4px !important;
+gap:12px;
+
+border-radius:8px;
+
+white-space:nowrap;
+overflow:visible;
+
+transition:all .25s ease;
+
+font-weight:400 !important;
+
+position:relative;
+}
+
+
+/* EXPAND ON HOVER */
+.admin-page .sidebar:hover .nav.flex-column>.nav-item>.nav-link{
+justify-content:flex-start !important;
+padding:0 14px !important;
+}
+
+
+/* ACTIVE */
+.admin-page .sidebar .nav.flex-column>.nav-item>.nav-link.active{
+background:#c79a2b !important;
+color:#000 !important;
+font-weight:bold !important;
+
+display:flex !important;
+align-items:center !important;
+justify-content:center !important;
+
+height:44px !important;
+padding:0 !important;
+}
+
+.admin-page .sidebar:hover .nav.flex-column>.nav-item>.nav-link.active{
+justify-content:flex-start !important;
+padding:0 14px !important;
+}
+
+.admin-page .sidebar .nav.flex-column>.nav-item>.nav-link.active::before{
+content:'';
+position:absolute;
+
+left:-6px;
+top:50%;
+transform:translateY(-50%);
+
+width:4px;
+height:70%;
+
+background:#c79a2b;
+border-radius:2px;
+}
+
+
+/* HOVER */
+.admin-page .sidebar .nav.flex-column>.nav-item>.nav-link:hover{
+background:rgba(255,255,255,.1) !important;
+color:#fff !important;
+transform:none;
+}
+
+
+/* ICON */
+.admin-page .sidebar .icon{
+font-size:18px;
+width:24px;
+height:24px;
+min-width:24px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+line-height:1;
+flex-shrink:0;
+color:inherit;
+}
+
+
+/* TEXT */
+.admin-page .sidebar .text{
+opacity:0;
+transform:translateX(-10px);
+transition:.3s;
+white-space:nowrap;
+flex:1;
+}
+
+.admin-page .sidebar:hover .text{
+opacity:1;
+transform:translateX(0);
+}
+
+
+/* USER */
+.admin-page .sidebar-user{
+margin-top:auto;
+font-size:13px;
+
+opacity:0;
+transform:translateX(-10px);
+
+transition:.3s;
+
+padding:20px;
+}
+
+.admin-page .sidebar:hover .sidebar-user{
+opacity:1;
+transform:translateX(0);
+}
+
+/* FORCE FIX SIDEBAR BG */
+.admin-page aside.sidebar,
+.admin-page .sidebar{
+background:#145c43 !important;
+background-image:linear-gradient(180deg,#0b3d2e,#145c43) !important;
+background-color:#145c43 !important;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media(max-width:768px){
+
+.admin-page .sidebar{
+position:fixed;
+left:-260px;
+top:0;
+
+width:240px;
+height:100%;
+
+z-index:999;
+
+padding:20px 0;
+
+transition:.3s;
+}
+
+.admin-page .sidebar.active{
+left:0;
+}
+
+.admin-page .sidebar.active .nav.flex-column>.nav-item>.nav-link{
+justify-content:flex-start !important;
+padding:0 14px !important;
+}
+
+.admin-page .sidebar.active .text{
+opacity:1 !important;
+transform:translateX(0) !important;
+}
+
+}
+
+
+/* ============================================================
+   7. TOPBAR
+   ============================================================ */
+
 .admin-page .admin-topbar {
     background: #fff;
     padding: 15px 20px;
     border-radius: 12px;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* PROFILE */
 .admin-page .admin-profile {
     cursor: pointer;
     padding: 5px 10px;
@@ -446,24 +561,25 @@
     background: #f5f5f5;
 }
 
-/* AVATAR */
 .admin-page .avatar {
     width: 35px;
     height: 35px;
     background: #198754;
     color: #fff;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
     font-weight: bold;
 }
-/* ================= HERO ================= */
+
+
+/* ============================================================
+   8. HERO
+   ============================================================ */
 
 .admin-page .admin-hero {
-    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
         url('../images/menara.JPG') center/cover;
     color: #fff;
     padding: 60px;
@@ -475,7 +591,7 @@
 .admin-page .hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .admin-page .hero-content {
@@ -488,7 +604,7 @@
     position: absolute;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
     animation: adminRotate 10s linear infinite;
 }
 
@@ -502,12 +618,38 @@
     max-width: 600px;
 }
 
-/* ================= STATS ================= */
+.admin-page.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+}
+
+.admin-page .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUpAdmin 0.6s ease forwards;
+}
+
+
+/* ============================================================
+   9. STATS
+   ============================================================ */
 
 .admin-page .admin-stats {
     margin-top: -50px;
     position: relative;
     z-index: 2;
+}
+
+.admin-page .stat-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
 .admin-page .stat-card::before {
@@ -520,20 +662,9 @@
     background: linear-gradient(90deg, #c79a2b, #0f5132);
 }
 
-.admin-page .stat-card {
-    background: #fff;
-    padding: 25px;
-    border-radius: 14px;
-    border: none;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    transition: 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
 .admin-page .stat-card:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .admin-page .stat-card h3 {
@@ -546,30 +677,32 @@
     color: #198754;
 }
 
-.admin-page input[type="date"] {
-    border-radius: 8px;
-    padding: 6px;
-}
-
 .admin-page .stat-card small {
     display: block;
     margin-bottom: 5px;
 }
 
-/* ================= CARD ================= */
+.admin-page input[type="date"] {
+    border-radius: 8px;
+    padding: 6px;
+}
+
+
+/* ============================================================
+   10. CARDS UMUM
+   ============================================================ */
 
 .admin-page .admin-card {
     border-radius: 14px;
     border: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-    transition: 0.3;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    transition: 0.3s;
 }
 
 .admin-page .admin-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
 }
-/* ================= SECTION TITLE ================= */
 
 .admin-page .section-title {
     border-left: 4px solid #c79a2b;
@@ -577,8 +710,12 @@
     font-weight: 600;
 }
 
-/* ================= QUICK ACTION ================= */
 
+/* ============================================================
+   11. QUICK ACTIONS
+   ============================================================ */
+
+/* FIX: duplikat .quick-btn digabung jadi satu */
 .admin-page .quick-btn {
     width: 100%;
     padding: 12px;
@@ -587,6 +724,8 @@
     margin-bottom: 10px;
     border-radius: 8px;
     text-align: left;
+    text-decoration: none;
+    color: #333;
     transition: 0.3s;
     position: relative;
     overflow: hidden;
@@ -599,17 +738,15 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
     transition: 0.3s;
 }
 
 .admin-page .quick-btn:hover {
     background: #e0ece8;
-    transform: translateX(3px);
-    width: 100%;
+    transform: translateX(4px);
 }
 
-/* QUICK ACTION */
 .admin-page .quick-actions {
     display: flex;
     flex-direction: column;
@@ -620,32 +757,25 @@
     display: flex;
     align-items: center;
     gap: 12px;
-
     padding: 12px;
     border-radius: 10px;
     background: #f8f9fa;
-
     text-decoration: none;
     color: #333;
-
     transition: 0.25s;
 }
 
-/* ICON */
 .admin-page .quick-item .icon {
     width: 40px;
     height: 40px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 10px;
     color: #fff;
     font-size: 18px;
 }
 
-/* TEXT */
 .admin-page .quick-item .info strong {
     display: block;
     font-size: 14px;
@@ -656,15 +786,16 @@
     font-size: 12px;
 }
 
-/* HOVER EFFECT */
 .admin-page .quick-item:hover {
     transform: translateX(6px);
     background: #eef6f3;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 
-/* ================= TABLE ================= */
+/* ============================================================
+   12. TABLE
+   ============================================================ */
 
 .admin-page .table {
     font-size: 14px;
@@ -674,7 +805,6 @@
     vertical-align: middle;
 }
 
-/* LIVE DOT */
 .admin-page .live-dot {
     width: 8px;
     height: 8px;
@@ -683,13 +813,7 @@
     animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.6); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* ROW HOVER */
+/* Row hover — satu definisi bersih (triple duplikat dihapus) */
 .admin-page .table-row {
     transition: 0.2s;
 }
@@ -699,48 +823,35 @@
     transform: scale(1.01);
 }
 
-/* AVATAR */
+/* FIX: avatar-mini — satu ukuran konsisten (32px vs 35px dipilih 35px) */
 .admin-page .avatar-mini {
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
     background: linear-gradient(135deg, #0f5132, #198754);
     color: #fff;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
+    flex-shrink: 0;
 }
 
-/* STATUS BADGE CUSTOM */
 .admin-page .status-badge {
     padding: 5px 10px;
     border-radius: 20px;
     font-size: 12px;
 }
 
-.admin-page .status-badge.success {
-    background: #d1e7dd;
-    color: #0f5132;
-}
-
-.admin-page .status-badge.warning {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.admin-page .status-badge.danger {
-    background: #f8d7da;
-    color: #842029;
-}
-
-.admin-page .status-badge.info {
-    background: #cff4fc;
-    color: #055160;
-}
+.admin-page .status-badge.success    { background: #d1e7dd; color: #0f5132; }
+.admin-page .status-badge.warning    { background: #fff3cd; color: #856404; }
+.admin-page .status-badge.danger     { background: #f8d7da; color: #842029; }
+.admin-page .status-badge.info       { background: #cff4fc; color: #055160; }
+.admin-page .status-badge.Check-in   { background: #d1e7dd; color: #0f5132; }
+.admin-page .status-badge.Tunggu     { background: #fff3cd; color: #856404; }
+.admin-page .status-badge.Dibatalkan { background: #f8d7da; color: #842029; }
+.admin-page .status-badge.Selesai    { background: #cff4fc; color: #055160; }
 
 .admin-page .date-filter {
     border-radius: 8px;
@@ -749,72 +860,171 @@
     height: 32px;
 }
 
-/* ================= FOOTER ================= */
-
-
-
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 768px) {
-
-    .admin-page .sidebar {
-        display: none;
-    }
-
-    .admin-page .admin-hero {
-        padding: 30px;
-    }
-
-    .admin-page .admin-hero h1 {
-        font-size: 24px;
-    }
-
-    .admin-page .admin-stats {
-        margin-top: 0;
-    }
+/* Admin table */
+.admin-page .admin-table {
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-.admin-page .upload-box {
-    border: 2px dashed #ccc;
+.admin-page .admin-table thead {
+    background: #0f5132;
+    color: #fff;
+}
+
+/* FIX: triple duplikat .admin-table tbody tr digabung jadi satu */
+.admin-page .admin-table tbody tr {
+    transition: 0.2s;
+}
+
+.admin-page .admin-table tbody tr:hover {
+    background: #f6fbf8;
+    transform: scale(1.01);
+}
+
+.admin-page .btn-sm {
+    border-radius: 6px;
+}
+
+/* Scoped table hover (non-admin-page context, jika ada) */
+.admin-table tbody tr {
+    transition: 0.2s;
+}
+
+.admin-table tbody tr:hover {
+    background: #f5f7f6;
+    transform: scale(1.01);
+}
+
+
+/* ============================================================
+   13. BUTTONS
+   ============================================================ */
+
+/* btn-success global admin (bukan login card) */
+.admin-page .btn-success {
+    background: linear-gradient(135deg, #0f5132, #198754);
+    border: none;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.admin-page .btn-success:hover {
+    transform: scale(1.05);
+}
+
+/* Btn tambah (kuning) */
+.admin-page .btn-add {
+    background: linear-gradient(135deg, #ffc107, #ffca2c);
+    border: none;
+    color: #000;
+    padding: 10px 16px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: 0.25s;
+}
+
+.admin-page .btn-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3);
+}
+
+.admin-page .btn-add i {
+    font-size: 16px;
+}
+
+/* Btn action (edit/hapus di tabel) */
+.admin-page .btn-action {
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.admin-page .btn-action:hover {
+    transform: scale(1.05);
+}
+
+/* FIX: rule global button yang terlalu luas DIHAPUS
+   (dulu: button, .btn, .admin-page button { width:auto!important })
+   Diganti dengan selector yang lebih spesifik agar tidak
+   override .nav-link dan komponen lain */
+.admin-page .btn:not(.nav-link) {
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   14. FORM & INPUT
+   ============================================================ */
+
+.admin-page .form-control,
+.admin-page .form-select {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.admin-page .modern-input {
+    border-radius: 10px;
+    padding: 12px;
+}
+
+
+/* ============================================================
+   15. GALERI
+   ============================================================ */
+
+.admin-page .galeri-card {
+    background: #fff;
+    padding: 0;
     border-radius: 12px;
-    padding: 30px;
-    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    height: 240px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.admin-page .upload-box:hover {
-    border-color: #0f5132;
-    background: #f3f6f4;
-}
-
-.admin-page .preview-img {
-    max-width: 100%;
-    border-radius: 10px;
-}
-
-.admin-page .galeri-card:hover img {
-    transform: scale(1.1);
+.admin-page .galeri-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .admin-page .galeri-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: 0.4s;
     display: block;
+    transition: 0.4s;
 }
 
-.admin-page .galeri-card {
-    background: #fff;
-    padding: 0;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    position: relative;
-    overflow: hidden;
-    height: 240px;
-    cursor: pointer;
+.admin-page .galeri-card:hover img {
+    transform: scale(1.1);
 }
+
+.admin-page .galeri-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: #fff;
+    padding: 15px;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 2;
+}
+
+.admin-page .galeri-card:hover .galeri-overlay {
+    opacity: 1;
+}
+
+.admin-page .galeri-overlay .btn {
+    pointer-events: auto;
+}
+
+/* FIX: upload-box duplikat digabung — ambil nilai terlengkap */
 .admin-page .upload-box {
     border: 2px dashed #ccc;
     border-radius: 12px;
@@ -826,65 +1036,12 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    text-align: center;
 }
 
 .admin-page .upload-box:hover {
     border-color: #0f5132;
     background: #f3f6f4;
-}
-
-.admin-page .preview-img {
-    max-width: 100%;
-    max-height: 200px;
-    border-radius: 10px;
-    object-fit: cover;
-}
-
-/* input spacing */
-.admin-page .modern-input {
-    border-radius: 10px;
-    padding: 12px;
-}
-
-/* button */
-.admin-page .btn-success {
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-.admin-page .btn-success:hover {
-    transform: scale(1.05);
-}
-
-.admin-page .galeri-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-    color: #fff;
-
-    padding: 15px;
-
-    opacity: 0;
-    transition: 0.3s;
-
-    z-index: 2;
-}
-
-
-.admin-page .galeri-card:hover .galeri-overlay {
-    opacity: 1;
-}
-
-/* BUTTON FIX */
-.admin-page .galeri-overlay .btn {
-    pointer-events: auto;
-}
-.galeri-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 .admin-page .upload-box i {
@@ -896,98 +1053,23 @@
     transform: scale(1.2);
 }
 
-/* ANIMASI */
-.admin-page.fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s ease forwards;
+.admin-page .preview-img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-.admin-page .fade-up {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUpAdmin 0.6s ease forwards;
-}
+/* ============================================================
+   16. PROFILE & MISC
+   ============================================================ */
 
-@keyframes fadeUpAdmin {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* QUICK BTN */
-.admin-page  .quick-btn {
-    background: #f3f6f4;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    text-decoration: none;
-    color: #333;
-    transition: 0.3s;
-}
-
-.admin-page .quick-btn:hover {
-    background: #e0ece8;
-    transform: translateX(4px);
-}
-
-/* TABLE */
-
-.admin-page .admin-table {
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.admin-page .admin-table thead {
-    background: #0f5132;
-    color: #fff;
-}
-
-.admin-page .admin-table tbody tr {
-    transition: 0.3s;
-}
-
-.admin-page .admin-table tbody tr:hover {
-    background: #f3f6f4;
-    transform: scale(1.01);
-}
-
-.admin-table tbody tr {
-    transition: 0.3s;
-}
-
-.admin-table tbody tr:hover {
-    background: #f5f7f6;
-    transform: scale(1.01);
-}
-
-.admin-table tbody tr {
-    transition: 0.2s;
-}
-
-.admin-table tbody tr:hover {
-    background: #f5f7f6;
-    transform: scale(1.01);
-}
-
-.admin-page .btn-sm {
-    border-radius: 6px;
-}
-
-/* PROFILE CARD */
 .profile-card {
     background: #fff;
     padding: 20px;
     border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .profile-img {
@@ -997,7 +1079,6 @@
     object-fit: cover;
 }
 
-/* NOTE */
 .note-box {
     background: #fff;
     padding: 20px;
@@ -1005,136 +1086,28 @@
     border-radius: 10px;
 }
 
-/* INPUT */
-.admin-page .form-control,
-.admin-page .form-select {
-    border-radius: 8px;
-    padding: 10px;
-}
 
-/* BUTTON */
-.admin-page .btn-success {
-    background: linear-gradient(135deg, #0f5132, #198754);
-    border: none;
-}
+/* ============================================================
+   17. GLOBAL IMAGE FIX
+   ============================================================ */
 
-/* FIX CHECKBOX BOOTSTRAP */
-.admin-page .form-check-input[type="checkbox"] {
-    width: 16px !important;
-    height: 16px !important;
-    border-radius: 4px !important; /* ubah dari bulat jadi kotak */
-    transform: none !important;
-}
-
-/* ROW HOVER */
-.admin-page .admin-table tbody tr {
-    transition: 0.2s;
-}
-
-.admin-page .admin-table tbody tr:hover {
-    background: #f6fbf8;
-    transform: scale(1.01);
-}
-
-/* AVATAR */
-.admin-page .avatar-mini {
-    width: 35px;
-    height: 35px;
-    background: linear-gradient(135deg, #0f5132, #198754);
-    color: #fff;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* STATUS */
-.status-badge.Check-in { background:#d1e7dd; color:#0f5132; }
-.status-badge.Tunggu { background:#fff3cd; color:#856404; }
-.status-badge.Dibatalkan { background:#f8d7da; color:#842029; }
-.status-badge.Selesai { background:#cff4fc; color:#055160; }
-
-/* BUTTON */
-.admin-page .btn-action {
-    border-radius: 8px;
-    transition: 0.2s;
-}
-
-.admin-page .btn-action:hover {
-    transform: scale(1.05);
-}
-
-/* BUTTON TAMBAH */
-.admin-page .btn-add {
-    background: linear-gradient(135deg, #ffc107, #ffca2c);
-    border: none;
-    color: #000;
-
-    padding: 10px 16px;
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    font-weight: 500;
-
-    transition: 0.25s;
-}
-
-/* HOVER */
-.admin-page .btn-add:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(255,193,7,0.3);
-}
-
-/* ICON */
-.admin-page .btn-add i {
-    font-size: 16px;
-}
-
-/* ================= FIX BUG TEXT VERTICAL ================= */
-button,
-.btn,
-.admin-page button {
-    white-space: nowrap !important;
-    width: auto !important;
-    min-width: fit-content;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* cegah text turun ke bawah */
-* {
-    word-break: normal !important;
-}
-
-/* ================= FIX GRID & OVERFLOW ================= */
-.admin-page .row {
-    flex-wrap: wrap;
-}
-
-.admin-page .main-content {
-    overflow-x: hidden;
-}
-
-/* ================= FIX IMAGE ================= */
 img {
     max-width: 100%;
     height: auto;
 }
 
-/* ================= JANGAN RUSAK DESKTOP ================= */
-/* kita tidak ubah apa pun di desktop */
+/* FIX: word-break global dihapus (* { word-break: normal !important })
+   Rule itu terlalu agresif dan bisa merusak semua halaman.
+   Diganti hanya untuk konteks admin jika memang perlu: */
+.admin-page {
+    word-break: normal;
+}
 
-/* ================= RESPONSIVE TAMBAHAN ================= */
 
-/* TABLET */
+/* ============================================================
+   18. RESPONSIVE — TABLET (≤992px)
+   ============================================================ */
+
 @media (max-width: 992px) {
 
     .admin-page .sidebar {
@@ -1146,11 +1119,14 @@ img {
     }
 }
 
-/* MOBILE */
+
+/* ============================================================
+   19. RESPONSIVE — MOBILE (≤768px)
+   ============================================================ */
+
 @media (max-width: 768px) {
 
-    /* override BUG kamu yang ini:
-       .sidebar { display:none } */
+    /* Sidebar off-canvas di mobile */
     .admin-page .sidebar {
         display: block !important;
         position: fixed;
@@ -1160,26 +1136,25 @@ img {
         height: 100%;
         z-index: 999;
         transition: 0.3s;
+        padding: 20px 0;
     }
 
     .admin-page .sidebar.active {
         left: 0;
     }
 
-    /* overlay */
+    /* Overlay backdrop mobile */
     .sidebar-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.4);
+        background: rgba(0, 0, 0, 0.4);
         z-index: 998;
     }
 
-    /* content */
     .admin-page .main-content {
         padding: 15px;
     }
 
-    /* hero */
     .admin-page .admin-hero {
         padding: 20px;
     }
@@ -1188,13 +1163,21 @@ img {
         margin-top: 0;
     }
 
-    /* tombol full */
+    .admin-page .admin-hero h1 {
+        font-size: 24px;
+    }
+
+    /* Di mobile, tombol full width diperbolehkan via Bootstrap */
     .btn {
         width: 100%;
     }
 }
 
-/* HP KECIL */
+
+/* ============================================================
+   20. RESPONSIVE — HP KECIL (≤480px)
+   ============================================================ */
+
 @media (max-width: 480px) {
 
     .admin-page .login-card {
@@ -1207,3 +1190,33 @@ img {
     }
 }
 
+
+/* ------------------------------------------------------------
+MOBILE OVERRIDE
+Di mobile sidebar jadi off-canvas, padding boleh kembali
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .admin-page .sidebar {
+        padding: 20px 0 !important;
+    }
+
+    .admin-page .sidebar.active .nav.flex-column > .nav-item > .nav-link {
+        justify-content: flex-start !important;
+        padding: 0 14px !important;
+    }
+
+    .admin-page .sidebar.active .nav.flex-column > .nav-item > .nav-link .text {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+    }
+}
+
+/* FIXED */
+.mobile-scroll{
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+}
+
+.mobile-scroll table{
+min-width:900px; /* biar bisa discroll */
+}

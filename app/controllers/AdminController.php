@@ -56,7 +56,6 @@ class AdminController extends Controller {
 
             $user = $stmt->get_result()->fetch_assoc();
 
-            // 🔐 PASSWORD HASH VERIFY
             if ($user && password_verify($password, $user['password'])) {
 
                 if (session_status() === PHP_SESSION_NONE) {
@@ -188,6 +187,43 @@ class AdminController extends Controller {
 
         return $this->redirect("index.php?page=pengunjung");
     }
+
+    /* ================= REVIEW LIST ================= */
+public function reviewList() {
+    $this->checkAuth();
+
+    require_once __DIR__ . '/../models/ReviewModel.php';
+    $model = new ReviewModel();
+
+    $reviews = $model->getAll();
+
+    $success = $_GET['success'] ?? null;
+    $error   = $_GET['error']   ?? null;
+
+    $this->view('admin/review', compact('reviews', 'success', 'error'));
+}
+
+/* ================= HAPUS REVIEW ================= */
+public function hapusReview() {
+    $this->checkAuth();
+
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+    if ($id <= 0) {
+        return $this->redirect("index.php?page=review&error=invalid_id");
+    }
+
+    require_once __DIR__ . '/../models/ReviewModel.php';
+    $model = new ReviewModel();
+
+    $result = $model->deleteById($id);
+
+    if ($result) {
+        return $this->redirect("index.php?page=review&success=hapus_review");
+    }
+
+    return $this->redirect("index.php?page=review&error=hapus_gagal");
+}
 
     /* ================= EDIT FORM ================= */
     public function editForm() {

@@ -112,6 +112,16 @@
                 </div>
             </a>
 
+            <a href="index.php?page=review" class="quick-item">
+            <div class="icon bg-info">
+                <i class="bi bi-chat-quote"></i>
+            </div>
+            <div class="info">
+                <strong>Kelola Review</strong>
+                <small>Lihat & hapus ulasan</small>
+            </div>
+            </a>
+
         </div>
 
     </div>
@@ -176,7 +186,7 @@
                                 </div>
                                 <div>
                                     <strong><?= $p['nama'] ?></strong><br>
-                                    <small class="text-muted"><?= $p['email'] ?? '-' ?></small>
+                                    <small class="text-muted"><?= $p['no_wa'] ?? '-' ?></small>
                                 </div>
                             </div>
                         </td>
@@ -184,7 +194,7 @@
                         <!-- SESI -->
                         <td>
                             <span class="badge bg-light text-dark">
-                                <?= $p['sesi'] ?>
+                                <?= ucfirst($p['sesi']) ?>
                             </span>
                         </td>
 

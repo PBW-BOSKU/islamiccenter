@@ -1,13 +1,11 @@
 <aside class="sidebar"
         :class="{
-            active: showSidebar,
-            collapsed: !showSidebar && isDesktop
-        }">
+            active: showSidebar}">
 
     <!-- BRAND -->
     <div class="sidebar-brand">
         <div class="brand-logo">
-            <img src="/assets/images/logoislamic.jpg" alt="Logo">
+            <img src="/assets/images/menaraislamic.png" alt="Logo">
         </div>
     </div>
 
@@ -37,11 +35,13 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="index.php?page=review"
+                class="nav-link <?= ($_GET['page'] ?? '') == 'review' ? 'active' : '' ?>">
+                    <i class="bi bi-chat-quote icon"></i>
+                    <span class="text">Review</span>
+                </a>
+            </li>
     </ul> 
-
-    <div class="sidebar-user mt-auto">
-        <strong>Admin</strong><br>
-        <small>Administrator</small>
-    </div>
 
 </aside>

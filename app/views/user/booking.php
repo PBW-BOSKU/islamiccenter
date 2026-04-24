@@ -67,7 +67,6 @@
                         'nama' => 'Nama tidak boleh mengandung angka atau simbol aneh',
                         'nomor' => 'Nomor WhatsApp tidak valid',
                         'panjang_nomor' => 'Panjang nomor tidak sesuai',
-                        'email' => 'Email tidak valid',
                         'tanggal' => 'Tanggal tidak boleh di masa lalu',
                         'jumlah' => 'Jumlah orang harus antara 1 - 200',
                         'duplikat' => 'Anda sudah booking di sesi ini',
@@ -89,24 +88,19 @@
                             type="text"
                             name="nama"
                             class="form-control"
-                            placeholder="Nama Lengkap"
+                            placeholder="Masukkan Nama Lengkap"
                             oninput="this.value = this.value.replace(/[0-9]/g, '')"
                             required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label>No Telepon / WhatsApp</label>
                             <input 
                                 type="tel"
-                                name="no_hp"
+                                name="no_wa"
                                 class="form-control modern-input"
                                 maxlength="15"
-                                placeholder="62812xxxxxxx"
+                                placeholder="Masukkan Nomor WhatsApp"
                                 oninput="
                                     this.value = this.value.replace(/[^0-9]/g, '');
                                     if(this.value.startsWith('0')){
@@ -132,7 +126,7 @@
                                     min="1"
                                     max="200"
                                     step="1"
-                                    placeholder="Jumlah Orang"
+                                    placeholder="Masukkan Jumlah Orang"
                                     oninput="
                                         if(this.value < 1) this.value = 1;
                                         if(this.value > 200) this.value = 200;

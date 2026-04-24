@@ -5,7 +5,6 @@ createApp({
     data() {
         return {
             nama: '',
-            email: '',
             no_wa: '',
             jumlah: 1,
             sesi: 'Pagi',
@@ -37,7 +36,6 @@ createApp({
                 editPreview: null,
 
                 nama: '',
-                email: '',
                 no_wa: '',
                 jumlah: 1,
                 sesi: 'Pagi',
@@ -107,6 +105,11 @@ createApp({
                     message = 'Data pengunjung berhasil diperbarui';
                 } else if (success === 'hapus_pengunjung') {
                     message = 'Pengunjung berhasil dihapus';
+                }
+
+                // ================= REVIEW ================= 
+                else if (success === 'hapus_review') {
+                    message = 'Review berhasil dihapus';
                 }
 
                 if (message) {
@@ -213,10 +216,9 @@ createApp({
             }
         },
 
-        openEditPengunjung(id, nama, email, no_wa, jumlah, sesi, status) {
+        openEditPengunjung(id, nama,no_wa, jumlah, sesi, status) {
             this.editData.id = id;
             this.editData.nama = nama;
-            this.editData.email = email;
             this.editData.no_wa = no_wa;
             this.editData.jumlah = jumlah;
             this.editData.sesi = sesi;

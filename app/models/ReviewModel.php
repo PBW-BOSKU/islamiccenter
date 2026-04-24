@@ -59,4 +59,36 @@ class ReviewModel {
 
         return $id;
     }
+
+/* ================= HAPUS BY ID ================= */
+        public function deleteById($id) {
+
+            $id = (int)$id;
+
+            if ($id <= 0) {
+                return false;
+            }
+
+            $stmt = $this->conn->prepare("
+                DELETE FROM review WHERE id = ?
+            ");
+
+            if (!$stmt) {
+                error_log("Prepare failed (deleteById): " . $this->conn->error);
+                return false;
+            }
+
+            $stmt->bind_param("i", $id);
+
+            if (!$stmt->execute()) {
+                error_log("Execute failed (deleteById): " . $stmt->error);
+                return false;
+            }
+
+            $affected = $stmt->affected_rows;
+            $stmt->close();
+
+            // Kembalikan true jika ada baris yang terhapus
+            return $affected > 0;
+        }
 }

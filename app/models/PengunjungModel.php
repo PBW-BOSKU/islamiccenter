@@ -41,8 +41,8 @@ function tambahPengunjung($data) {
 
     $stmt = $conn->prepare("
         INSERT INTO pengunjung 
-        (nama, email, no_wa, jumlah, sesi, tanggal_kunjungan, status, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+        (nama, no_wa, jumlah, sesi, tanggal_kunjungan, status, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, NOW())
     ");
 
     if (!$stmt) {
@@ -51,9 +51,8 @@ function tambahPengunjung($data) {
     }
 
     $stmt->bind_param(
-        "sssisss",
+        "ssisss",
         $data['nama'],
-        $data['email'],
         $data['no_wa'],
         $data['jumlah'],
         $data['sesi'],
@@ -77,7 +76,6 @@ function updatePengunjung($data) {
     $stmt = $conn->prepare("
         UPDATE pengunjung SET
         nama=?,
-        email=?,
         no_wa=?,
         jumlah=?,
         sesi=?,
@@ -89,9 +87,8 @@ function updatePengunjung($data) {
     if (!$stmt) return false;
 
     $stmt->bind_param(
-        "sssisssi",
+        "ssisssi",
         $data['nama'],
-        $data['email'],
         $data['no_wa'],
         $data['jumlah'],
         $data['sesi'],
@@ -203,16 +200,16 @@ function getStatistikByTanggal($tanggal) {
     return $data;
 }
 
-function cekBookingDuplikat($email, $tanggal, $sesi) {
+function cekBookingDuplikat($no_wa, $tanggal, $sesi) {
     global $conn;
 
     $stmt = $conn->prepare("
         SELECT id FROM pengunjung 
-        WHERE email = ? AND tanggal_kunjungan = ? AND sesi = ?
+        WHERE no_wa = ? AND tanggal_kunjungan = ? AND sesi = ?
         LIMIT 1
     ");
 
-    $stmt->bind_param("sss", $email, $tanggal, $sesi);
+    $stmt->bind_param("sss", $no_wa, $tanggal, $sesi);
     $stmt->execute();
 
     return $stmt->get_result()->num_rows > 0;

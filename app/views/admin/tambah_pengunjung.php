@@ -26,16 +26,12 @@
 
 <form action="index.php?page=tambah_pengunjung" method="POST">
 
-    <!-- NAMA + EMAIL -->
+    <!-- NAMA -->
     <div class="row mb-3">
         <div class="col-md-6">
             <label class="form-label fw-semibold">Nama</label>
-            <input v-model="nama" name="nama" class="form-control modern-input" required>
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label fw-semibold">Email</label>
-            <input v-model="email" name="email" type="email" class="form-control modern-input" required>
+            <input v-model="nama" name="nama" class="form-control modern-input" 
+            placeholder="Masukkan Nama" required>
         </div>
     </div>
 
@@ -44,12 +40,23 @@
         <div class="col-md-6">
             <label class="form-label fw-semibold">No WhatsApp</label>
             <input v-model="no_wa" name="no_wa" type="text" class="form-control modern-input" 
-                placeholder="08xxxxxxxxxx" required>
-        </div>
+                placeholder="Masukkan Nomor WhatsApp" 
+                maxlength="15"
+                placeholder="Masukkan Nomor WhatsApp"
+                oninput="
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    if(this.value.startsWith('0')){
+                        this.value = '62' + this.value.substring(1);
+                    }
+                "
+                required>
+    </div>
+
 
         <div class="col-md-6">
             <label class="form-label fw-semibold">Jumlah Pengunjung</label>
-            <input v-model="jumlah" name="jumlah" type="number" min="1" class="form-control modern-input" required>
+            <input v-model="jumlah" name="jumlah" type="number" min="1" class="form-control modern-input" 
+            placeholder="Masukkan Jumlah Pengunjung" required>
         </div>
     </div>
 
@@ -57,7 +64,8 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <label class="form-label fw-semibold">Tanggal Kunjungan</label>
-            <input v-model="tanggal" type="date" name="tanggal_kunjungan" class="form-control modern-input" required>
+            <input v-model="tanggal" type="date" name="tanggal_kunjungan" class="form-control modern-input" 
+            placeholder="Pilih Tanggal" required>
         </div>
 
         <div class="col-md-6">
@@ -112,11 +120,6 @@
         <div>
             <span class="text-muted">Nama</span><br>
             <strong>{{ nama || '-' }}</strong>
-        </div>
-
-        <div>
-            <span class="text-muted">Email</span><br>
-            {{ email || '-' }}
         </div>
 
         <div>

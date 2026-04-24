@@ -1,11 +1,20 @@
-.booking-right {
-    background: red;
+/* ================= GLOBAL BACKGROUND ================= */
+.user-page{
+background:linear-gradient(to bottom,#f5f7f6,#eef2f1);
+font-family:'Inter',sans-serif;
 }
 
-/* ================= GLOBAL BACKGROUND ================= */
-.user-page {
-    background: linear-gradient(to bottom, #f5f7f6, #eef2f1);
-    font-family: 'Segoe UI', sans-serif;
+h1,h2,h3,h4,h5,
+.navbar-brand,
+.nav-link,
+.section-title{
+font-family:'Poppins',sans-serif;
+}
+
+.hero-section h1,
+.filosofi-section h2{
+font-family:'Cormorant Garamond',serif;
+font-weight:700;
 }
 
 
@@ -86,25 +95,17 @@
     left: 0;
     width: 100%;
     height: 120px;
-
-background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,0.2) 30%,
-    rgba(0,0,0,0.4) 60%,
-    #f3f6f4 100%
-);
-
     z-index: 2;
 }
 
 
-/* ================= NAVBAR MODERN ================= */
+/* ================= NAVBAR ================= */
 /* NAVBAR BASE */
 .user-page .navbar-custom {
     padding: 22px 0;
     transition: all 0.3s ease;
     background: transparent;
+    border-bottom:1px solid rgba(255,255,255,.1);
 }
 
 /* SAAT SCROLL */
@@ -188,6 +189,18 @@ background: linear-gradient(
     font-size: 19px !important;
     font-weight: 700 !important;
     letter-spacing: 0.5px;
+}
+
+.user-page .navbar-brand{
+padding:0;
+display:flex;
+align-items:center;
+}
+
+.user-page .navbar-brand img{
+width:80px;
+height:auto;
+display:block;
 }
 
 /* ================= GALERI ================= */
@@ -284,8 +297,8 @@ background: linear-gradient(
 }
 
 .user-page .galeri-item .overlay p {
-    font-size: 14px;
-    opacity: 0.;
+    font-size:14px;
+    opacity:.9;
 }
 
 /* shadow */
@@ -294,7 +307,7 @@ background: linear-gradient(
 }
 
 .galeri-wrapper {
-    max-width: 1100px;
+    max-width: 1400px;
     margin: auto;
 }
 
@@ -604,14 +617,18 @@ background: linear-gradient(
     box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     transition: 0.3s;
     min-height: 300px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
 }
 
 /* IMAGE DI CARD */
 .user-page .fasilitas-card img {
     width: 100%;
-    height: 180px;
+    height: 220px;
     object-fit: cover;
     transition: 0.4s;
+    flex-shrink:0;
 }
 
 /* CONTENT */
@@ -642,6 +659,9 @@ background: linear-gradient(
     color: #555;
     margin: 0;
     line-height: 1.6;
+    flex-grow:1;
+    line-height:1.6;
+    margin-bottom:0;
 }
 
 /* HOVER EFFECT */
@@ -658,6 +678,7 @@ background: linear-gradient(
 .user-page .fasilitas-section .row {
     margin-left: auto;
     margin-right: auto;
+    align-items:stretch;
 }
 
 .user-page .fasilitas-section {
@@ -724,6 +745,8 @@ background: linear-gradient(
     background: #fff;
     box-shadow: 0 30px 80px rgba(0,0,0,0.25);
     animation: fadeUp 0.8s ease;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .user-page {
@@ -741,10 +764,23 @@ background: linear-gradient(
     background: linear-gradient(180deg, #0b3d2e, #145c43, #0f5132);
     position: relative;
     animation: slideLeft 0.8s ease;
+    color: #fff;
+    flex:0 0 41%;
+    min-width:320px;
+}
+
+.user-page .booking-right{
+    flex:1 1 59%;
+    min-width:0;
+    display:block;
+    overflow:hidden;
+    position:relative;
+    z-index:2;
 }
 
 .booking-section {
     overflow-y: auto;
+    overflow: visible;
 }
 
 /* garis aksen */
@@ -901,10 +937,6 @@ background: linear-gradient(
 
 /* ================= BOOKING LEFT TEXT ================= */
 
-/* semua teks jadi putih */
-.user-page .booking-left {
-    color: #fff;
-}
 
 /* judul */
 .user-page .booking-left h2 {
@@ -1057,14 +1089,21 @@ background: linear-gradient(
 }
 
 .galeri-card {
-    min-width: 260px;
-    height: 180px;
+    min-width: 420px;
+    height: 300px;
     border-radius: 14px;
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
     cursor: pointer;
     transition: transform 0.3s ease;
+}
+
+/* FIXED */
+.galeri-container{
+max-width:1400px;
+margin:auto;
+padding:0 60px;
 }
 
 .galeri-card:hover {
@@ -1113,10 +1152,6 @@ background: linear-gradient(
     box-shadow: 0 10px 25px rgba(199,154,43,0.4);
 }
 
-/* ================= BOOKING DEPTH ================= */
-.user-page .booking-wrapper {
-    box-shadow: 0 20px 50px rgba(0,0,0,0.18);
-}
 
 /* ================= MICRO INTERACTION ================= */
 
@@ -1258,12 +1293,13 @@ p {
 
 /* ================= GALERI FIX ================= */
 .user-page .galeri-item {
-    height: auto;
-    aspect-ratio: 4/3; /* 🔥 biar konsisten */
+    height:380px;
+    aspect-ratio:auto;
 }
 
 .user-page .galeri-item.besar {
-    aspect-ratio: 16/9;
+    height:520px;
+    aspect-ratio:auto;
 }
 
 /* ================= GRID AUTO RESPONSIVE ================= */
@@ -1289,11 +1325,41 @@ p {
     min-height: auto;
 }
 
-/* ================= BOOKING ================= */
-.user-page .booking-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+/* FIXED */
+.mobile-menu-btn{
+display:none;
+width:42px;
+height:42px;
+border:none;
+background:#145c43;
+border-radius:12px;
+align-items:center;
+justify-content:center;
+padding:0;
+box-shadow:0 6px 16px rgba(0,0,0,.15);
+transition:.3s;
 }
+
+.mobile-menu-btn i{
+font-size:22px;
+color:#fff;
+}
+
+.mobile-menu-btn:hover{
+background:#0f5132;
+transform:translateY(-2px);
+}
+
+
+/* hanya muncul di mobile */
+@media(max-width:992px){
+
+.mobile-menu-btn{
+display:flex;
+}
+
+}
+
 
 
 /* ================= NAVBAR ================= */
@@ -1365,3 +1431,4 @@ p {
         width: 100%;
     }
 }
+
