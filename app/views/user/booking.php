@@ -161,25 +161,33 @@
                         <div class="mb-3">
                             <label class="mb-2">Pilih Sesi</label>
 
-                            <div class="d-flex gap-3">
+                                <div class="d-flex gap-3 flex-wrap"><!-- FIXED: flex-wrap agar 3 kartu tidak pecah di layar kecil -->
 
-                                <label class="session-card flex-fill">
-                                    <input type="radio" name="sesi" value="pagi" checked>
-                                    <div>
-                                        <strong>Sesi Pagi</strong><br>
-                                        <small>08:00 - 12:00</small>
-                                    </div>
-                                </label>
+                                    <label class="session-card flex-fill">
+                                        <input type="radio" name="sesi" value="pagi" checked>
+                                        <div>
+                                            <strong>Sesi Pagi</strong><br>
+                                            <small>08:00 - 11:00</small>
+                                        </div>
+                                    </label>
 
-                                <label class="session-card flex-fill">
-                                    <input type="radio" name="sesi" value="sore">
-                                    <div>
-                                        <strong>Sesi Sore</strong><br>
-                                        <small>13:00 - 17:00</small>
-                                    </div>
-                                </label>
+                                    <label class="session-card flex-fill">
+                                        <input type="radio" name="sesi" value="siang"><!-- FIXED: sesi baru -->
+                                        <div>
+                                            <strong>Sesi Siang</strong><br>
+                                            <small>11:30 - 14:30</small>
+                                        </div>
+                                    </label>
 
-                            </div>
+                                    <label class="session-card flex-fill">
+                                        <input type="radio" name="sesi" value="sore">
+                                        <div>
+                                            <strong>Sesi Sore</strong><br>
+                                            <small>15:00 - 18:00</small>
+                                        </div>
+                                    </label>
+
+                                </div>
                         </div>
 
                         <button class="btn btn-warning w-100 mt-3">

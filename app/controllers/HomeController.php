@@ -144,6 +144,7 @@ public function proses_booking() {
     $total = $jumlah * 15000;
 
     $data = [
+        'kode_booking' => $kode, /* FIXED */
         'nama' => $nama,
         'no_wa' => $no_wa,
         'jumlah' => $jumlah,

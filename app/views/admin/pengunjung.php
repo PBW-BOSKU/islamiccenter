@@ -129,7 +129,7 @@
                                             </div>
                                         </td>
 
-                                        <td>#{{ p.id }}</td>
+                                        <td>{{ p.kode_booking }}</td>
 
                                         <td>
                                             <span class="badge bg-light text-dark">
@@ -145,36 +145,39 @@
                                             </span>
                                     </td>
 
-                                    <td class="d-flex gap-2 flex-wrap">
+                                    <td class="action-cell">
+                                        <div class="action-group">
 
-                                        <a :href="'index.php?page=edit_pengunjung&id=' + p.id" 
+                                        <a :href="'index.php?page=edit_pengunjung&id=' + p.id"
                                         class="btn btn-sm btn-warning">
-                                            Edit
+                                        Edit
                                         </a>
 
-                                        <button 
-                                            class="btn btn-sm btn-danger"
-                                            @click="confirmDelete('index.php?page=hapus_pengunjung&id=' + p.id)">
-                                            Hapus
+                                        <button
+                                        class="btn btn-sm btn-danger"
+                                        @click="confirmDelete('index.php?page=hapus_pengunjung&id=' + p.id)">
+                                        Hapus
                                         </button>
 
                                         <a v-if="p.status === 'Dibayar'"
                                         :href="'https://wa.me/' + p.no_wa + '?text=' + encodeURIComponent(
-                                                '🎫 TIKET KUNJUNGAN\n\n' +
-                                                'Kode Booking: ' + p.kode_booking + '\n' +
-                                                'Nama: ' + p.nama + '\n' +
-                                                'Tanggal: ' + p.tanggal_kunjungan + '\n' +
-                                                'Sesi: ' + p.sesi + '\n' +
-                                                'Jumlah: ' + p.jumlah + ' orang\n\n' +
-                                                'Status: DIBAYAR\n\n' +
-                                                'Tunjukkan tiket ini saat masuk.\nTerima kasih 🙏'
-                                            )"
+                                        'TIKET KUNJUNGAN\n\n' +
+                                        'Kode Booking: ' + p.kode_booking + '\n' +
+                                        'Nama: ' + p.nama + '\n' +
+                                        'Tanggal: ' + p.tanggal_kunjungan + '\n' +
+                                        'Sesi: ' + p.sesi + '\n' +
+                                        'Jumlah: ' + p.jumlah + ' orang'
+                                        )"
                                         target="_blank"
                                         class="btn btn-sm btn-success">
-                                            Kirim Tiket
+                                        Kirim Tiket
                                         </a>
 
-                                    </td>
+                                        <span v-else class="ticket-placeholder"></span>
+
+                                        </div>
+
+                                        </td>
 
                                     </tr>
 

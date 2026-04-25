@@ -41,8 +41,8 @@ function tambahPengunjung($data) {
 
     $stmt = $conn->prepare("
         INSERT INTO pengunjung 
-        (nama, no_wa, jumlah, sesi, tanggal_kunjungan, status, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, NOW())
+        (kode_booking, nama, no_wa, jumlah, sesi, tanggal_kunjungan, status, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
     ");
 
     if (!$stmt) {
@@ -51,7 +51,8 @@ function tambahPengunjung($data) {
     }
 
     $stmt->bind_param(
-        "ssisss",
+        "ssiisss",
+        $data['kode_booking'],
         $data['nama'],
         $data['no_wa'],
         $data['jumlah'],

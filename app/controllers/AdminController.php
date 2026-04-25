@@ -79,7 +79,7 @@ class AdminController extends Controller {
         session_unset();
         session_destroy();
 
-        return $this->redirect("index.php?page=beranda&success=logout");
+        return $this->redirect("index.php?page=beranda");
     }
 
     /* ================= DASHBOARD ================= */

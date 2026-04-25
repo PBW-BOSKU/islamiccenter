@@ -1,10 +1,10 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'layout/navbar.php'; ?>
 
-<div id="app">
+<div id="app" v-cloak>
 
 <!-- ================= HERO ================= -->
-<section id="beranda" class="hero-section text-white fade-section">
+<section id="beranda" class="hero-section text-white fade-section cinematic-parallax">
     <div class="container">
 
         <transition name="fade-up">
@@ -55,7 +55,7 @@
             <?php if (!empty($galeri)): ?>
                 <?php foreach ($galeri as $g): ?>
 
-                <div class="galeri-card"
+                <div class="galeri-card reveal stagger-1 tilt-card"
                     @click="openImage(
                         'assets/images/<?= $g['gambar'] ?>',
                         '<?= htmlspecialchars($g['judul']) ?>',
@@ -87,7 +87,7 @@
 
 
 <!-- ================= MODAL ================= -->
-<div v-if="selectedImage !== null" class="galeri-modal" @click="closeImage">
+<div v-if="selectedImage" v-cloak class="galeri-modal" @click="closeImage">
 
     <div class="modal-card" @click.stop>
 
@@ -123,7 +123,7 @@
             <div class="col-md-6">
 
                 <transition name="fade-up">
-                    <div v-if="showFilosofi">
+                    <div>
 
                         <small class="text-uppercase text-muted">
                             FILOSOFI ISLAMIC
@@ -136,23 +136,29 @@
                         <div class="d-flex flex-column gap-3">
 
                             <!-- CARD 1 -->
-                            <div class="filosofi-card">
+                            <div class="filosofi-card reveal">
+                                <div class="tilt-card">
                                 <h5>Menara Islamic Center Samarinda</h5>
                                 <p>Menara utama setinggi 99 meter melambangkan Asmaul Husna (99 nama Allah), 
                                     sebagai pengingat keagungan dan sifat-sifat Allah</p>
+                                </div>
                             </div>
 
                             <!-- CARD 2 -->
-                            <div class="filosofi-card">
+                            <div class="filosofi-card reveal">
+                                <div class="tilt-card">
                                 <h5>Bentuk Ahad pada Ceiling</h5>
                                 <p>Ornamen ini terinspirasi dari bentuk tulisan “Ahad” dalam huruf Arab. 
                                     Tidak termasuk kaligrafi, melainkan hanya mengambil bentuk visualnya sebagai elemen desain.</p>
+                                </div>
                             </div>
 
                             <!-- CARD 3 -->
-                            <div class="filosofi-card">
+                            <div class="filosofi-card reveal">
+                                <div class="tilt-card">
                                 <h5>Masjid Baitul Muttaqien</h5>
                                 <p>Masjid megah di tepi Sungai Mahakam ini melambangkan rukun Islam melalui lima pintu gerbangnya.</p>
+                                </div>
                             </div>
 
                         </div>
@@ -180,10 +186,9 @@
 
             <!-- CARD 1 -->
             <div class="col-md-6">
-                <div class="fasilitas-card">
-
+                <div class="fasilitas-card reveal">
+                    <div class="tilt-card">
                     <img src="assets/images/cafeteria.jpg" class="fasilitas-img">
-
                     <div class="content">
                         <h5>Cafeteria Nyaman</h5>
                         <p>
@@ -191,16 +196,15 @@
                             cocok untuk beristirahat setelah berkeliling.
                         </p>
                     </div>
-
+                </div>
                 </div>
             </div>
 
             <!-- CARD 2 -->
             <div class="col-md-6">
-                <div class="fasilitas-card">
-
+                <div class="fasilitas-card reveal">
+                    <div class="tilt-card">
                     <img src="assets/images/lift.jpg">
-
                     <div class="content">
                         <h5>Akses Lift Modern</h5>
                         <p>
@@ -208,16 +212,15 @@
                             aman, dan nyaman.
                         </p>
                     </div>
-
+                </div>
                 </div>
             </div>
 
             <!-- CARD 3 -->
             <div class="col-md-6">
-                <div class="fasilitas-card">
-
+                <div class="fasilitas-card reveal">
+                    <div class="tilt-card">
                     <img src="assets/images/parkiran.jpeg" class="fasilitas-img">
-
                     <div class="content">
                         <h5>Area Parkir yang luas</h5>
                         <p>
@@ -225,26 +228,24 @@
                         serta mampu menampung berbagai jenis kendaraan dengan nyaman dan aman bagi pengunjung.
                         </p>
                     </div>
-
+                </div>
                 </div>
             </div>
             
             <!-- CARD 4 -->
             <div class="col-md-6">
-                <div class="fasilitas-card">
-
+                <div class="fasilitas-card reveal">
+                    <div class="tilt-card">
                     <img src="assets/images/informasi.jpeg" class="fasilitas-img">
-
                     <div class="content">
                         <h5>Informasi terkait menara</h5>
                         <p>
                         Menara ini menjadi ikon utama dengan pemandangan indah dari ketinggian.
                         </p>
                     </div>
-
                 </div>
             </div>
-
+        </div>
         </div>
 </section>
 
@@ -342,7 +343,7 @@
             <template v-if="reviews.length > 0">
 
                 <div class="col-md-4" v-for="r in reviews" :key="r.id">
-                    <div class="review-card">
+                    <div class="review-card reveal tilt-card">
 
                         <div class="stars">
                             {{ '⭐'.repeat(r.rating) }}
@@ -378,7 +379,7 @@
         </div>
 
         <!-- MAP CARD -->
-        <div class="map-card">
+        <div class="map-card reveal float-depth">
 
             <iframe 
                 src="https://www.google.com/maps?q=Islamic+Center+Samarinda&output=embed"

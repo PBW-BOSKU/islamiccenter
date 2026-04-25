@@ -1,6 +1,11 @@
 const { createApp } = Vue;
 
 document.addEventListener("DOMContentLoaded", () => {
+    if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+    window.scrollTo(0,0);
 
     createApp({
 
@@ -13,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 tanggal: '',
                 kapasitas: null,
 
-                selectedImage: null,
+                selectedImage: '',
                 selectedTitle: '',
                 selectedDesc: '',
 
@@ -36,20 +41,58 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("USER APP JALAN ✅");
 
             const el = document.getElementById('initialReview');
+
             if (el) {
                 this.reviews = JSON.parse(el.textContent);
             }
 
-            console.log("DATA REVIEW:", this.reviews); // debug
+            console.log("DATA REVIEW:", this.reviews);
 
-            this.selectedImage = null;
-            this.selectedTitle = '';
-            this.selectedDesc = '';
+            window.scrollTo({
+                top:0,
+                left:0,
+                behavior:'instant'
+            });
 
             this.showHero = true;
 
-            window.addEventListener('scroll', this.handleScroll);
-            this.handleScroll();
+            window.addEventListener(
+                'scroll',
+                this.handleScroll,
+                { passive:true }
+            );
+
+            this.$nextTick(()=>{
+
+                window.scrollTo(0,0);
+
+                this.handleScroll();
+
+                this.initReveal();
+
+                this.initTiltCards();
+
+                setTimeout(()=>{
+                    this.showFilosofi = true;
+                },150);
+
+            });
+
+            window.addEventListener('load',()=>{
+
+                this.handleFilosofi();
+
+            });
+
+        },
+
+        beforeUnmount() {
+
+            window.removeEventListener(
+            'scroll',
+            this.handleScroll
+            );
+
         },
 
         methods: {
@@ -67,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             },
 
-            // (dipanggil dari HTML, tapi tidak dipakai lagi)
             startAutoSlide() {},
             stopAutoSlide() {},
 
@@ -78,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.handleFilosofi();
                 this.handleActiveNav();
                 this.handleFade();
+                this.handleParallax();
             },
 
             handleNavbar() {
@@ -154,14 +197,88 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             handleFilosofi() {
-                const filosofi = document.querySelector('.filosofi-section');
+
+                const filosofi = document.getElementById('filosofi');
+
                 if (!filosofi) return;
 
-                const pos = filosofi.getBoundingClientRect().top;
+                const rect = filosofi.getBoundingClientRect();
 
-                if (pos < window.innerHeight - 100) {
+                if (
+                    rect.top < window.innerHeight - 120
+                ) {
                     this.showFilosofi = true;
                 }
+
+            },
+
+            // ================= WOW ANIMATION =================
+
+            initReveal(){
+
+            const items=document.querySelectorAll(
+                '.reveal,.reveal-left'
+            );
+
+            const observer=new IntersectionObserver((entries)=>{
+
+                entries.forEach(entry=>{
+
+                if(entry.isIntersecting){
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target);
+            }
+
+            });
+
+            },{
+                threshold:0.15
+            });
+
+                items.forEach(el=>{
+                observer.observe(el);
+            });
+
+            },
+
+            handleParallax(){
+
+            const hero=document.querySelector('.cinematic-parallax');
+
+                if(!hero) return;
+
+                hero.style.transform=
+                `translate3d(0,${window.scrollY*0.12}px,0)`;
+            },
+
+            initTiltCards(){
+
+                document.querySelectorAll('.tilt-card')
+                .forEach(card=>{
+
+                card.addEventListener('mousemove',(e)=>{
+
+                const r=card.getBoundingClientRect();
+
+                const x=e.clientX-r.left;
+                const y=e.clientY-r.top;
+
+                const rx=((y/r.height)-0.5)*-6;
+                const ry=((x/r.width)-0.5)*6;
+
+                card.style.transform=
+                `rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+                });
+
+                card.addEventListener('mouseleave',()=>{
+
+                card.style.transform='';
+
+                });
+
+            });
+
             },
 
             // ================= MODAL =================
@@ -172,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             closeImage() {
-                this.selectedImage = null;
+                this.selectedImage = '';
                 this.selectedTitle = '';
                 this.selectedDesc = '';
             },
