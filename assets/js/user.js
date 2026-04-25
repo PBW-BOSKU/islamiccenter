@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 rating: 0,
                 hoverRating: 0,
-                showToast: false,
+                showReviewToast: false,
+                showBookingToast: false,
                 showError: false,
                 errorMessage:'',
 
@@ -39,6 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         mounted() {
             console.log("USER APP JALAN ✅");
+
+            this.showReviewToast = false;
+            this.showBookingToast = false;
 
             const el = document.getElementById('initialReview');
 
@@ -331,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await response.text();
 
                 // tampilkan toast
-                this.showToast = true;
+                this.showReviewToast = true;
 
                 this.reviews.unshift({
                     nama: this.form.nama,
@@ -346,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // hilangkan toast setelah 3 detik
                 setTimeout(() => {
-                    this.showToast = false;
+                    this.showReviewToast = false;
                 }, 3000);
 
             } catch (error) {

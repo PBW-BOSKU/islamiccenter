@@ -330,11 +330,6 @@
 
                 </form>
 
-                <!-- TOAST OUTSIDE FORM (lebih aman) -->
-                <div class="toast-success" v-if="showToast">
-                    Review berhasil dikirim!
-                </div>
-
             </div>
 
         <!-- CARD REVIEW -->
@@ -403,7 +398,15 @@
 
     </div>
 </section>
+
+<transition name="toast-pop">
+    <div v-if="showReviewToast" class="floating-toast">
+        ✅ Review berhasil dikirim!
+    </div>
+</transition>
+
 </div>
+
 
 <script id="initialReview" type="application/json">
 <?= json_encode($review) ?>

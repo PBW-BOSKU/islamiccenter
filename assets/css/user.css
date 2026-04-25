@@ -1517,3 +1517,54 @@ left:180%;
 .float-depth{
 animation:floatDepth 6s ease-in-out infinite;
 }
+
+.floating-toast{
+position:fixed;
+top:90px;
+right:30px;
+z-index:99999;
+
+background:#198754;
+color:#fff;
+
+padding:16px 22px;
+border-radius:14px;
+
+font-weight:600;
+box-shadow:0 12px 35px rgba(0,0,0,.22);
+
+animation:toastFloat .5s ease;
+}
+
+@keyframes toastFloat{
+from{
+opacity:0;
+transform:translateY(-25px) scale(.9);
+}
+to{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+}
+
+/* vue transition */
+.toast-pop-enter-active,
+.toast-pop-leave-active{
+transition:.35s ease;
+}
+
+.toast-pop-enter-from,
+.toast-pop-leave-to{
+opacity:0;
+transform:translateY(-20px);
+}
+
+/* mobile */
+@media(max-width:768px){
+.floating-toast{
+top:75px;
+right:15px;
+left:15px;
+text-align:center;
+}
+}
