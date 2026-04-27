@@ -1,7 +1,7 @@
 # PROJEK AKHIR PEMROGRAMAN BERBASIS WEB 
 ### PORTAL INFORMASI & PANDUAN WISATA ISLAMIC CENTER SAMARINDA
 
-#### Kelompok       : 4B
+#### Kelompok  : 4B
 #### Nama Tim  : ADAKAH
 #
 
@@ -14,3 +14,5 @@ Fitur utama yang tersedia dalam webste ini meliputi halaman beranda, galeri, fil
 
 Website ini dibangun menggunakan bahasa pemrograman PHP Native dengan struktur berbasis konsep MVC (Model-View-Controller) serta menggunakan database MySQL untuk penyimpanan data.
 #
+
+### Fitur Website
