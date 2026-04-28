@@ -164,5 +164,5 @@ Website ini dibangun menggunakan bahasa pemrograman PHP Native dengan struktur b
 
 
 note : untuk mode admin tekan ctrl + shift + alt + m
-user: admin1
-pass: 123
+(user: admin1
+pass: 123)
