@@ -239,34 +239,64 @@
    5. LAYOUT ADMIN
    ============================================================ */
 
-.admin-page .admin-layout {
-    display: flex;
-    width: 100%;
+/* ============================================================
+5. LAYOUT ADMIN FIX SCROLL
+============================================================ */
+
+html,
+body{
+height:100%;
+margin:0;
+overflow:hidden;
 }
 
-.admin-page .admin-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    transition: 0.3s;
-    min-height: 100vh;
+#app{
+height:100vh;
+overflow:hidden;
 }
 
-.admin-page .main-content {
-    flex: 1;
-    padding: 25px;
-    width: 100%;
-    background: #f5f7f6;
-    overflow-x: hidden;
+.admin-page .admin-layout{
+display:flex;
+height:100vh;
+overflow:hidden;
+width:100%;
+}
+
+.admin-page .sidebar{
+height:100vh;
+overflow-y:auto;
+flex-shrink:0;
+}
+
+.admin-page .admin-main{
+flex:1;
+height:100vh;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+min-height:auto; /* penting */
+}
+
+.admin-page .main-content{
+flex:1;
+overflow-y:auto; /* hanya content yang scroll */
+overflow-x:hidden;
+padding:25px;
+background:#f5f7f6;
+}
+
+.admin-footer{
+flex-shrink:0;
+margin:0;
 }
 
 
-//* ============================================================
+
+/* ============================================================
    6. SIDEBAR FINAL CLEAN (FIXED + MERGED DUPLICATE)
    ============================================================ */
 
-./* FIXED mobile sidebar background */
+/* FIXED mobile sidebar background */
 @media(max-width:768px){
 
 .admin-page .sidebar{
@@ -280,7 +310,7 @@ height:100vh;
 background:linear-gradient(180deg,#0b3d2e,#145c43) !important;
 
 box-shadow:5px 0 20px rgba(0,0,0,.15);
-background: rgba(20, 92, 67, 0.95)
+background: rgba(20, 92, 67, 0.95);
 
 
 color:#fff;
@@ -1242,4 +1272,16 @@ display:inline-flex;
 align-items:center;
 justify-content:center;
 padding:0 12px;
+}
+
+.upload-box{
+border:2px dashed #ccc;
+cursor:pointer;
+transition:.3s;
+}
+
+.upload-box.drag-active{
+border-color:#198754;
+transform:scale(1.02);
+background:#f7fff9;
 }

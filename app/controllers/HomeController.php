@@ -129,7 +129,10 @@ class HomeController extends Controller {
 
         // ================= CEK KAPASITAS =================
         $max = 200;
-        $terisi = getKapasitasByTanggal($tanggal);
+        $terisi = getKapasitasByTanggalDanSesi(
+            $tanggal,
+            $sesi
+        );
 
         if ($terisi + $jumlah > $max) {
             echo json_encode([
@@ -150,7 +153,7 @@ class HomeController extends Controller {
             'jumlah' => $jumlah,
             'sesi' => $sesi,
             'tanggal_kunjungan' => $tanggal,
-            'status' => 'Tunggu'
+            'status' => 'Menunggu Pembayaran'
         ];
 
         $result = tambahPengunjung($data);
@@ -186,54 +189,92 @@ class HomeController extends Controller {
         exit;
     }
 
-    public function tambahReview() {
+        public function tambahReview(){
 
-        $nama = trim($_POST['nama'] ?? '');
-        $komentar = trim($_POST['komentar'] ?? '');
-        $rating = (int)($_POST['rating'] ?? 0);
+        $nama=trim($_POST['nama'] ?? '');
+        $komentar=trim($_POST['komentar'] ?? '');
+        $rating=(int)($_POST['rating'] ?? 0);
 
-        if (!$nama || !$komentar || $rating < 1 || $rating > 5) {
-            return $this->json([
-                'success' => false,
-                'error' => 'Data tidak valid'
-            ], 400);
+        $sesi=trim($_POST['sesi'] ?? 'Pagi');
+
+
+        if(
+        !$nama ||
+        !$komentar ||
+        $rating < 1 ||
+        $rating > 5
+        ){
+        return $this->json([
+        'success'=>false,
+        'error'=>'Data tidak valid'
+        ],400);
         }
 
-        $model = new ReviewModel();
 
-        $id = $model->tambah([
-            'nama' => $nama,
-            'komentar' => $komentar,
-            'rating' => $rating
-        ]);
+        $model=new ReviewModel();
 
-        if (!$id) {
-            return $this->json([
-                'success' => false,
-                'error' => 'Gagal menyimpan ke database'
-            ], 500);
-        }
+
+        $id=$model->tambah(
+        [
+        'nama'=>$nama,
+        'komentar'=>$komentar,
+        'rating'=>$rating,
+        'sesi'=>$sesi
+        ],
+        $_FILES
+        );
+
+
+        if(!$id){
 
         return $this->json([
-            'success' => true,
-            'data' => ['id' => $id]
+        'success'=>false,
+        'error'=>'Gagal simpan database'
+        ],500);
+
+        }
+
+
+        return $this->json([
+
+        'success'=>true,
+
+        'data'=>[
+        'id'=>$id
+        ]
+
         ]);
-    }
+
+        }
 
     public function kapasitas() {
 
         $tanggal = $_GET['tanggal'] ?? date('Y-m-d');
+
+        // ambil sesi dari request
+        $sesi = $_GET['sesi'] ?? 'pagi';
+
         $max = 200;
 
-        $terisi = getKapasitasByTanggal($tanggal);
-        $sisa = max(0, $max - $terisi);
+        $terisi = getKapasitasByTanggalDanSesi(
+            $tanggal,
+            $sesi
+        );
+
+        $sisa = max(
+            0,
+            $max - $terisi
+        );
 
         return $this->json([
             'tanggal' => $tanggal,
-            'terisi' => (int)$terisi,
-            'max' => $max,
-            'sisa' => (int)$sisa,
-            'persen' => $max > 0 ? round(($terisi/$max)*100) : 0
+            'sesi'    => $sesi,
+            'terisi'  => (int)$terisi,
+            'max'     => $max,
+            'sisa'    => (int)$sisa,
+            'persen'  => $max > 0
+                ? round(($terisi / $max) * 100)
+                : 0
         ]);
     }
 }

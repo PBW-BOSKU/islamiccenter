@@ -31,18 +31,22 @@
         <small class="text-warning d-block mb-4">PORTAL ADMINISTRASI</small>
 
         <!-- FORM -->
-        <form action="index.php?page=proses_login" method="POST" id="loginForm">
+        <form 
+        action="index.php?page=proses_login"
+        method="POST"
+        id="loginForm"
+        novalidate>
 
             <!-- USERNAME -->
             <div class="mb-3 text-start">
                 <label class="form-label">Nama Pengguna</label>
-                <input type="text" name="username" class="form-control" placeholder="Masukkan username" required autofocus>
+                <input type="text" name="username" class="form-control" placeholder="Masukkan username" autofocus>
             </div>
 
             <!-- PASSWORD -->
             <div class="mb-3 text-start">
                 <label class="form-label">Kata Sandi</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password" required>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password">
             </div>
 
             <!-- SHOW PASSWORD -->
@@ -67,51 +71,59 @@
 <!-- SCRIPT -->
 <script>
 
-    // SHOW PASSWORD
-    document.getElementById('showPass').addEventListener('change', function() {
-        const pass = document.getElementById('password');
-        pass.type = this.checked ? 'text' : 'password';
-    });
+document.getElementById(
+'loginForm'
+).addEventListener(
+'submit',
+function(e){
 
-    // LOADING BUTTON
-    document.getElementById('loginForm').addEventListener('submit', function() {
-        const btn = document.getElementById('loginBtn');
-        const text = document.getElementById('btnText');
+e.preventDefault();
 
-        btn.disabled = true;
-        text.innerHTML = "Memproses...";
-    });
+const user=
+document.querySelector(
+'[name="username"]'
+);
 
-    // ================= GLOBAL POPUP =================
-    const urlParams = new URLSearchParams(window.location.search);
+const pass=
+document.querySelector(
+'[name="password"]'
+);
 
-    const success = urlParams.get('success');
-    const error = urlParams.get('error');
+if(!user.value.trim()){
 
-    if (success === 'login') {
-        Swal.fire({
-            icon: 'success',
-            title: 'Login Berhasil!',
-            text: 'Selamat datang di dashboard',
-            timer: 1500,
-            showConfirmButton: false
-        });
+Swal.fire({
+icon:'warning',
+title:'Username kosong',
+text:'Masukkan username'
+});
 
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
+user.focus();
+return;
+}
 
-    if (error === 'login') {
-        Swal.fire({
-            icon: 'error',
-            title: 'Login Gagal',
-            text: 'Username atau password salah'
-        });
+if(!pass.value.trim()){
 
-        // efek shake tetap dipakai
-        document.querySelector('.login-card').classList.add('login-error');
+Swal.fire({
+icon:'warning',
+title:'Password kosong',
+text:'Masukkan password'
+});
 
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
+pass.focus();
+return;
+}
+
+document.getElementById(
+'loginBtn'
+).disabled=true;
+
+document.getElementById(
+'btnText'
+).innerHTML='Memproses...';
+
+this.submit();
+
+});
 
 </script>
 

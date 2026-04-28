@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedTitle: '',
                 selectedDesc: '',
 
+                showReviewModal: false,
+                activeReview: null,
+                selectedDescription:null,
+
                 rating: 0,
                 hoverRating: 0,
                 showReviewToast: false,
@@ -31,26 +35,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 form : {
                     nama:'',
-                    komentar:''
+                    komentar:'',
+                    sesi:'Pagi',
+                    gambar:null
+
                 },
 
-                reviews: []
-            }
-        },
+                reviews: [],
+                bookingLoading:false,
+                reviewLoading:false,
+                reviewButtonAnimate:false,
 
+                reviewErrors:{
+                nama:'',
+                komentar:'',
+                rating:''
+            }
+        }
+    },
+    
         mounted() {
+
             console.log("USER APP JALAN ✅");
 
-            this.showReviewToast = false;
-            this.showBookingToast = false;
+            this.showReviewToast=false;
+            this.showBookingToast=false;
 
-            const el = document.getElementById('initialReview');
+            const el=document.getElementById('initialReview');
 
-            if (el) {
-                this.reviews = JSON.parse(el.textContent);
+            if(el){
+                this.reviews=JSON.parse(
+                    el.textContent
+                );
             }
 
-            console.log("DATA REVIEW:", this.reviews);
+            console.log(
+                "DATA REVIEW:",
+                this.reviews
+            );
+
 
             window.scrollTo({
                 top:0,
@@ -58,13 +81,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 behavior:'instant'
             });
 
-            this.showHero = true;
+            this.showHero=true;
+
 
             window.addEventListener(
                 'scroll',
                 this.handleScroll,
                 { passive:true }
             );
+
 
             this.$nextTick(()=>{
 
@@ -77,18 +102,518 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.initTiltCards();
 
                 setTimeout(()=>{
-                    this.showFilosofi = true;
+                    this.showFilosofi=true;
                 },150);
 
             });
 
-            window.addEventListener('load',()=>{
+            
 
-                this.handleFilosofi();
+
+            window.addEventListener(
+                'load',
+                ()=>{
+
+                    this.handleFilosofi();
+
+                }
+            );
+
+
+
+ /* ================= REVIEW + GALERI HORIZONTAL WHEEL ================= */
+
+            this.$nextTick(()=>{
+                const reviewSlider =
+                    document.querySelector(
+                        '.review-gallery'
+                    );
+
+
+                if(reviewSlider){
+                    reviewSlider.addEventListener(
+                        'wheel',
+                        (e)=>{
+                            e.preventDefault();
+                            reviewSlider.scrollBy({
+                                left:e.deltaY * 0.8,
+                                behavior:'smooth'
+                            });
+                        },
+                        { passive:false }
+                    );
+                }
+
+                const galeriSlider =
+                    document.querySelector(
+                        '.galeri-review-scroll'
+                    );
+
+                if(galeriSlider){
+                    galeriSlider.addEventListener(
+                        'wheel',
+                        (e)=>{
+                            e.preventDefault();
+                            galeriSlider.scrollBy({
+                                left:e.deltaY * 2,
+                                behavior:'smooth'
+                            });
+                        },
+                        { passive:false }
+                    );
+                }
+            });
+
+/* ================= FASILITAS MODAL PREMIUM ================= */
+
+            this.$nextTick(()=>{
+
+                const cards = document.querySelectorAll(
+                    '.fasilitas-click'
+                );
+
+                const modal = document.getElementById(
+                    'fasilitasModal'
+                );
+
+                const modalImg = document.getElementById(
+                    'facilityImage'
+                );
+
+                const closeBtn = document.getElementById(
+                    'closeFasilitasModal'
+                );
+
+                const prevBtn = document.getElementById(
+                    'prevFacility'
+                );
+
+                const nextBtn = document.getElementById(
+                    'nextFacility'
+                );
+
+                const dotsWrap = document.getElementById(
+                    'facilityDots'
+                );
+
+                const thumbsWrap = document.getElementById(
+                    'facilityThumbs'
+                );
+
+
+                if(
+                    !modal ||
+                    !modalImg ||
+                    !prevBtn ||
+                    !nextBtn
+                ){
+                    return;
+                }
+
+
+                let images = [];
+                let current = 0;
+
+
+
+                function renderDots(){
+
+                    dotsWrap.innerHTML='';
+
+                    images.forEach((img,index)=>{
+
+                        const dot =
+                            document.createElement(
+                                'span'
+                            );
+
+                        dot.className =
+                            index===current
+                            ? 'dot active'
+                            : 'dot';
+
+                        dot.addEventListener(
+                            'click',
+                            ()=>{
+
+                                current=index;
+
+                                showImage();
+
+                            }
+                        );
+
+                        dotsWrap.appendChild(
+                            dot
+                        );
+
+                    });
+
+                }
+
+
+
+                function renderThumbs(){
+
+                    thumbsWrap.innerHTML='';
+
+                    images.forEach((img,index)=>{
+
+                        const thumb =
+                            document.createElement(
+                                'img'
+                            );
+
+                        thumb.src =
+                            'assets/images/' +
+                            img.trim();
+
+                        thumb.className =
+                            index===current
+                            ? 'thumb active'
+                            : 'thumb';
+
+                        thumb.addEventListener(
+                            'click',
+                            ()=>{
+
+                                current=index;
+
+                                showImage();
+
+                            }
+                        );
+
+                        thumbsWrap.appendChild(
+                            thumb
+                        );
+
+                    });
+
+                }
+
+
+
+                function showImage(){
+
+                    if(
+                        !images.length
+                    ) return;
+
+
+                    modalImg.src =
+                        'assets/images/' +
+                        images[current].trim();
+
+
+                    renderDots();
+
+                    renderThumbs();
+
+                }
+
+
+
+                /* buka modal */
+
+                cards.forEach(card=>{
+
+                    card.addEventListener(
+
+                        'click',
+
+                        function(){
+
+                            images =
+                                this.dataset.gallery
+                                .split(',');
+
+                            current=0;
+
+                            showImage();
+
+                            modal.classList.add(
+                                'active'
+                            );
+
+                            document.body.style
+                                .overflow='hidden';
+
+                        }
+
+                    );
+
+                });
+
+
+
+                /* next */
+
+                nextBtn.addEventListener(
+
+                    'click',
+
+                    function(e){
+
+                        e.stopPropagation();
+
+                        current++;
+
+                        if(
+                            current >= images.length
+                        ){
+
+                            current=0;
+
+                        }
+
+                        showImage();
+
+                    }
+
+                );
+
+
+
+                /* prev */
+
+                prevBtn.addEventListener(
+
+                    'click',
+
+                    function(e){
+
+                        e.stopPropagation();
+
+                        current--;
+
+                        if(
+                            current < 0
+                        ){
+
+                            current=
+                                images.length-1;
+
+                        }
+
+                        showImage();
+
+                    }
+
+                );
+
+
+
+                /* keyboard arrow */
+
+                document.addEventListener(
+
+                    'keydown',
+
+                    function(e){
+
+                        if(
+                            !modal.classList.contains(
+                                'active'
+                            )
+                        ) return;
+
+
+                        if(
+                            e.key==='ArrowRight'
+                        ){
+
+                            current++;
+
+                            if(
+                                current>=images.length
+                            ){
+                                current=0;
+                            }
+
+                            showImage();
+
+                        }
+
+
+                        if(
+                            e.key==='ArrowLeft'
+                        ){
+
+                            current--;
+
+                            if(
+                                current<0
+                            ){
+                                current=
+                                images.length-1;
+                            }
+
+                            showImage();
+
+                        }
+
+
+                        if(
+                            e.key==='Escape'
+                        ){
+
+                            modal.classList.remove(
+                                'active'
+                            );
+
+                            document.body.style
+                                .overflow='auto';
+
+                        }
+
+                    }
+
+                );
+
+
+
+                /* close */
+
+                closeBtn.addEventListener(
+
+                    'click',
+
+                    function(){
+
+                        modal.classList.remove(
+                            'active'
+                        );
+
+                        document.body.style
+                            .overflow='auto';
+
+                    }
+
+                );
+
+
+
+                /* klik backdrop */
+
+                modal.addEventListener(
+
+                    'click',
+
+                    function(e){
+
+                        if(
+                            e.target===modal
+                        ){
+
+                            modal.classList.remove(
+                                'active'
+                            );
+
+                            document.body.style
+                                .overflow='auto';
+
+                        }
+
+                    }
+
+                );
 
             });
 
-        },
+            document.querySelectorAll('.nav-link').forEach(link=>{
+
+                link.addEventListener('click',function(e){
+
+                e.preventDefault();
+
+                const sectionId=this.dataset.section;
+
+                const target=
+                document.getElementById(sectionId);
+
+                if(!target) return;
+
+
+                /* smooth scroll */
+                target.scrollIntoView({
+                behavior:'smooth'
+                });
+
+
+                /* ubah URL tanpa reload */
+                history.pushState(
+                {},
+                '',
+                '/' + sectionId
+                );
+
+                });
+
+                });
+
+
+                /* kalau buka langsung /fasilitas */
+                window.addEventListener('load',()=>{
+
+                const path=
+                window.location.pathname
+                .replace('/','');
+
+                if(path){
+
+                const target=
+                document.getElementById(path);
+
+                if(target){
+
+                setTimeout(()=>{
+                target.scrollIntoView({
+                behavior:'smooth'
+                });
+                },300);
+
+                }
+
+                }
+
+                });
+
+                /* ================= ADMIN SHORTCUT ================= */
+
+                document.addEventListener('keydown', function(e){
+
+                    if(
+                        e.ctrlKey &&
+                        e.altKey &&
+                        e.shiftKey &&
+                        e.key.toLowerCase()==='m'
+                    ){
+
+                        e.preventDefault();
+
+                        Swal.fire({
+                            title:'Portal Admin',
+                            text:'Masuk ke halaman login admin?',
+                            icon:'question',
+                            showCancelButton:true,
+                            confirmButtonText:'Masuk',
+                            cancelButtonText:'Batal'
+                        }).then((result)=>{
+
+                            if(result.isConfirmed){
+
+                                window.location.href='/admin';
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            },
 
         beforeUnmount() {
 
@@ -98,8 +623,20 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         },
-
+        
         methods: {
+
+            openReviewForm(){
+
+            this.reviewButtonAnimate=true;
+
+            setTimeout(()=>{
+            this.reviewButtonAnimate=false;
+            },450); 
+
+            this.showReviewModal=true;
+
+            },
 
             // ================= GALERI SCROLL =================
             scrollGaleri(direction) {
@@ -216,6 +753,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
             },
 
+            handleReviewImage(e){
+
+                const file = e.target.files[0];
+
+                if(!file) return;
+
+
+                if(!file.type.startsWith('image/')){
+
+                    Swal.fire({
+                        icon:'warning',
+                        title:'File tidak valid',
+                        text:'Hanya file gambar yang diperbolehkan'
+                    });
+
+                    e.target.value='';
+                    return;
+                }
+
+
+                if(file.size > 2 * 1024 * 1024){
+
+                    Swal.fire({
+                        icon:'warning',
+                        title:'File terlalu besar',
+                        text:'Maksimal ukuran gambar 2MB'
+                    });
+
+                    e.target.value='';
+                    return;
+                }
+
+                this.form.gambar=file;
+
+            },
+
+            openReviewDetail(r){
+                this.activeReview=r;
+            },
+
             // ================= WOW ANIMATION =================
 
             initReveal(){
@@ -300,108 +877,256 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // ================= BOOKING =================
             cekKapasitas() {
+
                 if (!this.tanggal) return;
 
-                fetch(`index.php?page=kapasitas&tanggal=${this.tanggal}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        this.kapasitas = data;
-                    })
-                    .catch(() => {
-                        this.kapasitas = null;
-                    });
-            },
+                const sesi =
+                    document.querySelector(
+                        'input[name="sesi"]:checked'
+                    )?.value || 'pagi';
 
-            async submitReview() {
+                fetch(
+                    `index.php?page=kapasitas&tanggal=${this.tanggal}&sesi=${sesi}`
+                )
+                .then(res => res.json())
 
-            if (this.rating === 0) {
-                alert('Pilih rating dulu!');
-                return;
-            }
-
-            try {
-                const response = await fetch('index.php?page=tambahReview', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        nama: this.form.nama,
-                        komentar: this.form.komentar,
-                        rating: this.rating
-                    })
-                });
-
-                const result = await response.text();
-
-                // tampilkan toast
-                this.showReviewToast = true;
-
-                this.reviews.unshift({
-                    nama: this.form.nama,
-                    komentar: this.form.komentar,
-                    rating: this.rating
-                });
-
-                // reset form
-                this.form.nama = '';
-                this.form.komentar = '';
-                this.rating = 0;
-
-                // hilangkan toast setelah 3 detik
-                setTimeout(() => {
-                    this.showReviewToast = false;
-                }, 3000);
-
-            } catch (error) {
-                console.error(error);
-                alert('Gagal kirim review');
-            }
-
-                this.reviews = JSON.parse(
-                document.getElementById('initialReview').textContent
-                );
-            },
-
-            submitBooking(event) {
-
-                const form = new FormData(event.target);
-
-                fetch('index.php?page=proses_booking', {
-                    method: 'POST',
-                    body: form
+                .then(data => {
+                    this.kapasitas = data;
                 })
 
-        .then(res => res.json())
-        .then(res => {
+                .catch(() => {
+                    this.kapasitas = null;
+                    this.reviewLoading=false;
+                });
 
-            if (res.status === 'error') {
+            },
 
-                this.errorMessage = res.message;
-                this.showError = true;
+            async submitReview(){
 
-                setTimeout(() => {
-                    this.showError = false;
-                }, 3000);
+                this.reviewErrors = {
+                    nama:'',
+                    komentar:'',
+                    rating:''
+                };
 
-                return;
+                let hasError=false;
+
+
+                if(!this.form.nama.trim()){
+                    this.reviewErrors.nama='Nama wajib diisi';
+                    hasError=true;
+                }
+
+
+                if(!this.form.komentar.trim()){
+                    this.reviewErrors.komentar='Pengalaman wajib diisi';
+                    hasError=true;
+                }
+
+
+                if(this.rating===0){
+                    this.reviewErrors.rating='Pilih rating';
+                    hasError=true;
+                }
+
+
+                if(hasError){
+                    return;
+                }
+
+
+                this.reviewLoading=true;
+                try{
+
+                    let fd=new FormData();
+
+                    fd.append('nama',this.form.nama);
+                    fd.append('komentar',this.form.komentar);
+                    fd.append('rating',this.rating);
+                    fd.append('sesi',this.form.sesi);
+
+                    if(this.form.gambar){
+                        fd.append(
+                            'gambar',
+                            this.form.gambar
+                        );
+                    }
+
+                    const res = await fetch(
+                        'index.php?page=tambahReview',
+                        {
+                        method:'POST',
+                        body:fd
+                        });
+
+                        const json = await res.json();
+
+                        if(!json.success){
+                        throw new Error(json.error);
+                        }
+                    
+
+
+                    this.reviews.unshift({
+                        id:Date.now(),
+                        nama:this.form.nama,
+                        komentar:this.form.komentar,
+                        rating:this.rating,
+                        sesi:this.form.sesi,
+                        gambar:this.form.gambar
+                            ? URL.createObjectURL(this.form.gambar)
+                            : null,
+                        created_at:new Date().toLocaleString()
+                    });
+
+
+                    this.showReviewToast=true;
+                    this.showReviewModal=false;
+
+
+                    this.form.nama='';
+                    this.form.komentar='';
+                    this.form.sesi='Pagi';
+                    this.form.gambar=null;
+                    this.rating=0;
+
+                this.reviewLoading=false;
+                }catch(e){
+                    this.reviewLoading=false;
+
+                    Swal.fire({
+                        icon:'error',
+                        title:'Review gagal',
+                        text:'Tidak dapat mengirim review'
+                    });
+
+                }
+
+            },
+
+            submitBooking(event){
+
+                if(this.bookingLoading) return;
+
+                const formEl = event.target;
+
+                const nama = formEl.nama.value.trim();
+                const noWa = formEl.no_wa.value.trim();
+                const tanggal = formEl.tanggal.value.trim();
+                const jumlah = formEl.jumlah.value.trim();
+
+                if(!nama){
+                    Swal.fire({
+                        icon:'warning',
+                        title:'Nama kosong',
+                        text:'Isi nama lengkap terlebih dahulu'
+                    });
+                    return;
+                }
+
+                if(!noWa){
+                    Swal.fire({
+                        icon:'warning',
+                        title:'Nomor kosong',
+                        text:'Isi nomor WhatsApp terlebih dahulu'
+                    });
+                    return;
+                }
+
+                if(!tanggal){
+                    Swal.fire({
+                        icon:'warning',
+                        title:'Tanggal kosong',
+                        text:'Pilih tanggal kunjungan'
+                    });
+                    return;
+                }
+
+                if(!jumlah || parseInt(jumlah) < 1){
+                    Swal.fire({
+                        icon:'warning',
+                        title:'Jumlah tidak valid',
+                        text:'Isi jumlah orang minimal 1'
+                    });
+                    return;
+                }
+
+
+                Swal.fire({
+                    title:'Konfirmasi Pendaftaran',
+                    text:'Apakah data booking sudah benar?',
+                    icon:'question',
+                    showCancelButton:true,
+                    confirmButtonText:'Ya, Lanjutkan',
+                    cancelButtonText:'Batal'
+                })
+
+                .then((result)=>{
+
+                    if(!result.isConfirmed){
+                        return;
+                    }
+
+                    this.bookingLoading=true;
+
+                    const formData = new FormData(formEl);
+
+                    fetch('index.php?page=proses_booking',{
+                        method:'POST',
+                        body:formData
+                    })
+
+                    .then(res=>res.json())
+
+                    .then(res=>{
+
+                        this.bookingLoading=false;
+
+                        if(res.status==='error'){
+
+                            Swal.fire({
+                                icon:'error',
+                                title:'Booking Gagal',
+                                text:res.message
+                            });
+
+                            return;
+                        }
+
+                        if(res.status==='success'){
+
+                            Swal.fire({
+                                icon:'success',
+                                title:'Booking Berhasil',
+                                text:'Mengalihkan ke WhatsApp...',
+                                showConfirmButton:false,
+                                timer:1800
+                            });
+
+                            setTimeout(()=>{
+                                window.location.href=res.url;
+                            },1800);
+
+                        }
+
+                    })
+
+                    .catch(()=>{
+
+                        this.bookingLoading=false;
+
+                        Swal.fire({
+                            icon:'error',
+                            title:'Server Error',
+                            text:'Terjadi kesalahan sistem'
+                        });
+
+                    });
+
+                });
             }
-
-            if (res.status === 'success') {
-                this.showToast = true;
-
-                setTimeout(() => {
-                    window.location.href = res.url;
-                }, 1500);
-            }
-
-        })
-            .catch(() => {
-                alert("Terjadi kesalahan");
-            });
-        }
-
         },
+
 
         watch: {
             selectedImage(val) {

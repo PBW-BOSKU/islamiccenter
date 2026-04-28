@@ -23,9 +23,30 @@ function tambahGaleri($data, $file) {
     $judul = trim($data['judul'] ?? '');
     $deskripsi = trim($data['deskripsi'] ?? '');
 
-    if (!$judul || !$deskripsi) {
+    if (!$judul){
         return false;
     }
+
+    if(strlen($judul) > 80){
+    return false;
+    }
+
+    if(strlen($deskripsi) > 500){
+        return false;
+    }
+
+    if(
+    hitungKata($judul) > 10
+){
+    return false;
+}
+
+if(
+    !empty($deskripsi) &&
+    hitungKata($deskripsi) > 50
+){
+    return false;
+}
 
     $namaBaru = null;
 
@@ -120,6 +141,20 @@ function updateGaleri($data, $files) {
         return false;
     }
 
+    /* VALIDASI */
+if(
+    hitungKata($judul) > 10
+){
+    return false;
+}
+
+if(
+    !empty($deskripsi) &&
+    hitungKata($deskripsi) > 50
+){
+    return false;
+}
+
     // ambil gambar lama
     $stmt = $conn->prepare("SELECT gambar FROM galeri WHERE id = ?");
     if (!$stmt) return false;
@@ -167,4 +202,14 @@ function updateGaleri($data, $files) {
     $stmt->bind_param("sssi", $judul, $deskripsi, $namaBaru, $id);
 
     return $stmt->execute();
+}
+
+function hitungKata($text){
+    if(empty($text)){
+        return 0;
+    }
+
+    return str_word_count(
+        strip_tags((string)$text)
+    );
 }

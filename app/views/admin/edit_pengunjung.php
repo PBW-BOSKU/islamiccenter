@@ -11,7 +11,7 @@
 
 <!-- BACK -->
 <div class="mb-3">
-    <a href="index.php?page=pengunjung" class="text-muted small">
+    <a href="/admin/pengunjung" class="text-muted small">
         ← Kembali ke Pengunjung
     </a>
 </div>
@@ -31,7 +31,7 @@
 
 <div class="card admin-card p-4">
 
-<form action="index.php?page=update_pengunjung" method="POST">
+<form action="/admin/update-pengunjung" method="POST">
 
 <input type="hidden" name="id" v-model="editData.id">
 
@@ -62,21 +62,50 @@
 
     <div class="col-md-6">
         <label class="form-label fw-semibold">Tanggal Kunjungan</label>
-            <input 
-                type="date"
-                name="tanggal_kunjungan"
-                class="form-control modern-input"
-                v-model="editData.tanggal"
+            <input
+            v-model="tanggal"
+            type="date"
+            name="tanggal_kunjungan"
+
+            min="<?= date('Y-m-d') ?>"
+
+            class="form-control modern-input"
+
+            required
+
+            oninvalid="
+            this.setCustomValidity(
+            'Tanggal kunjungan wajib dipilih'
+            )"
+            oninput="
+            this.setCustomValidity('')
+            "
             >
     </div>
 
     <div class="mb-3">
         <label class="form-label fw-semibold">Status</label>
-        <select name="status" class="form-select modern-input">
-            <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
-            <option value="Dibayar">Dibayar</option>
-            <option value="Selesai">Selesai</option>
-            <option value="Dibatalkan">Dibatalkan</option>
+        <select
+        v-model="editData.status"
+        name="status"
+        class="form-select modern-input"
+        >
+        <option value="Menunggu Pembayaran">
+        Menunggu Pembayaran
+        </option>
+
+        <option value="Dibayar">
+        Dibayar
+        </option>
+
+        <option value="Selesai">
+        Selesai
+        </option>
+
+        <option value="Dibatalkan">
+        Dibatalkan
+        </option>
+
         </select>
     </div>
 </div>
@@ -94,7 +123,7 @@
         💾 Simpan Perubahan
     </button>
 
-    <a href="index.php?page=pengunjung" class="btn btn-outline-secondary">
+    <a href="/admin/pengunjung" class="btn btn-outline-secondary">
         Batal
     </a>
 
@@ -114,39 +143,41 @@
 
     <h6 class="mb-3">Ringkasan Data</h6>
 
-    <div class="d-flex flex-column gap-2 small">
+    <div class="d-flex flex-column gap-3 small">
 
-        <div>
-            <span class="text-muted">Nama</span><br>
-            <strong>{{ editData.nama }}</strong>
-        </div>
-
-        <div>
-            <span class="text-muted">Email</span><br>
-            {{ editData.email || '-' }}
-        </div>
-
-        <div>
-            <span class="text-muted">WhatsApp</span><br>
-            {{ editData.no_wa || '-' }}
-        </div>
-
-        <div>
-            <span class="text-muted">Sesi</span><br>
-            <span class="badge bg-light text-dark">{{ editData.sesi }}</span>
-        </div>
-
-        <div>
-            <span class="text-muted">Status</span><br>
-            {{ editData.status  || '-'}}
-        </div>
-
-        <div>
-            <span class="text-muted">Jumlah</span><br>
-            <strong>{{ editData.jumlah }} orang</strong>
-        </div>
-
+    <div>
+        <span class="text-muted">Nama</span><br>
+        <strong>{{ editData.nama }}</strong>
     </div>
+
+    <div>
+        <span class="text-muted">WhatsApp</span><br>
+        {{ editData.no_wa || '-' }}
+    </div>
+
+    <div>
+        <span class="text-muted">Tanggal Kunjungan</span><br>
+        {{ editData.tanggal || '-' }}
+    </div>
+
+    <div>
+        <span class="text-muted">Sesi</span><br>
+        <span class="badge bg-light text-dark">
+            {{ editData.sesi }}
+        </span>
+    </div>
+
+    <div>
+        <span class="text-muted">Status</span><br>
+        {{ editData.status || '-' }}
+    </div>
+
+    <div>
+        <span class="text-muted">Jumlah</span><br>
+        <strong>{{ editData.jumlah }} orang</strong>
+    </div>
+
+</div>
 
 </div>
 
@@ -156,10 +187,6 @@
     <h6>Status & Info</h6>
 
     <div class="mt-3">
-        <span class="badge bg-success">Data Aktif</span>
-    </div>
-
-    <div class="mt-3 small text-muted">
         Update terakhir<br>
         <?= date('d M Y H:i') ?>
     </div>

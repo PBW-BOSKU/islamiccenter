@@ -1,7 +1,5 @@
 <?php include 'layout/header.php'; ?>
 
-<div class="admin-layout">
-
 <?php include 'layout/sidebar.php'; ?>
 
     <div v-if="showSidebar"
@@ -82,7 +80,7 @@
 
         <div class="quick-actions">
 
-            <a href="index.php?page=pengunjung" class="quick-item">
+            <a href="/admin/pengunjung" class="quick-item">
                 <div class="icon bg-primary">
                     <i class="bi bi-people"></i>
                 </div>
@@ -92,7 +90,7 @@
                 </div>
             </a>
 
-            <a href="index.php?page=tambah_pengunjung_form&redirect=dashboard" class="quick-item">
+            <a href="/admin/tambah-pengunjung" class="quick-item">
                 <div class="icon bg-success">
                     <i class="bi bi-person-plus"></i>
                 </div>
@@ -102,7 +100,7 @@
                 </div>
             </a>
 
-            <a href="index.php?page=galeri" class="quick-item">
+            <a href="/admin/galeri" class="quick-item">
                 <div class="icon bg-warning">
                     <i class="bi bi-image"></i>
                 </div>
@@ -112,17 +110,17 @@
                 </div>
             </a>
 
-            <a href="index.php?page=review" class="quick-item">
-            <div class="icon bg-info">
-                <i class="bi bi-chat-quote"></i>
-            </div>
-            <div class="info">
-                <strong>Kelola Review</strong>
-                <small>Lihat & hapus ulasan</small>
-            </div>
+            <a href="/admin/review" class="quick-item">
+                <div class="icon bg-info">
+                    <i class="bi bi-chat-quote"></i>
+                </div>
+                <div class="info">
+                    <strong>Kelola Review</strong>
+                    <small>Lihat & hapus ulasan</small>
+                </div>
             </a>
 
-        </div>
+            </div>
 
     </div>
 </div>
@@ -140,8 +138,7 @@
 
             <div class="d-flex align-items-center gap-2">
 
-                <form method="GET" class="d-flex align-items-center gap-2 m-0">
-                    <input type="hidden" name="page" value="dashboard">
+                <form action="/admin/dashboard" method="GET" class="d-flex align-items-center gap-2 m-0">
 
                     <input type="date" 
                         name="tanggal"
@@ -247,10 +244,4 @@
     </div>
 </div>
 
-</div> <!-- main-content -->
-
 <?php include 'layout/footer.php'; ?>
-
-</div> <!-- admin-main -->
-
-</div> <!-- admin-layout -->

@@ -34,7 +34,7 @@
 
         </div>
 
-        <a href="index.php?page=logout"
+        <a href="/admin/logout"
         class="btn btn-sm btn-danger px-3">
             Logout
         </a>

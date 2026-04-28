@@ -24,14 +24,33 @@
 
 <div class="card admin-card p-4">
 
-<form action="index.php?page=tambah_pengunjung" method="POST">
+<form action="/admin/tambah-pengunjung" method="POST">
 
     <!-- NAMA -->
     <div class="row mb-3">
         <div class="col-md-6">
             <label class="form-label fw-semibold">Nama</label>
-            <input v-model="nama" name="nama" class="form-control modern-input" 
-            placeholder="Masukkan Nama" required>
+            <input
+            v-model="nama"
+            name="nama"
+            class="form-control modern-input"
+            placeholder="Masukkan Nama Lengkap"
+            maxlength="50"
+            required
+
+            oninput="
+            this.value=this.value.replace(/[0-9]/g,'');
+            "
+
+            oninvalid="
+            this.setCustomValidity('Nama wajib diisi (maksimal 50 karakter)')
+            "
+
+            oninput="
+            this.setCustomValidity('');
+            this.value=this.value.replace(/[0-9]/g,'');
+            "
+            >
         </div>
     </div>
 
@@ -39,17 +58,38 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <label class="form-label fw-semibold">No WhatsApp</label>
-            <input v-model="no_wa" name="no_wa" type="text" class="form-control modern-input" 
-                placeholder="Masukkan Nomor WhatsApp" 
-                maxlength="15"
-                placeholder="Masukkan Nomor WhatsApp"
-                oninput="
-                    this.value = this.value.replace(/[^0-9]/g, '');
-                    if(this.value.startsWith('0')){
-                        this.value = '62' + this.value.substring(1);
-                    }
-                "
-                required>
+            <input
+            v-model="no_wa"
+            name="no_wa"
+            type="text"
+            class="form-control modern-input"
+            maxlength="15"
+
+            placeholder="Masukkan Nomor WhatsApp"
+
+            required
+
+            oninput="
+            this.setCustomValidity('');
+            this.value=this.value.replace(/[^0-9]/g,'');
+
+            if(this.value.startsWith('0')){
+            this.value='62'+this.value.substring(1);
+            }
+
+            if(
+            this.value.length > 15
+            ){
+            this.value=
+            this.value.slice(0,15);
+            }
+            "
+
+            oninvalid="
+            this.setCustomValidity(
+            'Gunakan nomor WhatsApp format 62xxxxxxxx'
+            )"
+            >
     </div>
 
 
@@ -64,8 +104,25 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <label class="form-label fw-semibold">Tanggal Kunjungan</label>
-            <input v-model="tanggal" type="date" name="tanggal_kunjungan" class="form-control modern-input" 
-            placeholder="Pilih Tanggal" required>
+            <input
+            v-model="tanggal"
+            type="date"
+            name="tanggal_kunjungan"
+
+            min="<?= date('Y-m-d') ?>"
+
+            class="form-control modern-input"
+
+            required
+
+            oninvalid="
+            this.setCustomValidity(
+            'Tanggal kunjungan wajib dipilih'
+            )"
+            oninput="
+            this.setCustomValidity('')
+            "
+            >
         </div>
 
         <div class="col-md-6">
@@ -79,7 +136,7 @@
 
         <div class="mb-3">
             <label class="form-label fw-semibold">Status</label>
-        <select name="status" class="form-select modern-input">
+        <select v-model="status" name="status" class="form-select modern-input">
             <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
             <option value="Dibayar">Dibayar</option>
             <option value="Selesai">Selesai</option>
@@ -91,7 +148,7 @@
     <!-- ACTION -->
     <div class="d-flex justify-content-between mt-4">
 
-        <a href="index.php?page=pengunjung" class="btn btn-outline-secondary">
+        <a href="/admin/pengunjung" class="btn btn-outline-secondary">
             ← Kembali
         </a>
 

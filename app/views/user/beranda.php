@@ -15,8 +15,7 @@
                 </h1>
 
                 <p class="lead mb-4">
-                    Menara Islamic Center Samarinda menjulang megah dengan pesona yang memikat, 
-                    menghadirkan panorama indah dari ketinggian yang membuat siapa pun tertarik untuk melihatnya lebih dekat.
+                    Berdiri kokoh sebagai ikon kebanggaan Samarinda. Menara Islamic Center menawarkan lanskap memukau dan pengalaman visual yang tak terlupakan dari puncaknya.
                 </p>
 
                 <a href="index.php?page=booking" class="btn btn-warning me-3">
@@ -33,53 +32,50 @@
 <section id="galeri" class="fade-section">
 
     <div class="text-center mb-4 galeri-title">
-        <h2 class="fw-bold">Galeri Menara Islamic Center Samarinda</h2>
+        <h2 class="fw-bold">
+            Pesona Menara Utama
+        </h2>
+
         <p class="text-muted">
-            Keindahan arsitektur dan suasana yang memukau
+            Mengabadikan keagungan arsitektur dan pesona visual ikon religi kebanggaan Samarinda.
         </p>
     </div>
 
-    <div class="galeri-container position-relative">
 
-        <!-- BUTTON LEFT -->
-        <button class="nav-btn left" @click="scrollGaleri(-1)">‹</button>
+    <div class="galeri-review-scroll">
 
-        <!-- SLIDER -->
-        <div class="galeri-scroll"
-            ref="galeriScroll"
-            @mouseenter="stopAutoSlide"
-            @mouseleave="startAutoSlide"
-            @touchstart="stopAutoSlide"
-            @touchend="startAutoSlide">
+        <?php if(!empty($galeri)): ?>
+            <?php foreach($galeri as $g): ?>
 
-            <?php if (!empty($galeri)): ?>
-                <?php foreach ($galeri as $g): ?>
+            <div class="galeri-review-item">
 
-                <div class="galeri-card reveal stagger-1 tilt-card"
+                <div
+                    class="galeri-card reveal tilt-card"
                     @click="openImage(
-                        'assets/images/<?= $g['gambar'] ?>',
-                        '<?= htmlspecialchars($g['judul']) ?>',
-                        '<?= htmlspecialchars($g['deskripsi']) ?>'
-                    )">
+                    '/assets/images/<?= $g['gambar'] ?>',
+                    '<?= htmlspecialchars($g['judul'],ENT_QUOTES) ?>',
+                    '<?= htmlspecialchars($g['deskripsi'] ?: 'Tidak ada deskripsi', ENT_QUOTES) ?>'
+                    )"
+                
+                >
 
-                    <img 
-                        src="assets/images/<?= $g['gambar'] ?>" 
+                    <img
+                        src="/assets/images/<?= $g['gambar'] ?>"
                         alt="<?= htmlspecialchars($g['judul']) ?>"
                     >
 
                     <div class="overlay">
-                        <h6><?= htmlspecialchars($g['judul']) ?></h6>
+                        <h6>
+                            <?= htmlspecialchars($g['judul']) ?>
+                        </h6>
                     </div>
 
                 </div>
 
-                <?php endforeach; ?>
-            <?php endif; ?>
+            </div>
 
-        </div>
-
-        <!-- BUTTON RIGHT -->
-        <button class="nav-btn right" @click="scrollGaleri(1)">›</button>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
     </div>
 
@@ -87,20 +83,43 @@
 
 
 <!-- ================= MODAL ================= -->
-<div v-if="selectedImage" v-cloak class="galeri-modal" @click="closeImage">
+<div
+v-if="selectedImage"
+v-cloak
+class="galeri-modal"
+@click="closeImage"
+>
 
-    <div class="modal-card" @click.stop>
+<div
+class="modal-card"
+@click.stop
+>
 
-        <span class="close-btn" @click="closeImage">&times;</span>
+<span
+class="close-btn"
+@click="closeImage"
+>
+&times;
+</span>
 
-        <img :src="selectedImage" class="modal-img">
+<img
+:src="selectedImage"
+class="modal-img"
+>
 
-        <div class="modal-body">
-            <h4>{{ selectedTitle }}</h4>
-            <p>{{ selectedDesc }}</p>
-        </div>
+<div class="modal-body">
 
-    </div>
+<h4>
+{{ selectedTitle }}
+</h4>
+
+<p class="modal-description">
+{{ selectedDesc || 'Tidak ada deskripsi' }}
+</p>
+
+</div>
+
+</div>
 
 </div>
 
@@ -108,16 +127,26 @@
 <section id="filosofi" class="py-5 filosofi-section fade-section">
     <div class="container">
 
-        <div class="row align-items-center">
+        <div class="row filosofi-row">
 
             <!-- IMAGE -->
-            <div class="col-md-6">
-                <transition name="slide-left">
-                    <div v-if="showFilosofi" class="filosofi-img">
-                        <img src="assets/images/menara.jpg" class="img-fluid">
-                    </div>
-                </transition>
-            </div>
+                <div class="col-md-6 d-flex">
+
+                    <transition name="slide-left">
+
+                        <div
+                            v-if="showFilosofi"
+                            class="filosofi-img full-height-image"
+                        >
+                            <img
+                                src="/assets/images/menara.jpg"
+                                alt="Menara Islamic Center"
+                            >
+                        </div>
+
+                    </transition>
+
+                </div>
 
             <!-- TEXT -->
             <div class="col-md-6">
@@ -175,79 +204,256 @@
 
 <!-- ================= FASILITAS ================= -->
 <section id="fasilitas" class="py-5 bg-light fade-section">
-    <div class="container" style="max-width: 1100px;">
 
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">Fasilitas & Keunggulan</h2>
-            <p class="text-muted">Nikmati layanan terbaik</p>
+<div class="container" style="max-width:1100px;">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">
+            Fasilitas & Keunggulan
+        </h2>
+
+        <p class="text-muted">
+            Menghadirkan kenyamanan maksimal untuk setiap momen kunjungan Anda.
+        </p>
+    </div>
+
+
+    <div class="row g-4 mt-3 justify-content-center">
+
+        <!-- CARD 1 -->
+        <div class="col-md-6">
+
+            <div
+                class="fasilitas-card reveal fasilitas-click"
+                data-gallery="
+                cafeteria.jpg,
+                lobby.jpeg,
+                lobby2.jpeg">
+
+                <div class="tilt-card">
+
+                    <img
+                        src="/assets/images/cafeteria.jpg"
+                        class="fasilitas-img"
+                        alt="Cafeteria"
+                    >
+
+                    <div class="content">
+
+                        <div class="facility-body">
+                            <h5>
+                                Cafeteria Nyaman
+                            </h5>
+
+                            <p>
+                                Area bersantai dengan suasana nyaman
+                                serta pilihan makanan dan minuman
+                                yang beragam.
+                            </p>
+                        </div>
+
+                        <span class="facility-readmore">
+                            Lihat Detail →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="row g-4 mt-3 justify-content-center">
 
-            <!-- CARD 1 -->
-            <div class="col-md-6">
-                <div class="fasilitas-card reveal">
-                    <div class="tilt-card">
-                    <img src="assets/images/cafeteria.jpg" class="fasilitas-img">
+
+        <!-- CARD 2 -->
+        <div class="col-md-6">
+
+            <div
+                class="fasilitas-card reveal fasilitas-click"
+                data-gallery="
+                lift.jpg,
+                lift1.jpeg,
+                lift2.jpeg">
+
+                <div class="tilt-card">
+
+                    <img
+                        src="/assets/images/lift.jpg"
+                        class="fasilitas-img"
+                        alt="Lift"
+                    >
+
                     <div class="content">
-                        <h5>Cafeteria Nyaman</h5>
-                        <p>
-                            Area bersantai dengan suasana nyaman serta pilihan makanan dan minuman yang beragam, 
-                            cocok untuk beristirahat setelah berkeliling.
-                        </p>
+
+                        <div class="facility-body">
+                            <h5>
+                                Akses Lift Modern
+                            </h5>
+
+                            <p>
+                                Fasilitas lift modern yang menjamin perjalanan cepat, aman, dan nyaman menuju puncak menara.
+                            </p>
+                        </div>
+
+                        <span class="facility-readmore">
+                            Lihat Detail →
+                        </span>
+
                     </div>
+
                 </div>
-                </div>
+
             </div>
 
-            <!-- CARD 2 -->
-            <div class="col-md-6">
-                <div class="fasilitas-card reveal">
-                    <div class="tilt-card">
-                    <img src="assets/images/lift.jpg">
-                    <div class="content">
-                        <h5>Akses Lift Modern</h5>
-                        <p>
-                            Dilengkapi lift yang memudahkan pengunjung menjangkau puncak menara dengan cepat, 
-                            aman, dan nyaman.
-                        </p>
-                    </div>
-                </div>
-                </div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="col-md-6">
-                <div class="fasilitas-card reveal">
-                    <div class="tilt-card">
-                    <img src="assets/images/parkiran.jpeg" class="fasilitas-img">
-                    <div class="content">
-                        <h5>Area Parkir yang luas</h5>
-                        <p>
-                        Area parkir yang luas dan tertata rapi, mudah diakses, 
-                        serta mampu menampung berbagai jenis kendaraan dengan nyaman dan aman bagi pengunjung.
-                        </p>
-                    </div>
-                </div>
-                </div>
-            </div>
-            
-            <!-- CARD 4 -->
-            <div class="col-md-6">
-                <div class="fasilitas-card reveal">
-                    <div class="tilt-card">
-                    <img src="assets/images/informasi.jpeg" class="fasilitas-img">
-                    <div class="content">
-                        <h5>Informasi terkait menara</h5>
-                        <p>
-                        Menara ini menjadi ikon utama dengan pemandangan indah dari ketinggian.
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
+
+
+
+        <!-- CARD 3 -->
+        <div class="col-md-6">
+
+            <div
+                class="fasilitas-card reveal fasilitas-click"
+                data-gallery="
+                parkiran.jpeg,
+                viewatas1.jpeg,
+                pintumasuk1.jpg">
+
+                <div class="tilt-card">
+
+                    <img
+                        src="assets/images/parkiran.jpeg"
+                        class="fasilitas-img"
+                        alt="Parkir"
+                    >
+
+                    <div class="content">
+
+                        <div class="facility-body">
+                            <h5>
+                                Area Parkir Luas
+                            </h5>
+
+                            <p>
+                                Kapasitas parkir yang memadai, tertata rapi, dan mudah diakses untuk berbagai jenis kendaraan.
+                            </p>
+                        </div>
+
+                        <span class="facility-readmore">
+                            Lihat Detail →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
+
+
+        <!-- CARD 4 -->
+        <div class="col-md-6">
+
+            <div
+                class="fasilitas-card reveal fasilitas-click"
+                data-gallery="
+                informasi.jpeg,
+                informasi1.jpeg,
+                informasi2.jpeg">
+
+                <div class="tilt-card">
+
+                    <img
+                        src="assets/images/informasi.jpeg"
+                        class="fasilitas-img"
+                        alt="Informasi"
+                    >
+
+                    <div class="content">
+
+                        <div class="facility-body">
+                            <h5>
+                                Informasi terkait menara
+                            </h5>
+
+                            <p>
+                                Pelajari nilai historis bangunan ini sekaligus nikmati pesona lanskap Kota Samarinda dari ketinggian.
+                            </p>
+                        </div>
+
+                        <span class="facility-readmore">
+                            Lihat Detail →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 </section>
+
+
+
+<!-- ================= LIGHTBOX MODAL ================= -->
+
+<div id="fasilitasModal" class="fasilitas-modal">
+
+    <div class="fasilitas-modal-box">
+
+        <button
+            id="closeFasilitasModal"
+            class="fasilitas-close">
+            &times;
+        </button>
+
+
+        <button
+            id="prevFacility"
+            class="facility-nav prev">
+            ‹
+        </button>
+
+
+        <img
+            id="facilityImage"
+            src=""
+            alt=""
+        >
+
+
+        <button
+            id="nextFacility"
+            class="facility-nav next">
+            ›
+        </button>
+
+
+        <!-- DOTS -->
+        <div
+            id="facilityDots"
+            class="facility-dots">
+        </div>
+
+
+        <!-- THUMBNAILS -->
+        <div
+            id="facilityThumbs"
+            class="facility-thumbs">
+        </div>
+
+    </div>
+
+</div>
 
 <!-- ================= REVIEW ================= -->
 <section id="review" class="review-section py-5 fade-section">
@@ -255,113 +461,357 @@
 
         <!-- TITLE -->
         <div class="text-center mb-5">
-            <h2 class="fw-bold">Apa Kata Pengunjung?</h2>
-            <p class="text-muted">Pengalaman mereka di Menara Islamic Center</p>
+            <h2 class="fw-bold">Jejak Kesan & Pesan</h2>
+            <p class="text-muted">
+                Dengarkan langsung cerita dan pengalaman berharga dari mereka yang telah berkunjung.
+            </p>
         </div>
 
-        <!-- RATING SUMMARY -->
+        <!-- SUMMARY -->
         <div class="text-center mb-4">
-            <?php 
+            <?php
                 $total = count($review);
                 $avg = 0;
 
                 if ($total > 0) {
-                    $sum = array_sum(array_column($review, 'rating'));
-                    $avg = round($sum / $total, 1);
+                    $sum = array_sum(array_column($review,'rating'));
+                    $avg = round($sum / $total,1);
                 }
             ?>
+
             <h3 class="fw-bold"><?= $avg ?> ⭐</h3>
-            <small class="text-muted">Dari <?= $total ?> pengunjung</small>
+
+            <small class="text-muted">
+                Dari <?= $total ?> pengunjung
+            </small>
         </div>
 
-            <!-- FORM INPUT -->
-            <div class="review-form-card mb-5">
+        <!-- BUTTON TRIGGER -->
+        <div class="text-center mb-5">
+            <button
+            class="btn btn-warning"
+            @click="openReviewForm"
+            :class="{ 'review-bounce': reviewButtonAnimate }"
+            >
+            Tambah Review
+            </button>
+        </div>
 
-                <h5 class="mb-3">Tulis Review Anda</h5>
 
-                <form @submit.prevent="submitReview">
-
-                    <div class="row g-3 align-items-center">
-
-                        <!-- NAMA -->
-                        <div class="col-md-6">
-                            <input type="text"
-                                v-model="form.nama"
-                                class="form-control modern-input"
-                                placeholder="Nama Anda"
-                                required>
-                        </div>
-
-                        <!-- BINTANG -->
-                        <div class="col-md-6">
-                            <div class="star-rating">
-
-                                <input type="hidden" v-model="rating">
-
-                                <span v-for="i in 5"
-                                    :key="i"
-                                    class="star"
-                                    :class="{ active: i <= (hoverRating || rating) }"
-                                    @click="rating = i"
-                                    @mouseover="hoverRating = i"
-                                    @mouseleave="hoverRating = 0">
-                                    ★
-                                </span>
-
-                            </div>
-                        </div>
-
-                        <!-- KOMENTAR -->
-                        <div class="col-md-12">
-                            <textarea v-model="form.komentar"
-                                    class="form-control modern-input"
-                                    placeholder="Tulis pengalaman Anda..."
-                                    required></textarea>
-                        </div>
-
-                        <!-- BUTTON -->
-                        <div class="col-md-12 text-end">
-                            <button type="submit" class="btn btn-success px-4">
-                                Kirim Review
-                            </button>
-                        </div>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        <!-- CARD REVIEW -->
-        <div class="row g-4 justify-content-center">
+        <!-- REVIEW GALLERY -->
+        <div class="review-gallery">
 
             <template v-if="reviews.length > 0">
 
-                <div class="col-md-4" v-for="r in reviews" :key="r.id">
-                    <div class="review-card reveal tilt-card">
+                <div
+                    v-for="r in reviews"
+                    :key="r.id"
+                    class="review-grid-item">
 
-                        <div class="stars">
-                            {{ '⭐'.repeat(r.rating) }}
+                    <div
+                        class="review-card-xl reveal tilt-card"
+                        @click="openReviewDetail(r)">
+
+                        <!-- IMAGE -->
+                        <div
+                            v-if="r.gambar"
+                            class="review-image-wrap">
+
+                            <img
+                                :src="r.gambar"
+                                :alt="r.nama"
+                                class="review-image">
+
                         </div>
 
-                        <p>"{{ r.komentar }}"</p>
-                        <h6>- {{ r.nama }}</h6>
+
+                        <div class="review-card-body">
+
+                            <div class="review-meta">
+
+                                <div class="stars">
+                                    {{ '⭐'.repeat(r.rating) }}
+                                </div>
+
+                                <small class="review-time">
+                                    {{ r.created_at }}
+                                </small>
+
+                            </div>
+
+
+                            <h5 class="review-name">
+                                {{ r.nama }}
+                            </h5>
+
+
+                            <p class="review-comment truncate-text">
+                                {{ r.komentar }}
+                            </p>
+
+
+                            <span class="read-more">
+                                Baca selengkapnya →
+                            </span>
+
+                        </div>
 
                     </div>
+
                 </div>
 
             </template>
 
-            <p v-else class="text-center text-muted">
-                Belum ada review
-            </p>
 
-        </div>
+            <p
+                v-else
+                class="text-center text-muted">
+
+                Belum ada review
+
+            </p>
 
         </div>
 
     </div>
 </section>
+
+
+
+<!-- ================= MODAL FORM REVIEW ================= -->
+<div
+    v-if="showReviewModal"
+    class="review-modal-backdrop"
+    @click="showReviewModal=false">
+
+    <div
+        class="review-modal-card"
+        @click.stop>
+
+        <button
+            class="review-close"
+            @click="showReviewModal=false">
+
+            &times;
+
+        </button>
+
+
+        <h3 class="mb-4">
+            Tambah Review
+        </h3>
+
+
+        <form
+            novalidate
+            @submit.prevent="submitReview"
+            enctype="multipart/form-data">
+
+            <!-- FOTO -->
+            <div class="mb-3">
+
+                <label>Upload Foto</label>
+
+                <input
+                    type="file"
+                    class="form-control"
+                    accept="image/*"
+                    @change="handleReviewImage"
+                >
+
+                <small class="text-muted d-block mt-1">
+                    Format: JPG, PNG, JPEG (Maks 2MB)
+                </small>
+
+            </div>
+
+
+            <!-- NAMA -->
+            <div class="mb-3">
+
+                <label>Nama</label>
+
+                <input
+                    type="text"
+                    maxlength="50"
+                    v-model="form.nama"
+                    class="form-control"
+                >
+
+                <small>
+                    {{ form.nama.length }}/50
+                </small>
+
+                <div
+                    v-if="reviewErrors.nama"
+                    class="review-error"
+                >
+                    ⚠ {{ reviewErrors.nama }}
+                </div>
+
+            </div>
+
+
+            <!-- SESI -->
+            <div class="mb-3">
+
+                <label>Sesi Kunjungan</label>
+
+                <select
+                    v-model="form.sesi"
+                    class="form-control"
+                    >
+
+                    <option value="Pagi">Pagi</option>
+                    <option value="Siang">Siang</option>
+                    <option value="Sore">Sore</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- KOMENTAR -->
+            <div class="mb-3">
+
+                <label>Pengalaman</label>
+
+                <textarea
+                    maxlength="300"
+                    v-model="form.komentar"
+                    class="form-control"
+                ></textarea>
+
+                <small>
+                    {{ form.komentar.length }}/300
+                </small>
+
+                    <div
+                        v-if="reviewErrors.komentar"
+                        class="review-error"
+                    >
+                        ⚠ {{ reviewErrors.komentar }}
+                    </div>
+
+            </div>
+
+
+            <!-- STAR -->
+            <div class="star-rating mb-4">
+
+                <span
+                    v-for="i in 5"
+                    :key="i"
+                    class="star"
+                    :class="{ active: i <= (hoverRating || rating) }"
+                    @click="rating=i"
+                    @mouseover="hoverRating=i"
+                    @mouseleave="hoverRating=0"
+                >
+                    ★
+                </span>
+
+                    <div
+                        v-if="reviewErrors.rating"
+                        class="review-rating-error"
+                    >
+                        ⚠ {{ reviewErrors.rating }}
+                    </div>
+
+            </div>
+
+
+            <div class="d-flex gap-3">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="showReviewModal=false">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    Submit Review
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- ================= MODAL DETAIL REVIEW ================= -->
+<div
+v-if="activeReview"
+class="review-modal-backdrop"
+@click="activeReview=null"
+>
+
+<div
+class="review-modal-card detail-mode"
+@click.stop
+>
+
+<button
+class="review-close"
+@click="activeReview=null"
+>
+&times;
+</button>
+
+
+<div
+v-if="activeReview.gambar"
+class="detail-image-wrap"
+>
+<img
+:src="activeReview.gambar"
+class="detail-image"
+>
+</div>
+
+
+<div class="review-detail-content">
+
+<h4 class="review-detail-title">
+{{ activeReview.nama }}
+</h4>
+
+
+<div class="review-detail-meta">
+
+<span class="review-session-badge">
+{{ activeReview.sesi }}
+</span>
+
+<span>
+{{ activeReview.created_at }}
+</span>
+
+</div>
+
+
+<p class="review-detail-text">
+{{ activeReview.komentar }}
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 <!-- ================= MAPS ================= -->
 <section id="lokasi" class="maps-section py-5 fade-section">
@@ -369,8 +819,8 @@
 
         <!-- TITLE -->
         <div class="text-center mb-5">
-            <h2 class="fw-bold">Lokasi Kami</h2>
-            <p class="text-muted">Temukan Menara Islamic Center Samarinda</p>
+            <h2 class="fw-bold">Rencanakan Kunjungan Anda</h2>
+            <p class="text-muted">Temukan kemudahan akses menuju Menara Islamic Center dan nikmati kemegahannya dari dekat.</p>
         </div>
 
         <!-- MAP CARD -->
@@ -407,9 +857,8 @@
 
 </div>
 
+<?php include 'layout/footer.php'; ?>
 
 <script id="initialReview" type="application/json">
 <?= json_encode($review) ?>
 </script>
-
-<?php include 'layout/footer.php'; ?>

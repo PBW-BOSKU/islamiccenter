@@ -1,7 +1,5 @@
 <?php include 'layout/header.php'; ?>
 
-<div class="admin-layout">
-
     <?php include 'layout/sidebar.php'; ?>
 
         <div v-if="showSidebar"
@@ -12,9 +10,6 @@
     <div class="admin-main">
 
         <div class="main-content">
-
-            <!--  ROOT VUE HARUS BERSIH -->
-            <div id="app">
 
                 <?php include 'layout/topbar.php'; ?>
 
@@ -65,14 +60,14 @@
                         <div class="col-md-2">
                         <button 
                             class="btn btn-outline-primary w-100"
-                            onclick="window.location.href='index.php?page=pengunjung'">
+                            onclick="window.location.href='/admin/pengunjung'">
                             Tampilkan Semua Data
                         </button>
                         </div>
 
                         <!-- TAMBAH -->
                         <div class="col-md-3 text-end">
-                            <a href="index.php?page=tambah_pengunjung_form" 
+                            <a href="/admin/tambah-pengunjung" 
                             class="btn btn-add">
                                 <i class="bi bi-person-plus"></i>
                                 Tambah
@@ -120,7 +115,7 @@
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="avatar-mini">
-                                                    {{ p.nama.charAt(0).toUpperCase() }}
+                                                    {{ (p.nama ? p.nama.charAt(0).toUpperCase() : '?') }}
                                                 </div>
                                                 <div>
                                                     <strong>{{ p.nama }}</strong><br>
@@ -133,7 +128,10 @@
 
                                         <td>
                                             <span class="badge bg-light text-dark">
-                                                {{ p.sesi.charAt(0).toUpperCase() + p.sesi.slice(1) }}
+                                                {{ p.sesi
+                                                ? p.sesi.charAt(0).toUpperCase() + p.sesi.slice(1)
+                                                : '-'
+                                                }}
                                             </span>
                                         </td>
 
@@ -148,14 +146,14 @@
                                     <td class="action-cell">
                                         <div class="action-group">
 
-                                        <a :href="'index.php?page=edit_pengunjung&id=' + p.id"
+                                        <a :href="'/admin/edit-pengunjung?id=' + p.id"
                                         class="btn btn-sm btn-warning">
                                         Edit
                                         </a>
 
                                         <button
                                         class="btn btn-sm btn-danger"
-                                        @click="confirmDelete('index.php?page=hapus_pengunjung&id=' + p.id)">
+                                        @click="confirmDelete('/admin/hapus-pengunjung?id=' + p.id)">
                                         Hapus
                                         </button>
 
@@ -202,8 +200,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h6>Filter Tanggal</h6>
 
-                                <form method="GET">
-                                    <input type="hidden" name="page" value="pengunjung">
+                                <form action="/admin/pengunjung" method="GET">
 
                                     <input type="date" 
                                         name="tanggal"
@@ -263,12 +260,10 @@
                     </div>
                 </div>
 
-            </div> <!-- END #app -->
-
         </div> <!-- main-content -->
-
-        <?php include 'layout/footer.php'; ?>
 
     </div> <!-- admin-main -->
 
-</div> <!-- admin-layout -->
+<?php include 'layout/footer.php'; ?>
+
+

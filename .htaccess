@@ -1,10 +1,45 @@
 RewriteEngine On
+RewriteBase /
 
-# 🔥 JANGAN ganggu assets (lebih fleksibel)
-RewriteCond %{REQUEST_URI} !assets/
+# skip assets/file asli
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
-# 🔥 kalau file tidak ada → baru ke index.php
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^ index.php [L]
+# ================= ADMIN =================
+
+RewriteRule ^admin$ index.php?page=login [L,QSA]
+
+RewriteRule ^admin/dashboard$ index.php?page=dashboard [L,QSA]
+
+RewriteRule ^admin/pengunjung$ index.php?page=pengunjung [L,QSA]
+
+RewriteRule ^admin/tambah-pengunjung$ index.php?page=tambah_pengunjung_form [L,QSA]
+
+RewriteRule ^admin/store-pengunjung$ index.php?page=tambah_pengunjung [L,QSA]
+
+RewriteRule ^admin/edit-pengunjung$ index.php?page=edit_pengunjung [L,QSA]
+
+RewriteRule ^admin/update-pengunjung$ index.php?page=update_pengunjung [L,QSA]
+
+RewriteRule ^admin/hapus-pengunjung$ index.php?page=hapus_pengunjung [L,QSA]
+
+RewriteRule ^admin/logout$ index.php?page=logout [L,QSA]
+
+RewriteRule ^admin/galeri$ index.php?page=galeri [L,QSA]
+
+RewriteRule ^admin/hapus-galeri$ index.php?page=hapus_galeri [L,QSA]
+
+RewriteRule ^admin/update-galeri$ index.php?page=update_galeri [L,QSA]
+# ================= USER =================
+
+RewriteRule ^$ index.php?page=beranda [L]
+
+RewriteRule ^beranda$ index.php?page=beranda [L]
+
+RewriteRule ^filosofi$ index.php?page=beranda [L]
+
+RewriteRule ^fasilitas$ index.php?page=beranda [L]
+
+RewriteRule ^lokasi$ index.php?page=beranda [L]
