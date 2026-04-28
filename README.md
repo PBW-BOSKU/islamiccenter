@@ -161,3 +161,8 @@ Website ini dibangun menggunakan bahasa pemrograman PHP Native dengan struktur b
 
 ##### Admin dapat mengedit data galeri melalui tampilan modal. Perubahan dapat dilakukan pada judul, deskripsi, maupun gambar.
 #
+
+
+note : untuk mode admin tekan ctrl + shift + alt + m
+user: admin1
+pass: 123
