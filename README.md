@@ -76,7 +76,9 @@ Website ini dibangun menggunakan bahasa pemrograman PHP Native dengan struktur b
 #
 
 #### I. Halaman Booking (Form Pendaftaran)
-<img width="1253" height="614" alt="image" src="https://github.com/user-attachments/assets/7377aa98-f8cf-4649-9949-cdccb127622a" />
+
+<img width="1918" height="943" alt="Screenshot 2026-04-28 233145" src="https://github.com/user-attachments/assets/d0de5e7b-c7b4-497f-a6e2-2c26a8431835" />
+
 
 ##### Halaman ini digunakan oleh pengguna untuk melakukan pendaftaran kunjungan. Formulir mencakup input data seperti nama, email, nomor telepon, tanggal kunjungan, jumlah pengunjung, dan sesi kunjungan. Terdapat validasi input untuk memastikan data yang dimasukkan sesuai.
 #
