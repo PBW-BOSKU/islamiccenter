@@ -61,14 +61,16 @@ Website ini dibangun menggunakan bahasa pemrograman PHP Native dengan struktur b
 
 #### G. Halaman Review Pengunjung
 
-<img width="1919" height="947" alt="Screenshot 2026-04-28 231153" src="https://github.com/user-attachments/assets/7b940461-3e08-4de1-8a35-bc0b18f43d4c" />
+<img width="1919" height="889" alt="Screenshot 2026-04-28 231407" src="https://github.com/user-attachments/assets/78ac5e41-89d4-4ec7-8d42-c3e888eb6c5b" />
+
 
 ##### Halaman ini menyediakan fitur interaksi berupa penilaian dan ulasan dari pengunjung. Pengguna dapat memberikan rating serta menuliskan pengalaman mereka. Selain itu, sistem juga menampilkan rata-rata penilaian yang dihitung dari data yang tersimpan.
 #
 
 #### H. Halaman Lokasi
 
-<img width="1919" height="889" alt="Screenshot 2026-04-28 231407" src="https://github.com/user-attachments/assets/edfb24d6-e423-4bdd-ad70-1f5b7301ce56" />
+<img width="1919" height="778" alt="Screenshot 2026-04-28 231843" src="https://github.com/user-attachments/assets/858cbc82-0474-4923-86b3-6defa6ad2f72" />
+
 
 ##### Halaman ini menampilkan peta lokasi Islamic Center Samarinda yang terintegrasi dengan Google Maps. Pengguna dapat melihat posisi lokasi secara langsung dan mengakses navigasi melalui tombol yang tersedia.
 #
