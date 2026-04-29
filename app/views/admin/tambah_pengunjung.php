@@ -24,7 +24,7 @@
 
 <div class="card admin-card p-4">
 
-<form action="/admin/tambah-pengunjung" method="POST">
+<form action="/admin/store-pengunjung" method="POST">
 
     <!-- NAMA -->
     <div class="row mb-3">

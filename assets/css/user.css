@@ -2292,7 +2292,7 @@ padding:18px;
 /* truncate komentar review */
 .truncate-text{
 display:-webkit-box;
--webkit-line-clamp:2; /* 2 baris */
+-webkit-line-clamp:2; 
 -webkit-box-orient:vertical;
 
 overflow:hidden;
